@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+//== Media queries breakpoints
+$mq-xs:	320px;
+$mq-sm:	360px;
+$mq-md:	640px;
+@mixin mq-small { // 320
+  @media (width:#{$mq-xs}) {
+    @content;
+  }
+}
+@mixin mq-medium { // 320 ~ 360
+  @media (min-width:#{$mq-xs}) and (max-width:#{$mq-sm - 1px}) {
+    @content;
+  }
+}
+@mixin mq-large { // 640 ~
+  @media (min-width:#{$mq-md}) {
+    @content;
+  }
+}
+
+// clear floating
+@mixin clearer {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+// transform
+@mixin transform($transforms) {
+  transform: $transforms;
+}
+@mixin transformOrigin($transforms) {
+  transform-origin: $transforms;
+}
+
+// icon image
+@mixin iconImg ($bgSize:350px, $x:0, $y:0, $display: inline-block, $ratio:1) {
+  display: $display;
+  background: {
+    image:url(../images/common/icons.svg);
+    size:($bgSize * $ratio) auto;
+    repeat:no-repeat;
+    position:($x * $ratio) ($y * $ratio);
+  }
+  vertical-align:middle;
+}
+
+//ellipse
+@mixin ellipse($line) {
+  @if ($line > 1) {
+    display:-webkit-box;
+    white-space:normal;
+    word-wrap:break-word;
+    -webkit-line-clamp:$line;
+    -webkit-box-orient:vertical;
+  } @else {
+    display:block;
+    white-space:nowrap;
+  }
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+// flex setting
+@mixin flexbox {
+  display:flex;
+}
+@mixin set-middle {
+  @include flexbox;
+  align-items: center;
+}
+
+// font set
+@mixin font-set28 {
+  font-size:28px;
+  line-height:42px;
+  letter-spacing:-.22px;
+}
+
+// button
+@mixin btn($color, $type:solid, $hover:'') {
+  @if $type == line {
+    border-color:$color;
+    background-color:#fff;
+    color:$color;
+    @if $hover == '' {
+      &:hover {
+        background-color:#fff;
+      }
+    } @else {
+      &:hover {
+        background-color:$hover;
+      }
+    }
+  } @else {
+    border-color:$color;
+    background-color:$color;
+    color:#fff;
+    &:hover {
+      background-color:$hover;
+    }
+  }
+}
