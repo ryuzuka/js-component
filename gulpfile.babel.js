@@ -10,6 +10,10 @@ import fileinclude from 'gulp-file-include';
 import concat from 'gulp-concat';
 import del from 'del';
 import browserSync from 'browser-sync';
+import browserify from 'browserify';
+import source from 'vinyl-source-stream';
+import buffer from 'vinyl-buffer';
+import babelify from 'babelify';
 
 const server = browserSync.create();
 const onError = (err) => console.log(err);
@@ -28,7 +32,7 @@ const src = 'src';
 const dist = 'dist';
 const paths = {
   js: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`],
-  plugins: `${src}/js/plugins/*.js`,
+  plugins: `${src}/js/plugins/index.js`,
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image : `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -65,19 +69,39 @@ function htmlInclude() {
     .pipe(browserSync.stream());
 }
 
+// function plugins() {
+//   return gulp.src(paths.plugins, { sourcemaps: true })
+//     .pipe(babel())
+//     .pipe(eslint.format())
+//     .pipe(concat('plugins.js'))
+//     .pipe(gulp.dest(dist));
+// }
+
 function plugins() {
-  return gulp.src(paths.plugins, { sourcemaps: true })
-    .pipe(babel())
-    .pipe(eslint.format())
-    .pipe(concat('plugins.js'))
+  return browserify(paths.plugins)
+    .transform(babelify,{
+      presets : ['@babel/preset-env']
+    })
+    // .pipe(babel())
+    .bundle()
+    .pipe(source('./js/plugins.js')) //vinyl object 로 변환
+    .pipe(buffer()) //buffered vinyl object 로 변환
     .pipe(gulp.dest(dist));
 }
 
 function scripts() {
   return gulp.src(paths.js, { sourcemaps: true })
-    .pipe(babel())
-    .pipe(eslint.format())
+    .pipe(babel({
+      presets : ['@babel/preset-env']
+    }))
     .pipe(gulp.dest(dist));
+}
+
+function lintBase() {
+  return gulp.src(paths.js)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 }
 
 function copyFonts() {
@@ -105,8 +129,8 @@ function watchFiles(done) {
 
 
 
-const watch = gulp.parallel(watchFiles);
-const build = gulp.series(clean, gulp.parallel(style, scripts, plugins, htmlInclude, copyImage));
+const watch = gulp.parallel(watchFiles, lintBase);
+const build = gulp.series(clean, gulp.parallel(style, plugins, scripts, htmlInclude, copyImage));
 
 
 exports.watch = watch;
