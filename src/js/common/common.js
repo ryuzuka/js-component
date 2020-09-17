@@ -158,6 +158,6 @@
     }
   }
 
-  window.App = Object.assign(window.App || {}, Common)
+  window.App = $.extend(window.App || {}, Common)
 })(window.jQuery)
 /** ****************************************************************************************************************** */

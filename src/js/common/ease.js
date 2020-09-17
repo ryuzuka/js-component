@@ -45,6 +45,6 @@
     }
   }
 
-  window.App = Object.assign(window.App || {}, Ease)
+  window.App = $.extend(window.App || {}, Ease)
 })(window.jQuery)
 /** ****************************************************************************************************************** */

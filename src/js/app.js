@@ -3,9 +3,8 @@
   const App = {
     DATE_FORMAT: 'YYYYMMDD'
   }
-  window.App = Object.assign(window.App || {}, App)
+  window.App = $.extend(window.App || {}, App)
 
-  // pinch zoom prevent
   document.addEventListener('touchmove', e => {
     if (e.scale !== 1 && e.scale !== undefined) {
       e.preventDefault()
