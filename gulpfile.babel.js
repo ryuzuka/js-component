@@ -1,6 +1,5 @@
 import gulp from 'gulp'
 import babel from 'gulp-babel'
-import eslint from 'gulp-eslint'
 import base64 from 'gulp-base64'
 import sass from 'gulp-sass'
 import autoprefixer from 'gulp-autoprefixer'
@@ -81,13 +80,6 @@ function scripts() {
     .pipe(gulp.dest(dist))
 }
 
-function lintBase() {
-  return gulp.src(paths.plugins)
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError())
-}
-
 function copyImage() {
   return gulp.src(paths.image, {since: gulp.lastRun(copyImage)})
     .pipe(gulp.dest(dist))
@@ -107,7 +99,7 @@ function watchFiles(done) {
   gulp.watch(paths.image, copyImage)
 }
 
-const watch = gulp.parallel(watchFiles, lintBase)
+const watch = gulp.parallel(watchFiles)
 const build = gulp.series(clean, gulp.parallel(style, plugins, scripts, htmlInclude, copyImage))
 
 exports.watch = watch
