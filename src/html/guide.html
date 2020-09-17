@@ -5,26 +5,7 @@
     "pagetitle": "gulp guide"
   })
   <link rel="stylesheet" href="/css/common.css">
-  <style>
-    .contents section + section {
-      margin-top:40px;
-    }
-    .contents h2 {
-      margin-bottom:20px;
-      padding:20px 0;
-      border-bottom:1px solid #e8e8e8;
-      font-size:20px;
-      font-weight:bold;
-      text-transform:capitalize;
-    }
-    .contents h3 {
-      padding:20px 0;
-      text-transform:capitalize;
-    }
-    .contents h3:before {
-      content:'* ';
-    }
-  </style>
+  <link rel="stylesheet" href="/css/swiper-bundle.min.css" >
 
   <script type="text/javascript" src="/libs/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/libs/lodash.min.js"></script>
@@ -33,6 +14,27 @@
 </head>
 
 <body>
+  <style>
+      .contents section + section {
+          margin-top:40px;
+      }
+      .contents h2 {
+          margin-bottom:20px;
+          padding:20px 0;
+          border-bottom:1px solid #e8e8e8;
+          font-size:20px;
+          font-weight:bold;
+          text-transform:capitalize;
+      }
+      .contents h3 {
+          padding:20px 0;
+          text-transform:capitalize;
+      }
+      .contents h3:before {
+          content:'* ';
+      }
+  </style>
+
   <div class="wrap">
     @@include('./inc/header.html')
 
@@ -349,7 +351,6 @@
   <script type="text/javascript" src="/js/plugins/index.js"></script>
 <!--  <script type="text/javascript" src="/js/plugins/countdown.js"></script>-->
 <!--  <script type="text/javascript" src="/js/plugins/calendar.js"></script>-->
-<!--  <script type="text/javascript" src="/js/plugins.js"></script>-->
 
   <!-- components -->
   <script type="text/javascript" src="/js/guide.js"></script>

@@ -26,8 +26,7 @@ const scssOptions = { // Sass compile option
 const src = 'src'
 const dist = 'dist'
 const paths = {
-  js: [`${src}/**/*.js`, `${src}/js/plugins/*.js`],
-  // plugins: `${src}/js/plugins/index.js`,
+  js: [`${src}/**/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image : `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -59,18 +58,6 @@ function htmlInclude() {
     .pipe(gulp.dest(dist))
     .pipe(browserSync.stream())
 }
-
-// function plugins() {
-//   return browserify(paths.plugins)
-//     .transform(babelify,{
-//       presets : ['@babel/preset-env']
-//     })
-//     .bundle()
-//     .pipe(source('./js/plugins.js')) // vinyl object 로 변환
-//     .pipe(buffer()) // buffered vinyl object 로 변환
-//     .pipe(uglify({toplevel:true}))
-//     .pipe(gulp.dest(dist))
-// }
 
 function scripts() {
   return gulp.src(paths.js, { sourcemaps: true })
