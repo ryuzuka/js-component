@@ -82,7 +82,6 @@
   $('.js-dropdown').dropdown()
   $('.js-tab').tab()
   $('.js-accordion').accordion()
-  $('.js-paging').paging()
   $('.js-textarea').textarea()
 })(window.jQuery)
 /** ***************************************************************************************************************** */
