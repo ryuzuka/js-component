@@ -73,5 +73,5 @@
       this.$countdown.find('.time').text($moment(0, this.options.format).format(this.options.format))
     }
   }
-})(jQuery, moment)
+})(window.jQuery, window.moment)
 /** ***************************************************************************************************************** */

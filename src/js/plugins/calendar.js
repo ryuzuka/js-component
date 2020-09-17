@@ -1,7 +1,5 @@
 /** calendar.js ***************************************************************************************************** */
-import jQuery from 'jquery'
-import moment from 'moment'
-import './datepicker/datepicker'
+// import './datepicker/datepicker'
 ;(($, $moment) => {
   let pluginName = 'calendar'
 
@@ -90,5 +88,5 @@ import './datepicker/datepicker'
       this.selectedDate = ''
     }
   }
-})(jQuery, moment)
+})(window.jQuery, window.moment)
 /** ***************************************************************************************************************** */
