@@ -80,5 +80,9 @@
 
   /** execution */
   $('.js-dropdown').dropdown()
+  $('.js-dropdown').tab()
+  $('.js-dropdown').accordion()
+  $('.js-dropdown').paging()
+  $('.js-dropdown').textarea()
 })(window.jQuery)
 /** ***************************************************************************************************************** */
