@@ -32,266 +32,318 @@
 </head>
 
 <body>
-<div class="wrap">
-  @@include('./inc/header.html')
+  <div class="wrap">
+    @@include('./inc/header.html')
 
-  <!--: Start #contents -->
-  <div class="contents">
-    <section>
-      <h2>modal</h2>
-      <div>
-        <button type="button" class="modalBtn btn alert" aria-haspopup="dialog" aria-controls="pop-alert">alert</button>
-        <button type="button" class="modalBtn btn confirm" aria-haspopup="dialog" aria-controls="pop-confirm">confirm</button>
-        <button type="button" class="modalBtn btn modal" aria-haspopup="dialog" aria-controls="pop-modal">modal</button>
-        <button type="button" class="modalBtn btn full" aria-haspopup="dialog" aria-controls="pop-full">full</button>
-      </div>
+    <!--: Start #contents -->
+    <!--: Start #contents -->
+    <div id="contents" class="contents">
+      <section>
+        <h2>modal</h2>
+        <div>
+          <button type="button" class="modalBtn btn alert" aria-haspopup="dialog"
+                  aria-controls="pop-alert">alert</button>
+          <button type="button" class="modalBtn btn confirm" aria-haspopup="dialog"
+                  aria-controls="pop-confirm">confirm</button>
+          <button type="button" class="modalBtn btn modal" aria-haspopup="dialog"
+                  aria-controls="pop-modal">modal</button>
+          <button type="button" class="modalBtn btn full" aria-haspopup="dialog" aria-controls="pop-full">full</button>
+        </div>
 
-      <div id="pop-alert" class="layer" role="dialog" aria-modal="true">
-        <div class="layer-wrap">
-          <div class="title">alert title</div>
-          <button class="close">close</button>
-          <div class="layer-content">
-            alert contents
-          </div>
-          <div class="button-wrap">
-            <button class="btn">ok</button>
+        <div id="pop-alert" class="layer" role="dialog" aria-modal="true">
+          <div class="layer-wrap">
+            <div class="title">alert title</div>
+            <button class="close">close</button>
+            <div class="layer-content">
+              alert contents
+            </div>
+            <div class="button-wrap">
+              <button class="btn">ok</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="pop-confirm" class="layer" role="dialog" aria-modal="true">
-        <div class="layer-wrap">
-          <div class="title">confirm title</div>
-          <button class="close">close</button>
-          <div class="layer-content">
-            confirm contents
-          </div>
-          <div class="button-wrap">
-            <button class="btn">cancel</button>
-            <button class="btn">confirm</button>
-          </div>
-        </div>
-      </div>
-      <div id="pop-modal" class="layer" role="dialog" aria-modal="true">
-        <div class="layer-wrap">
-          <div class="title">modal title</div>
-          <button class="close">close</button>
-          <div class="layer-content">
-            modal contents
-            <input type="checkbox">
-            <button class="modalBtn">alert</button>
+        <div id="pop-confirm" class="layer" role="dialog" aria-modal="true">
+          <div class="layer-wrap">
+            <div class="title">confirm title</div>
+            <button class="close">close</button>
+            <div class="layer-content">
+              confirm contents
+            </div>
+            <div class="button-wrap">
+              <button class="btn">cancel</button>
+              <button class="btn">confirm</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="pop-full" class="layer" role="dialog" aria-modal="true">
-        <div class="layer-wrap full">
-          <div class="title">full modal title</div>
-          <button class="close">close</button>
-          <div class="layer-content">
-            full contents
-            <button class="modalBtn">alert</button>
+        <div id="pop-modal" class="layer" role="dialog" aria-modal="true">
+          <div class="layer-wrap">
+            <div class="title">modal title</div>
+            <button class="close">close</button>
+            <div class="layer-content">
+              modal contents
+              <input type="checkbox">
+              <button class="modalBtn">alert</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>loading</h2>
-      <button class="btn loadingBtn">loading start</button>
-    </section>
-
-    <section>
-      <h2>calendar</h2>
-      <div><input type="text" id="calendar1" class="js-calendar" readonly></div>
-      <br>
-      <button class="btn btn-tertiary calendar-apply">apply</button>
-      <button class="btn btn-tertiary calendar-clear">clear</button>
-    </section>
-
-    <section>
-      <h2>dropdown</h2>
-      <div class="dropdown js-dropdown">
-        <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">dropdown</button> <!-- 클릭 시 aria-expanded="true" -->
-        <ul class="dropdown-list" role="listbox" aria-labelledby="dropdown" tabindex="-1">
-          <li role="option" aria-selected="false"><a href="#">dropdown1</a></li> <!-- 선택 시 aria-selected="true" -->
-          <li role="option" aria-selected="false"><a href="#">dropdown2</a></li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <h2>tab</h2>
-      <div class="tab js-tab">
-        <div class="tab-list" role="tablist">
-          <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="true">tab1</button>
-          <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
-          <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
-        </div>
-        <div class="tab-content">
-          <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
-            tab1 contents
-          </div>
-          <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
-            tab2 contents
-          </div>
-          <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
-            tab3 contents
+        <div id="pop-full" class="layer" role="dialog" aria-modal="true">
+          <div class="layer-wrap full">
+            <div class="title">full modal title</div>
+            <button class="close">close</button>
+            <div class="layer-content">
+              full contents
+              <button class="modalBtn">alert</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>accordion</h2>
-      <dl class="accordion js-accordion">
-        <dt class="accordion-head"><button type="button" aria-controls="acco-content1" aria-expanded="false">accordion1</button></dt> <!-- 선택 시 aria-expanded="true" -->
-        <dd id="acco-content1" class="accordion-content">contents1</dd>
-        <dt class="accordion-head"><button type="button" aria-controls="acco-content2" aria-expanded="false">accordion2</button></dt>
-        <dd id="acco-content2" class="accordion-content">contents2</dd>
-        <dt class="accordion-head"><button type="button" aria-controls="acco-content3" aria-expanded="false">accordion3</button></dt>
-        <dd id="acco-content3" class="accordion-content">contents3</dd>
-      </dl>
-    </section>
+      <section>
+        <h2>loading</h2>
+        <button class="btn loadingBtn">loading start</button>
+      </section>
 
-    <section>
-      <h2>paging</h2>
-      <div class="paging">
-        <button type="button" class="paging-prev" disabled><span>이전</span></button>
-        <strong aria-current="page">1</strong>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#">6</a>
-        <a href="#">7</a>
-        <a href="#">8</a>
-        <a href="#">9</a>
-        <a href="#">10</a>
-        <button type="button" class="paging-next"><span>다음</span></button>
-      </div>
-    </section>
-
-    <section>
-      <h2>ixSlideMax</h2><p><a href="http://ixsnack.com" target="_blank" style="float:right">http://ixsnack.com</a></p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <!-- "ix-" 로 시작하는 class명은 필수 class명이다. data-ix-options속성에 옵션을 입력한다. -->
-      <div class="slide js-slide" data-ix-options="view-length:1; auto-play:false;">
-        <!-- "ix-list-viewport" 는 직계 자식요소여야 한다. touch area -->
-        <div class="ix-list-viewport">
-          <!-- "ix-list-items" 는 "ix-list-viewport"의 직계 자식요소여야 한다. -->
-          <ul class="ix-list-items">
-            <!-- "ix-list-item" 는 "ix-list-items"의 직계 자식요소여야 한다. -->
-            <li class="ix-list-item">
-              <a href="#">Banner 1</a>
-            </li>
-            <li class="ix-list-item">
-              <a href="#">Banner 2</a>
-            </li>
+      <section>
+        <h2>dropdown</h2>
+        <div class="dropdown js-dropdown" placeholder="SKT">
+          <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">SKT</button>
+          <ul class="dropdown-list" role="listbox" aria-labelledby="dropdown" tabindex="-1">
+            <li role="option" aria-selected="false"><button type="button" data-value="SKT">SKT</button></li>
+            <li role="option" aria-selected="false"><button type="button" data-value="KT">KT</button></li>
+            <li role="option" aria-selected="false"><button type="button" data-value="LG">LG U+</button></li>
+            <li role="option" aria-selected="false"><button type="button" data-value="frugal">알뜰폰</button></li>
           </ul>
         </div>
-        <!-- "ix-controller" 는 직계 자식요소여야 한다. 필요없을시 삭제해도 무방하다. -->
-        <div class="ix-controller">
-          <ul class="ix-thumbs">
-            <!-- "ix-thumb" 는 "ix-thumbs"의 직계 자식요소여야 한다. -->
-            <!-- "ix-thumb"는 모델로 하나만 넣어주면 아이템 갯수만큼 자동 생성, "ix-index" 주석을 넣어준 부분에 index가 자동 입력된다. -->
-            <li class="ix-thumb">
-              <a class="ix-btn" href="#" title="<!--ix-index-->번째 배너"><!--ix-index-->번째 배너</a>
-            </li>
-          </ul>
-          <div class="slide_direction">
-            <!-- "ix-btn-prev", "ix-btn-next" 는 "ix-controller" 안에 존재해야 한다.-->
-            <a class="ix-btn-prev" href="#">Prev</a>
-            <a class="ix-btn-next" href="#">Next</a>
+        <br>
+        <button class="btn btn-tertiary dropdown-apply">apply</button>
+        <button class="btn btn-tertiary dropdown-clear">clear</button>
+      </section>
+
+      <section>
+        <h2>tab</h2>
+        <div class="tab js-tab">
+          <div class="tab-list" role="tablist">
+            <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="true">tab1</button>
+            <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
+            <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
+          </div>
+          <div class="tab-content">
+            <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
+              tab1 contents
+            </div>
+            <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
+              tab2 contents
+            </div>
+            <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
+              tab3 contents
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>button</h2>
-      <div class="btn-wrap">
-        <button type="button" class="btn btn-primary">primary</button>
-        <button type="button" class="btn btn-secondary">secondary</button>
-        <button type="button" class="btn btn-tertiary">tertiary</button>
-        <a href="#" class="btn btn-primary">primary</a>
-        <a href="#" class="btn btn-secondary">secondary</a>
-        <a href="#" class="btn btn-tertiary">tertiary</a>
-      </div>
-    </section>
+      <section>
+        <h2>accordion</h2>
+        <dl class="accordion js-accordion">
+          <dt class="accordion-head"><button type="button" aria-controls="acco-content1"
+                                             aria-expanded="false">accordion1</button></dt>
+          <!-- 선택 시 aria-expanded="true" -->
+          <dd id="acco-content1" class="accordion-content">contents1</dd>
+          <dt class="accordion-head"><button type="button" aria-controls="acco-content2"
+                                             aria-expanded="false">accordion2</button></dt>
+          <dd id="acco-content2" class="accordion-content">contents2</dd>
+          <dt class="accordion-head"><button type="button" aria-controls="acco-content3"
+                                             aria-expanded="false">accordion3</button></dt>
+          <dd id="acco-content3" class="accordion-content">contents3</dd>
+        </dl>
+      </section>
 
-    <section>
-      <h2>form</h2>
-      <h3>input</h3>
-      <input type="checkbox" id="chk1-1" name="chk" checked><label for="chk1-1">check</label>
-      <input type="checkbox" id="chk1-2" name="chk"><label for="chk1-2">check</label>
-      <input type="checkbox" id="chk1-3" name="chk" disabled><label for="chk1-3">check</label>
-      <input type="radio" id="rdo1-1" name="rdo" checked><label for="rdo1-1">radio</label>
-      <input type="radio" id="rdo1-2" name="rdo"><label for="rdo1-2">radio</label>
-      <input type="radio" id="rdo1-3" name="rdo" disabled><label for="rdo1-3">radio</label>
+      <section>
+        <h2>paging</h2>
+        <div class="paging js-paging">
+          <button type="button" class="paging-first" disabled><span>처음</span></button>
+          <button type="button" class="paging-prev" disabled><span>이전</span></button>
+          <div class="paging-list">
+            <a href="#" aria-current="page">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">7</a>
+            <a href="#">8</a>
+            <a href="#">9</a>
+            <a href="#">10</a>
+          </div>
+          <button type="button" class="paging-next"><span>다음</span></button>
+          <button type="button" class="paging-last"><span>마지막</span></button>
+        </div>
+      </section>
 
-      <label for="inp-txt">input Text</label><input type="text" id="inp-txt">
-      <label for="inp-num">input Number</label><input type="number" id="inp-num">
-      <label for="inp-search">input Search</label><input type="search" id="inp-search">
-      <label for="inp-pw">input Password</label><input type="password" id="inp-pw">
-      <label for="inp-file">input File</label><input type="file" id="inp-file">
+      <section>
+        <h2>swiper</h2>
+        <p><a href="https://swiperjs.com/" target="_blank" style="float: right;">https://swiperjs.com/</a></p>
 
-      <h3>text field</h3>
-      <textarea id="txt-field" name="txt-field" cols="30" rows="10"></textarea>
+        <div class="swiper-container" style="height: 100px;">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
 
-      <h3>select</h3>
-      <select id="select" name="select">
-        <option value="opt1">opt1</option>
-        <option value="opt2">opt2</option>
-      </select>
-    </section>
+      <section>
+        <h2>countdown</h2>
+        <div class="js-countdown">
+          <span class="time">00:00</span>
+        </div>
+        <br>
+        <button class="btn btn-tertiary countdown-apply">apply</button>
+        <button class="btn btn-tertiary countdown-start">start</button>
+        <button class="btn btn-tertiary countdown-stop">stop</button>
+        <button class="btn btn-tertiary countdown-clear">clear</button>
+      </section>
 
-    <section>
-      <h2>table</h2>
-      <h3>col type</h3>
-      <table class="tbl-list">
-        <caption class="blind">caption</caption>
-        <colgroup>
-          <col>
-          <col>
-        </colgroup>
-        <thead>
-        <tr>
-          <th scope="col">col1</th>
-          <th scope="col">col2</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>내용</td>
-          <td>내용</td>
-        </tr>
-        </tbody>
-      </table>
+      <section>
+        <h2>calendar</h2>
+        <div><input type="text" id="calendar1" class="js-calendar" readonly></div>
+        <br>
+        <button class="btn btn-tertiary calendar-apply">apply</button>
+        <button class="btn btn-tertiary calendar-clear">clear</button>
+      </section>
 
-      <h3>row type</h3>
-      <table class="tbl-view">
-        <caption class="blind">table caption</caption>
-        <colgroup>
-          <col style="width:15%">
-          <col>
-        </colgroup>
-        <tbody>
-        <tr>
-          <th scope="row">row1</th>
-          <td>내용</td>
-        </tr>
-        <tr>
-          <th scope="row">row2</th>
-          <td>내용</td>
-        </tr>
-        </tbody>
-      </table>
-    </section>
+      <section>
+        <h2>transform</h2>
+        <div class="transform obj" style="position: relative; width: 50px; height: 50px; background: #ddd"></div>
+        <br>
+        <button class="transform btn">transform start</button>
+      </section>
+
+      <section>
+        <h2>gsap</h2>
+        <div class="gsap obj" style="position: relative; width: 50px; height: 50px; background: #ddd"></div>
+        <br>
+        <button class="gsap btn">gsap start</button>
+      </section>
+
+      <section>
+        <h2>button</h2>
+        <div class="btn-wrap">
+          <button type="button" class="btn btn-primary">primary</button>
+          <button type="button" class="btn btn-secondary">secondary</button>
+          <button type="button" class="btn btn-tertiary">tertiary</button>
+          <a href="#" class="btn btn-primary">primary</a>
+          <a href="#" class="btn btn-secondary">secondary</a>
+          <a href="#" class="btn btn-tertiary">tertiary</a>
+        </div>
+      </section>
+
+      <section>
+        <h2>form</h2>
+        <h3>input</h3>
+        <div>
+          <input type="checkbox" id="chk1-1" name="chk" checked><label for="chk1-1">check</label>
+          <input type="checkbox" id="chk1-2" name="chk"><label for="chk1-2">check</label>
+          <input type="checkbox" id="chk1-3" name="chk" disabled><label for="chk1-3">check</label>
+          <input type="radio" id="rdo1-1" name="rdo" checked><label for="rdo1-1">radio</label>
+          <input type="radio" id="rdo1-2" name="rdo"><label for="rdo1-2">radio</label>
+          <input type="radio" id="rdo1-3" name="rdo" disabled><label for="rdo1-3">radio</label>
+        </div>
+
+        <br>
+
+        <div>
+          <label for="inp-txt">input Text</label><input type="text" id="inp-txt" class="js-input-text"><br><br>
+          <label for="inp-num">input Number</label><input type="number" id="inp-num"><br><br>
+          <label for="inp-search">input Search</label><input type="search" id="inp-search"><br><br>
+          <label for="inp-pw">input Password</label><input type="password" id="inp-pw"><br><br>
+          <label for="inp-tel">input Tel-Number</label><input type="tel" id="inp-tel"><br><br>
+          <label for="inp-file">input File</label>
+          <div><input type="file" id="inp-file"></div>
+        </div>
+
+        <h3>text field (textarea)</h3>
+        <div class="js-textarea">
+          <textarea id="txt-field" name="txt-field" maxlength="10" cols="30" rows="10">0123456789</textarea>
+          <span class="current-length">0</span>/<span class="total-length">100</span>
+        </div>
+
+        <h3>select</h3>
+        <select id="select" name="select">
+          <option value="opt1">opt1</option>
+          <option value="opt2">opt2</option>
+        </select>
+      </section>
+
+      <section>
+        <h2>table</h2>
+        <h3>col type</h3>
+        <table class="tbl-list">
+          <caption class="blind">
+            caption
+          </caption>
+          <colgroup>
+            <col>
+            <col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th scope="col">col1</th>
+            <th scope="col">col2</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>내용</td>
+            <td>내용</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <h3>row type</h3>
+        <table class="tbl-view">
+          <caption class="blind">
+            table caption
+          </caption>
+          <colgroup>
+            <col style="width: 15%;">
+            <col>
+          </colgroup>
+          <tbody>
+          <tr>
+            <th scope="row">row1</th>
+            <td>내용</td>
+          </tr>
+          <tr>
+            <th scope="row">row2</th>
+            <td>내용</td>
+          </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+    <!--: End #contents -->
+    <!--: End #contents -->
+
+    @@include('./inc/footer.html')
   </div>
-  <!--: End #contents -->
 
-  @@include('./inc/footer.html')
+  <!--  <script type="text/javascript" src="/js/common/common.js"></script>-->
+  <!--  <script type="text/javascript" src="/js/common/ease.js"></script>-->
+  <script type="text/javascript" src="/js/plugins/modal.js"></script>
+  <script type="text/javascript" src="/js/plugins/loading.js"></script>
+  <script type="text/javascript" src="/js/plugins/dropdown.js"></script>
+  <script type="text/javascript" src="/js/plugins/tab.js"></script>
+  <script type="text/javascript" src="/js/plugins/accordion.js"></script>
+  <script type="text/javascript" src="/js/plugins/paging.js"></script>
+  <script type="text/javascript" src="/js/plugins/textarea.js"></script>
+<!--  <script type="text/javascript" src="/js/plugins/countdown.js"></script>-->
+<!--  <script type="text/javascript" src="/js/plugins/calendar.js"></script>-->
   <script type="text/javascript" src="/js/plugins.js"></script>
-</div>
-<script>
-</script>
+
+  <script type="text/javascript" src="/js/guide.js"></script>
 </body>
 </html>
