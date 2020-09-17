@@ -26,7 +26,7 @@ const scssOptions = { // Sass compile option
 const src = 'src'
 const dist = 'dist'
 const paths = {
-  js: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`],
+  js: [`${src}/**/*.js`, `${src}/js/plugins/*.js`],
   plugins: `${src}/js/plugins/index.js`,
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,

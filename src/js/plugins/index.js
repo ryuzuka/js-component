@@ -1,35 +1,83 @@
 /** plugins ********************************************************************************************************* */
-import jQuery from 'jquery'
-import 'ixsnack'
-import './modal-jquery-ui'
-import './modal'
-import './loading'
-import './calendar'
-import './input-text'
-import './dropdown'
-import './tab'
-import './accordion'
 ;($ => {
   /** ************************************************** */
-  // block scroll
+  let pluginPool = {}
+  let pluginIndex = 0
+
   $.extend({
-    blockScroll(isBlock) {
-      if (isBlock) {
-        $('body').addClass('v--modal-block-scroll')
-      } else {
-        $('body').removeClass('v--modal-block-scroll')
+    /**
+     * plugin manager
+     *
+     */
+    plugin: {
+      add($el, pluginName, plugin) {
+        if ($el.attr('applied-plugin')) {
+          return
+        }
+        let pluginId = pluginName + pluginIndex
+        $el.attr('applied-plugin', pluginId)
+        pluginPool[pluginId] = plugin
+        pluginIndex++
+      },
+      remove($el) {
+        delete pluginPool[$el.attr('applied-plugin')]
+        $el.removeAttr('applied-plugin')
+      },
+      call($el, method, value) {
+        let pluginId = $el.attr('applied-plugin')
+        if (!pluginId) {
+          return
+        }
+        pluginPool[pluginId][method](value)
+        if (method === 'clear') {
+          this.remove($el)
+        }
       }
     }
   })
 
+  /** common plugins */
+  $.extend({
+    blockScroll(isBlock) {
+      /**
+       * block scroll
+       *
+       */
+
+      if (isBlock) {
+        $('body').addClass('block-scroll')
+      } else {
+        $('body').removeClass('block-scroll')
+      }
+    }
+  })
+
+  $.fn.extend({
+    transform: function (options) {
+      /**
+       * transform
+       * @params	{Object}
+       * 				  ex) transform: {transform: 'translate(100px, 100px) scaleX(1) scaleY(1)'}
+       * 				  ex) transition: '0s ease 0s'
+       * @event		transition-end
+       *
+       */
+
+      let {transform} = options
+      let {transition} = options
+
+      this.css({transform: transform, transition: transition})
+        .css({WebkitTransform: transform, WebkitTransition: transition})
+        .css({MozTransform: transform, MozTransition: transition})
+        .css({msTransform: transform, msTransition: transition})
+        .css({OTransform: transform, OTransition: transition})
+        .one('transitionend webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd', e => {
+          this.triggerHandler({type: 'transition-end'})
+        })
+      return this
+    }
+  })
+
   /** execution */
-  // $.modal()
-  // $.loading()
-  $('input.js-input-text').inputText()
-  $('.js-calendar').calendar()
-  $('.js-dropdown').dropdown()
-  $('.js-accordion').accordion()
-  $('.js-tab').tab()
-  $('.js-slide').ixSlideMax()
-})(jQuery)
+})(window.jQuery)
 /** ***************************************************************************************************************** */
