@@ -181,7 +181,7 @@
         let x = $(window).width() - $('.gsap.obj').width() * 2
         $('.transform.obj').transform({
           transform: `translate3d(${x}px, 0px, 0px) scaleX(1.7) scaleY(1.7)`,
-          transition: `1s ${Ease.Cubic.easeInOut} 0s`
+          transition: `1s ${App.Ease.Cubic.easeInOut} 0s`
         }).on('transition-end', () => {
           console.log('transition-end')
         })
