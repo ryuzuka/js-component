@@ -1,6 +1,4 @@
 /** textarea.js ********************************************************************************************************** */
-import jQuery from 'jquery'
-import moment from 'moment'
 ;(($, $moment) => {
   let pluginName = 'countdown'
 

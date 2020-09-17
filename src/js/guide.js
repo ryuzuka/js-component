@@ -135,40 +135,27 @@
     })(),
 
     countdown: (() => {
-      // let $countdown = $('.js-countdown')
-      // $countdown.countdown('clear').countdown({
-      //   format: 'HH:mm:ss', // default: mm:ss
-      //   start: 160 // default: 60
-      // })
-      // $countdown.countdown('start').on('complete', e => {
-      //   console.log('countdown - complete')
-      // })
-      //
-      // $('.countdown-start').on('click', e => {
-      //   $('.js-countdown').countdown('start')
-      // })
-      // $('.countdown-stop').on('click', e => {
-      //   $('.js-countdown').countdown('stop')
-      // })
-      // $('.countdown-apply').on('click', e => {
-      //   $('.js-countdown').countdown()
-      // })
-      // $('.countdown-clear').on('click', e => {
-      //   $('.js-countdown').countdown('clear')
-      // })
-    })(),
+      let $countdown = $('.js-countdown')
+      $countdown.countdown('clear').countdown({
+        format: 'HH:mm:ss', // default: mm:ss
+        start: 160 // default: 60
+      })
+      $countdown.countdown('start').on('complete', e => {
+        console.log('countdown - complete')
+      })
 
-    calendar: (() => {
-      // $('.js-calendar').calendar('clear').calendar().calendar('setDate', '20200512')
-      // $('.js-calendar').on('change', e => {
-      //   console.log(e.type, e.value, e.text)
-      // })
-      // $('.calendar-apply').on('click', e => {
-      //   $('.js-calendar').calendar()
-      // })
-      // $('.calendar-clear').on('click', e => {
-      //   $('.js-calendar').calendar('clear')
-      // })
+      $('.countdown-start').on('click', e => {
+        $('.js-countdown').countdown('start')
+      })
+      $('.countdown-stop').on('click', e => {
+        $('.js-countdown').countdown('stop')
+      })
+      $('.countdown-apply').on('click', e => {
+        $('.js-countdown').countdown()
+      })
+      $('.countdown-clear').on('click', e => {
+        $('.js-countdown').countdown('clear')
+      })
     })(),
 
     textarea: (() => {
