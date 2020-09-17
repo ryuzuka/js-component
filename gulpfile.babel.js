@@ -27,7 +27,7 @@ const src = 'src'
 const dist = 'dist'
 const paths = {
   js: [`${src}/**/*.js`, `${src}/js/plugins/*.js`],
-  plugins: `${src}/js/plugins/index.js`,
+  // plugins: `${src}/js/plugins/index.js`,
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image : `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -60,17 +60,17 @@ function htmlInclude() {
     .pipe(browserSync.stream())
 }
 
-function plugins() {
-  return browserify(paths.plugins)
-    .transform(babelify,{
-      presets : ['@babel/preset-env']
-    })
-    .bundle()
-    .pipe(source('./js/plugins.js')) // vinyl object 로 변환
-    .pipe(buffer()) // buffered vinyl object 로 변환
-    .pipe(uglify({toplevel:true}))
-    .pipe(gulp.dest(dist))
-}
+// function plugins() {
+//   return browserify(paths.plugins)
+//     .transform(babelify,{
+//       presets : ['@babel/preset-env']
+//     })
+//     .bundle()
+//     .pipe(source('./js/plugins.js')) // vinyl object 로 변환
+//     .pipe(buffer()) // buffered vinyl object 로 변환
+//     .pipe(uglify({toplevel:true}))
+//     .pipe(gulp.dest(dist))
+// }
 
 function scripts() {
   return gulp.src(paths.js, { sourcemaps: true })
@@ -94,13 +94,13 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.scss, style)
   gulp.watch(paths.html, htmlInclude)
-  gulp.watch(paths.plugins, plugins)
+  // gulp.watch(paths.plugins, plugins)
   gulp.watch(paths.js, scripts)
   gulp.watch(paths.image, copyImage)
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(style, plugins, scripts, htmlInclude, copyImage))
+const build = gulp.series(clean, gulp.parallel(style, scripts, htmlInclude, copyImage))
 
 exports.watch = watch
 exports.build = build
