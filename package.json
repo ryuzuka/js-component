@@ -38,10 +38,5 @@
     "android >= 4.4",
     "not ie <= 10"
   ],
-  "dependencies": {
-    "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.1",
-    "lodash": "^4.17.15",
-    "moment": "^2.26.0"
-  }
+  "dependencies": {}
 }
