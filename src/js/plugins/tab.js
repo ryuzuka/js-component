@@ -26,6 +26,7 @@
       this.options = options
       this.options.activeIndex = options.activeIndex || 0
       this.activeIndex = null
+
       this.init()
     }
 

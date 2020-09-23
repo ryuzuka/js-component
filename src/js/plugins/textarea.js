@@ -8,7 +8,9 @@
         $.plugin.call(this, options, value)
       } else {
         this.each((index, el) => {
-          $.plugin.add($(el), pluginName, new Textarea($(el), options))
+          if (!$(el).attr('applied-plugin')) {
+            $.plugin.add($(el), pluginName, new Textarea($(el), options))
+          }
         })
       }
       return this
@@ -41,9 +43,8 @@
     }
 
     setEvent() {
-      let _this = this
       this.keyEvent = e => {
-        _this.setText(this.$textarea.val().length, this.totalLength)
+        this.setText(this.$textarea.val().length, this.totalLength)
       }
       this.$textarea.on('keyup keydown', this.keyEvent)
     }

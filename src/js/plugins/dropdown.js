@@ -21,6 +21,7 @@
     constructor($this, options) {
       this.$dropdown = $this
       this.$button = this.$dropdown.find('.dropdown-btn')
+
       this.options = options
       this.activeIndex = -1
 
