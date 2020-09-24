@@ -1,9 +1,6 @@
 /** guide.js ******************************************************************************************************** */
 ;(($, App) => {
   return {
-    lottie: (() => {
-      //
-    })(),
     modal: (() => {
       $('.modalBtn').on('click', event => {
         /**
@@ -181,8 +178,8 @@
     gsap: (() => {
       // $('.gsap.btn').on('click', e => {
       //   gsap.to('.gsap.obj', 1, {left: $(window).width() - $('.gsap.obj').width() * 2, onComplete: () => {
-      //       console.log('onComplete')
-      //     }})
+      //     console.log('onComplete')
+      //   }})
       // })
     })(),
 
@@ -211,8 +208,29 @@
         url: '/data/lottie.json',
         data: {},
         success: function (result) {
-          console.log(result)
+          // console.log(result)
         }
+      })
+    })(),
+
+    lottie: (() => {
+      let _lottie = lottie.loadAnimation({
+        container: document.getElementById('lottie'),
+        renderer: 'svg',
+        // animationData: '', async
+        path: '/data/lottie.json',
+        loop: true,
+        autoplay: true
+      })
+
+      $('.lottie-start').on('click', e => {
+        _lottie.play()
+      })
+      $('.lottie-pause').on('click', e => {
+        _lottie.pause()
+      })
+      $('.lottie-stop').on('click', e => {
+        _lottie.stop()
       })
     })()
   }
