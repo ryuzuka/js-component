@@ -30,8 +30,9 @@ const paths = {
   pluginsIndex: [`${src}/js/plugins/index.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
-  image : `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
-  font : `${src}/**/*.{ttf,otf,woff,woff2,eot,svg}`
+  image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
+  font: `${src}/**/*.{ttf,otf,woff,woff2,eot,svg}`,
+  data: `${src}/**/*.json`,
 }
 
 const htmlIncludeOptions = {
@@ -110,6 +111,11 @@ function copyFonts() {
     .pipe(gulp.dest(dist))
 }
 
+function copyData() {
+  return gulp.src(paths.data, {since: gulp.lastRun(copyData)})
+    .pipe(gulp.dest(dist))
+}
+
 function watchFiles(done) {
   server.init({
     server: './dist/',
@@ -126,10 +132,11 @@ function watchFiles(done) {
   gulp.watch(paths.js, scripts)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
+  gulp.watch(paths.data, copyData)
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(style, scripts, libs, plugins, pluginsIndex, htmlInclude, copyImage, copyFonts))
+const build = gulp.series(clean, gulp.parallel(style, scripts, libs, plugins, pluginsIndex, htmlInclude, copyImage, copyFonts, copyData))
 
 // build
 exports.build = build

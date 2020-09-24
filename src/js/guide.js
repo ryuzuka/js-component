@@ -1,6 +1,9 @@
 /** guide.js ******************************************************************************************************** */
 ;(($, App) => {
   return {
+    lottie: (() => {
+      //
+    })(),
     modal: (() => {
       $('.modalBtn').on('click', event => {
         /**
@@ -204,13 +207,13 @@
     })(),
 
     ajax: (() => {
-      // $.ajax({
-      //   url: './data/test.html',
-      //   data: {},
-      //   success: function (result) {
-      //     console.log(result)
-      //   }
-      // })
+      $.ajax({
+        url: '/data/lottie.json',
+        data: {},
+        success: function (result) {
+          console.log(result)
+        }
+      })
     })()
   }
 })(window.jQuery, window.App)
