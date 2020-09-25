@@ -167,7 +167,7 @@
       $('.transform.btn').on('click', e => {
         let left = parseInt($(window).width() - $('.transform.obj').width() * 3)
         $('.transform.obj').transform({
-          transform: `translate3d(${left}px, 0px, 0px) scaleX(1.7) scaleY(1.7)`,
+          transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
           transition: `1s ${App.Ease.Cubic.easeInOut} 0s`
         }).on('transition-end', () => {
           console.log('transition-end')
@@ -176,14 +176,41 @@
     })(),
 
     gsap: (() => {
+      // tween
       let left = parseInt($(window).width() - $('.gsap.obj').width() * 3)
       $('.gsap.btn').on('click', e => {
         gsap.to('.gsap.obj', 1, {
-          transform: `translate3d(${left}px, 0px, 0px) scaleX(1.7) scaleY(1.7)`,
+          transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
           ease: Expo.easeInOut,
           onComplete: () => {
-          console.log('onComplete')
-        }})
+            console.log('onComplete')
+          }})
+      })
+
+      // timeline
+      let timeline = gsap.timeline({
+        paused: true,
+        // repeat: 1,
+        // repeatDelay: 1,
+        onStart () {
+          console.log('start', this)
+        },
+        onComplete () {
+          console.log('complete', this)
+          this.reverse()
+        }
+      })
+      timeline.to('.motion0', 0.5, {transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`})
+      timeline.to('.motion1', 0.5, {transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`})
+      timeline.to('.motion2', 0.5, {transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`})
+      $('.timeline.btn.play').on('click', e => {
+        timeline.play()
+      })
+      $('.timeline.btn.pause').on('click', e => {
+        timeline.pause()
+      })
+      $('.timeline.btn.stop').on('click', e => {
+        timeline.clear().kill()
       })
     })(),
 
