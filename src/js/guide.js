@@ -165,9 +165,9 @@
 
     transform: (() => {
       $('.transform.btn').on('click', e => {
-        let x = $(window).width() - $('.gsap.obj').width() * 2
+        let left = parseInt($(window).width() - $('.transform.obj').width() * 3)
         $('.transform.obj').transform({
-          transform: `translate3d(${x}px, 0px, 0px) scaleX(1.7) scaleY(1.7)`,
+          transform: `translate3d(${left}px, 0px, 0px) scaleX(1.7) scaleY(1.7)`,
           transition: `1s ${App.Ease.Cubic.easeInOut} 0s`
         }).on('transition-end', () => {
           console.log('transition-end')
@@ -176,31 +176,15 @@
     })(),
 
     gsap: (() => {
-      // $('.gsap.btn').on('click', e => {
-      //   gsap.to('.gsap.obj', 1, {left: $(window).width() - $('.gsap.obj').width() * 2, onComplete: () => {
-      //     console.log('onComplete')
-      //   }})
-      // })
-    })(),
-
-    swipe: (() => {
-      // $(window).touchSwipe({
-      //   // direction: 'vertical',
-      //   touchstart: function (e) {
-      //     console.log('start', e)
-      //   },
-      //   touchmove: function (e) {
-      //     console.log('move', e)
-      //   },
-      //   touchend: function (e) {
-      //     console.log('up', e)
-      //   }
-      // })
-      // window.addEventListener('touchstart', e => {
-      //   e.preventDefault()
-      // }, {
-      //   passive: false
-      // })
+      let left = parseInt($(window).width() - $('.gsap.obj').width() * 3)
+      $('.gsap.btn').on('click', e => {
+        gsap.to('.gsap.obj', 1, {
+          transform: `translate3d(${left}px, 0px, 0px) scaleX(1.7) scaleY(1.7)`,
+          ease: Expo.easeInOut,
+          onComplete: () => {
+          console.log('onComplete')
+        }})
+      })
     })(),
 
     ajax: (() => {
@@ -219,8 +203,8 @@
         renderer: 'svg',
         // animationData: '', async
         path: '/data/lottie.json',
-        loop: true,
-        autoplay: true
+        loop: false, // default: true
+        autoplay: true // default: true
       })
 
       $('.lottie-start').on('click', e => {
@@ -232,6 +216,25 @@
       $('.lottie-stop').on('click', e => {
         _lottie.stop()
       })
+    })(),
+
+    preventScroll: (() => {
+      $('.btn.prevent').on('click', e => {
+        // pc
+        window.addEventListener('wheel', preventScroll, {passive: false})
+        // mo
+        window.addEventListener('touchmove', preventScroll, {passive: false})
+      })
+      $('.btn.scroll').on('click', e => {
+        // pc
+        window.removeEventListener('wheel', preventScroll)
+        // mo
+        window.removeEventListener('touchmove', preventScroll)
+      })
+
+      function preventScroll (e) {
+        e.preventDefault()
+      }
     })()
   }
 })(window.jQuery, window.App)
