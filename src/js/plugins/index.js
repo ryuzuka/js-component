@@ -79,9 +79,11 @@
   })
 
   /** execution */
-  $('.js-dropdown').dropdown()
-  $('.js-tab').tab()
-  $('.js-accordion').accordion()
-  $('.js-textarea').textarea()
+  $(() => {
+    $('.js-dropdown').dropdown()
+    $('.js-tab').tab()
+    $('.js-accordion').accordion()
+    $('.js-textarea').textarea()
+  })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
