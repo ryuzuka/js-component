@@ -262,6 +262,26 @@
       function preventScroll (e) {
         e.preventDefault()
       }
+    })(),
+
+    swipe: (() => {
+      $('.swipe-on').on('click', e => {
+        console.log('on')
+      })
+      $('.swipe-off').on('click', e => {
+        console.log('off')
+      })
+      // $.swipe({
+      //   up () {
+      //     console.log('up')
+      //   },
+      //   move () {
+      //     console.log('move')
+      //   },
+      //   down () {
+      //     console.log('down')
+      //   }
+      // })
     })()
   }
 })(window.jQuery, window.App)
