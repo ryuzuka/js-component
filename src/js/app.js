@@ -1,7 +1,8 @@
 /** app.js ******************************************************************************************************** */
 ;($ => {
   const App = {
-    DATE_FORMAT: 'YYYYMMDD'
+    DATE_FORMAT: 'YYYYMMDD',
+    DEVICE: navigator.userAgent
   }
   window.App = $.extend(window.App || {}, App)
 
