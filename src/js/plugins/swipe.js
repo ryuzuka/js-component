@@ -1,21 +1,21 @@
 /** swipe.js ********************************************************************************************************** */
 ;($ => {
-  let pluginName = 'tab'
+  let pluginName = 'swipe'
 
   $.extend({
-    swipe: function (options) {
-      new Swipe(options)
+    bodySwipe: function (options) {
+      $(document).find('body').swipe()
     }
   })
 
   $.fn.extend({
-    swipe: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
+    swipe: function (_options = {}, _value) {
+      if (typeof _options === 'string') {
+        $.plugin.call(this, _options, _value)
       } else {
         this.each((index, el) => {
           if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Swipe($(el), options))
+            $.plugin.add($(el), pluginName, new Swipe($(el), _options))
           }
         })
       }
@@ -25,48 +25,39 @@
 
   class Swipe {
     constructor($this, options) {
-      this.$tab = $this
-      this.$list = this.$tab.find('> .tab-list')
-      this.$content = this.$tab.find('> .tab-content')
+      this.target = $this.get(0)
 
-      this.options = options
-      this.options.activeIndex = options.activeIndex || 0
-      this.activeIndex = null
+      this.isTouchPad = (/hp-tablet/gi).test(navigator.appVersion)
+      this.hasTouch = 'ontouchstart' in window && !this.isTouchPad
+      this.DOWN_EV = this.hasTouch ? 'touchstart' : 'mousedown'
+      this.MOVE_EV = this.hasTouch ? 'touchmove' : 'mousemove'
+      this.UP_EV = this.hasTouch ? 'touchend' : 'mouseup'
+
+      this.check = false
+      this.dragDir = 2 // 드래그방향 : 0 - 아래 , 1 - 위
+      this.DOWNY = 0
+      this.DOWNX = 0
+      this.dragDist = 0
 
       this.init()
     }
 
-    init() {
-      this.$list.find('button').on('click', e => {
-        let idx = $(e.target).index()
-        if (idx === this.activeIndex) return
-        this.active(idx)
-      })
+    init () {
+      let eventHandler = this.eventHandler()
+      this.target.addEventListener(this.DOWN_EV, eventHandler.down)
+      this.target.addEventListener(this.MOVE_EV, eventHandler.move)
+      this.target.addEventListener(this.UP_EV,   eventHandler.up)
+    }
 
-      if (typeof this.options.activeIndex === 'number') {
-        this.active(this.options.activeIndex)
+    eventHandler () {
+      return {
+        down: function () {
+        },
+        move: function () {
+        },
+        up: function () {
+        }
       }
-    }
-
-    active(idx) {
-      let $btn = this.$list.find('button')
-      let $content = this.$content.find('> .content')
-      this.activeIndex = idx
-
-      $btn.removeClass('active').attr('aria-selected', false)
-      $btn.eq(idx).addClass('active').attr('aria-selected', true)
-      $content.prop('hidden', true).removeClass('active')
-      $content.eq(idx).prop('hidden', false).addClass('active')
-
-      this.$tab.triggerHandler({type: 'change', activeIndex: this.activeIndex})
-    }
-
-    clear() {
-      this.$list.find('button').removeClass('active').attr('aria-selected', false)
-      this.$content.find('> .content').removeClass('active').prop('hidden', true)
-      this.$list.find('button').off()
-      this.$tab = null
-      this.activeIndex = null
     }
   }
 })(window.jQuery)

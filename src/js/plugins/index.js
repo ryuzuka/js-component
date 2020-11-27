@@ -55,7 +55,7 @@
     },
 
     // mobile body swipe (scroll)
-    bodySwipe: function (_options) {
+    bodySwipex: function (_options) {
       let isTouchPad = (/hp-tablet/gi).test(navigator.appVersion)
       let hasTouch = 'ontouchstart' in window && !isTouchPad
       let DOWN_EV = hasTouch ? 'touchstart' : 'mousedown'
@@ -189,6 +189,8 @@
     $('.js-dropdown').dropdown()
     $('.js-textarea').textarea()
     $('.js-accordion').accordion()
+
+    $.bodySwipe()
   })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
