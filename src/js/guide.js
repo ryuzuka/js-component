@@ -11,10 +11,12 @@
           $('#pop-alert').modal({classes: 'add class test', closedFocus: '.modalBtn.alert'}, e => {
             console.log(e)
           })
+
         } else if (event.target.className.indexOf(' confirm') > -1) {
           $('#pop-confirm').modal({classes: 'add class test', closedFocus: '.modalBtn.confirm'}, e => {
             console.log(e)
           })
+
         } else if (event.target.className.indexOf(' modal') > -1) {
           $('#pop-modal').modal({clickToClose: false, closedFocus: '.modalBtn.modal'}, e => {
             console.log(e)
@@ -26,6 +28,7 @@
               })
             }
           })
+
         } else if (event.target.className.indexOf(' full') > -1) {
           $('#pop-full').modal({clickToClose: false, closedFocus: '.modalBtn.full'}, e => {
             console.log(e)
@@ -44,6 +47,7 @@
       $('.loadingBtn').on('click', e => {
         console.log('loading: start')
         $.loading('start')
+
         setTimeout(() => {
           console.log('loading: end')
           $.loading('stop')
@@ -54,6 +58,7 @@
     dropdown: (() => {
       let $dropdown = $('.js-dropdown')
       $dropdown.dropdown('clear').dropdown({
+        type: 'single',
         activeIndex: 0, // default: -1
         disableIndex: 0
       })
@@ -84,7 +89,7 @@
     accordion: (() => {
       let $accordion = $('.js-accordion')
       $accordion.accordion('clear').accordion({
-        type: 'multi', // type: single(default), multi
+        // type: 'multi', // type: single(default), multi
         activeIndex: 2 // default: -1
       })
       $accordion.accordion('active', 0).on('open', e => {
@@ -158,9 +163,45 @@
       })
     })(),
 
-    textarea: (() => {
-      let $textarea = $('.js-textarea')
-      $textarea.textarea('clear').textarea({total: 20})
+    swipe: (() => {
+      $('.swipe-on, .swipe-off').on('click', e => {
+        let classList = e.target.className
+        if (classList.indexOf('body') > -1) {
+          if (classList.indexOf('on') > -1) {
+            console.log('body on')
+          } else {
+            console.log('body off')
+          }
+        } else {
+          if (classList.indexOf('on') > -1) {
+            console.log('element on')
+          } else {
+            console.log('element off')
+          }
+        }
+      })
+      /**
+       $.swipe({
+        up () {
+          console.log('up')
+        },
+        move () {
+          console.log('move')
+        },
+        down () {
+          console.log('down')
+        }
+      })
+       */
+    })(),
+
+    preventScroll: (() => {
+      $('.btn.prevent').on('click', e => {
+        $.preventScroll(true)
+      })
+      $('.btn.scroll').on('click', e => {
+        $.preventScroll(false)
+      })
     })(),
 
     transform: (() => {
@@ -219,7 +260,7 @@
         url: '/data/lottie.json',
         data: {},
         success: function (result) {
-          // console.log(result)
+          console.log(result)
         }
       })
     })(),
@@ -245,51 +286,9 @@
       })
     })(),
 
-    preventScroll: (() => {
-      $('.btn.prevent').on('click', e => {
-        // pc
-        window.addEventListener('wheel', preventScroll, {passive: false})
-        // mo
-        window.addEventListener('touchmove', preventScroll, {passive: false})
-      })
-      $('.btn.scroll').on('click', e => {
-        // pc
-        window.removeEventListener('wheel', preventScroll)
-        // mo
-        window.removeEventListener('touchmove', preventScroll)
-      })
-
-      function preventScroll (e) {
-        e.preventDefault()
-      }
-    })(),
-
-    swipe: (() => {
-      $('.swipe-on, .swipe-off').on('click', e => {
-        let classList = e.target.className
-        if (classList.indexOf('body') > -1) {
-          if (classList.indexOf('on') > -1) {
-          } else {
-          }
-        } else {
-          if (classList.indexOf('on') > -1) {
-          } else {
-          }
-        }
-      })
-      /**
-      $.swipe({
-        up () {
-          console.log('up')
-        },
-        move () {
-          console.log('move')
-        },
-        down () {
-          console.log('down')
-        }
-      })
-       */
+    textarea: (() => {
+      let $textarea = $('.js-textarea')
+      $textarea.textarea('clear').textarea({total: 20})
     })()
   }
 })(window.jQuery, window.App)

@@ -89,7 +89,7 @@
     open() {
       this.prevScroll = window.scrollY || window.pageYOffset
       $('body').attr('style', 'margin-top: ' + -1 * this.prevScroll + 'px')
-      $.blockScroll(true)
+      $.blockBodyScroll(true)
 
       this.$modal.show()
       this.callback({type: 'open', $modal: this.$modal})
@@ -101,7 +101,7 @@
       this.$modal.removeClass(this.options.classes).off().hide()
       $(this.options.closedFocus).focus()
 
-      $.blockScroll(false)
+      $.blockBodyScroll(false)
       $('html, body').scrollTop(this.prevScroll)
       $('body').removeAttr('style')
     }

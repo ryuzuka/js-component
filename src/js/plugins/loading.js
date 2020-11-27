@@ -43,14 +43,14 @@
     start() {
       this.prevScroll = window.scrollY || window.pageYOffset
       $('body').attr('style', 'margin-top: ' + -1 * this.prevScroll + 'px')
-      $.blockScroll(true)
+      $.blockBodyScroll(true)
       this.$loading.show()
       return this.$loading
     }
 
     stop() {
       this.$loading.hide()
-      $.blockScroll(false)
+      $.blockBodyScroll(false)
       $(window).scrollTop(this.prevScroll)
       $('body').removeAttr('style')
 

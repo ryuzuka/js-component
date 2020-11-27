@@ -5,13 +5,13 @@
     "pagetitle": "gulp guide"
   })
   <link rel="stylesheet" href="/css/common.css">
-  <link rel="stylesheet" href="/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/css/swiper.min.css">
 
   <script type="text/javascript" src="/js/libs/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="/js/libs/gsap.min.js"></script>
   <script type="text/javascript" src="/js/libs/lodash.min.js"></script>
   <script type="text/javascript" src="/js/libs/moment.min.js"></script>
-  <script type="text/javascript" src="/js/libs/swiper-bundle.min.js"></script>
+  <script type="text/javascript" src="/js/libs/swiper.min.js"></script>
   <script type="text/javascript" src="/js/libs/lottie.min.js"></script>
 </head>
 
@@ -109,6 +109,23 @@
       </section>
 
       <section>
+        <h2>swiper</h2>
+
+        <div class="swiper-container" style="height: 100px;">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1</div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+        <br>
+        <p><a href="https://swiperjs.com/" target="_blank">https://swiperjs.com/</a></p>
+      </section>
+
+      <section>
         <h2>dropdown</h2>
         <div class="dropdown js-dropdown" placeholder="SKT">
           <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">SKT</button>
@@ -182,22 +199,6 @@
       </section>
 
       <section>
-        <h2>swiper</h2>
-        <p><a href="https://swiperjs.com/" target="_blank" style="float: right;">https://swiperjs.com/</a></p>
-
-        <div class="swiper-container" style="height: 100px;">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">Slide 1</div>
-            <div class="swiper-slide">Slide 2</div>
-            <div class="swiper-slide">Slide 3</div>
-          </div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </section>
-
-      <section>
         <h2>countdown</h2>
         <div class="js-countdown">
           <span class="time">00:00</span>
@@ -210,11 +211,24 @@
       </section>
 
       <section>
-        <h2>calendar</h2>
-        <div><input type="text" id="calendar1" class="js-calendar" readonly></div>
+        <h2>prevent scroll</h2>
+        <button class="btn btn-tertiary prevent">prevent</button>
+        <button class="btn btn-tertiary scroll">scroll</button>
+      </section>
+
+      <section>
+        <h2>swipe</h2>
+        <button class="btn btn-tertiary body swipe-on">body swipe - on</button>
+        <button class="btn btn-tertiary body swipe-off">body swipe - off</button>
         <br>
-        <button class="btn btn-tertiary calendar-apply">apply</button>
-        <button class="btn btn-tertiary calendar-clear">clear</button>
+        <br>
+        <button class="btn btn-tertiary element swipe-on">element swipe - on</button>
+        <button class="btn btn-tertiary element swipe-off">element swipe - off</button>
+        <br>
+        <br>
+        <div class="zone" style="border: 1px solid #000; width: 100%; height: 200px">
+          element - swipe zone
+        </div>
       </section>
 
       <section>
@@ -250,27 +264,6 @@
         <button class="btn btn-tertiary lottie-start">start</button>
         <button class="btn btn-tertiary lottie-pause">pause</button>
         <button class="btn btn-tertiary lottie-stop">stop</button>
-      </section>
-
-      <section>
-        <h2>prevent scroll</h2>
-        <button class="btn btn-tertiary prevent">prevent</button>
-        <button class="btn btn-tertiary scroll">scroll</button>
-      </section>
-
-      <section>
-        <h2>swipe</h2>
-        <button class="btn btn-tertiary body swipe-on">body swipe - on</button>
-        <button class="btn btn-tertiary body swipe-off">body swipe - off</button>
-        <br>
-        <br>
-        <button class="btn btn-tertiary element swipe-on">element swipe - on</button>
-        <button class="btn btn-tertiary element swipe-off">element swipe - off</button>
-        <br>
-        <br>
-        <div class="zone" style="border: 1px solid #000; width: 100%; height: 200px">
-          element - swipe zone
-        </div>
       </section>
 
       <section>
