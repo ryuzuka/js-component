@@ -164,35 +164,42 @@
     })(),
 
     swipe: (() => {
+      $.bodySwipe({
+        // direction: 'horizontal',
+        down () {/** console.log('body swipe down') */},
+        move () {/** console.log('body swipe move') */},
+        up (dir, dis) {console.log('body swipe - up', dir, dis)}
+      }).bodySwipe('off')
+
+      $('.zone').swipe({
+        // direction: 'vertical',
+        down (e) {/** console.log('element down') */},
+        move (e) {/** console.log('element move') */},
+        up (dir, dis) {console.log('element swipe up', dir, dis)}
+      }).swipe('off')
+
       $('.swipe-on, .swipe-off').on('click', e => {
         let classList = e.target.className
+
         if (classList.indexOf('body') > -1) {
           if (classList.indexOf('on') > -1) {
-            console.log('body on')
+            $.preventScroll(true)
+            $.bodySwipe('on')
           } else {
-            console.log('body off')
+            $.bodySwipe('off')
+            $.preventScroll(false)
           }
+
         } else {
           if (classList.indexOf('on') > -1) {
-            console.log('element on')
+            $.preventScroll(true)
+            $('.zone').swipe('on')
           } else {
-            console.log('element off')
+            $('.zone').swipe('off')
+            $.preventScroll(false)
           }
         }
       })
-      /**
-       $.swipe({
-        up () {
-          console.log('up')
-        },
-        move () {
-          console.log('move')
-        },
-        down () {
-          console.log('down')
-        }
-      })
-       */
     })(),
 
     preventScroll: (() => {
@@ -284,11 +291,6 @@
       $('.lottie-stop').on('click', e => {
         _lottie.stop()
       })
-    })(),
-
-    textarea: (() => {
-      let $textarea = $('.js-textarea')
-      $textarea.textarea('clear').textarea({total: 20})
     })()
   }
 })(window.jQuery, window.App)

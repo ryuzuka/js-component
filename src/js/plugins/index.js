@@ -54,77 +54,6 @@
       }
     },
 
-    // mobile body swipe (scroll)
-    bodySwipex: function (_options) {
-      let isTouchPad = (/hp-tablet/gi).test(navigator.appVersion)
-      let hasTouch = 'ontouchstart' in window && !isTouchPad
-      let DOWN_EV = hasTouch ? 'touchstart' : 'mousedown'
-      let MOVE_EV = hasTouch ? 'touchmove' : 'mousemove'
-      let UP_EV = hasTouch ? 'touchend' : 'mouseup'
-
-      let target = document.body
-      let check = false
-      let dragDir = 2 // 드래그방향 : 0 - 아래 , 1 - 위
-      let DOWNY = 0
-      let DOWNX = 0
-      let dragDist = 0
-
-      target.addEventListener(DOWN_EV, mDown)
-      target.addEventListener(MOVE_EV, mMove)
-      target.addEventListener(UP_EV, mUp)
-
-      function mDown (e) {
-        check = true
-        dragDist = 0
-        let point = hasTouch ? e.touches[0] : e
-        DOWNY = point.clientX
-        DOWNX = point.clientY
-        if (_options.down) {
-          _options.down()
-        }
-      }
-
-      function mMove (e) {
-        if(check) {
-          let point = hasTouch ? e.touches[0] : e
-          if (Math.abs(point.clientX - DOWNY) < Math.abs(point.clientY - DOWNX)) {
-            dragDist = point.clientY - DOWNX
-          }
-          if (_options.move) {
-            _options.move()
-          }
-        }
-      }
-      function mUp (e) {
-        check = false
-        if (Math.abs(dragDist) > 50) {
-          if (dragDist > 0) {
-            dragDir = 0
-          } else {
-            dragDir = 1
-          }
-          if (_options.up) {
-            _options.up(dragDir) // 0 - 아래, 1 - 위
-          }
-        } else {
-          dragDir = 2
-        }
-      }
-
-      return {
-        on: function () {
-          target.addEventListener(DOWN_EV, mDown)
-          target.addEventListener(MOVE_EV, mMove)
-          target.addEventListener(UP_EV, mUp)
-        },
-        off: function () { //이벤트 제거
-          target.removeEventListener(DOWN_EV, mDown)
-          target.removeEventListener(MOVE_EV, mMove)
-          target.removeEventListener(UP_EV, mUp)
-        }
-      }
-    },
-
     // body scroll block
     blockBodyScroll(_isBlock) {
       /**
@@ -187,10 +116,7 @@
   $(() => {
     $('.js-tab').tab()
     $('.js-dropdown').dropdown()
-    $('.js-textarea').textarea()
     $('.js-accordion').accordion()
-
-    $.bodySwipe()
   })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
