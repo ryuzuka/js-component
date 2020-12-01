@@ -202,12 +202,21 @@
       })
     })(),
 
-    preventScroll: (() => {
-      $('.btn.prevent').on('click', e => {
-        $.preventScroll(true)
+    blockBodyScroll: (() => {
+      $('.btn.block:not(.scroll)').on('click', e => {
+        $.blockBodyScroll(true)
       })
-      $('.btn.scroll').on('click', e => {
-        $.preventScroll(false)
+      $('.btn.block.scroll').on('click', e => {
+        $.blockBodyScroll(false)
+      })
+    })(),
+
+    preventScroll: (() => {
+      $('.btn.prevent:not(.scroll)').on('click', e => {
+        $.preventScrollEvent(true)
+      })
+      $('.btn.prevent.scroll').on('click', e => {
+        $.preventScrollEvent(false)
       })
     })(),
 

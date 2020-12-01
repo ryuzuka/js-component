@@ -38,12 +38,6 @@
 
   /** common plugins */
   $.extend({
-    _prevScroll: 0,
-    _preventScrollHandler (e) {
-      e.preventDefault()
-      return false
-    },
-
     // url parameter
     urlParam: function (_name) {
       let results = new RegExp('[?&]' + _name + '=([^&#]*)').exec(window.location.href)
@@ -51,17 +45,6 @@
         return null
       } else {
         return results[1] || 0
-      }
-    },
-
-    // touch & scroll event prevent
-    preventScroll: function (_isScroll) {
-      if (_isScroll) {
-        window.addEventListener('touchmove', this._preventScrollHandler, {passive: false})
-        window.addEventListener('wheel', this._preventScrollHandler, {passive: false})
-      } else {
-        window.removeEventListener('touchmove', this._preventScrollHandler)
-        window.removeEventListener('wheel', this._preventScrollHandler)
       }
     }
   })

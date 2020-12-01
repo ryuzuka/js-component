@@ -5,9 +5,10 @@
   $.extend({
     blockBodyScroll (isBlock) {
       _plugin = _plugin || new BlockBodyScroll()
-      let method = isBlock ? 'block' : 'scroll'
 
+      let method = isBlock ? 'block' : 'scroll'
       _plugin[method]()
+
       return _plugin
     }
   })
@@ -31,7 +32,7 @@
 
     scroll () {
       this.$body.removeAttr('style')
-      $('html, body').scrollTop(this.prevScroll)
+      $(window).scrollTop(this.prevScroll)
     }
   }
 })(window.jQuery)
