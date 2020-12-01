@@ -2,6 +2,10 @@
 ;($ => {
   let Common = {
     Common: {
+      isMobile: function () {
+        return navigator.userAgent.indexOf('Mobi') > -1
+      },
+
       /**
        * ex) 00-000-0000, 000-0000-0000
        * @param   {String}    number
