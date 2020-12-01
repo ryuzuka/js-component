@@ -25,5 +25,12 @@
 
   // before unload
   window.onbeforeunload = () => window.scrollTo(0, 0)
+
+  /** jquery plugins execution */
+  $(() => {
+    $('.js-accordion').accordion()
+    $('.js-dropdown').dropdown()
+    $('.js-tab').tab()
+  })
 })(window.jQuery)
 /** ***************************************************************************************************************** */

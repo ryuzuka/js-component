@@ -27,7 +27,6 @@ const paths = {
   js: [`${src}/**/*.js`, `!${src}/js/libs/*.js`, `!${src}/js/plugins/*.js`],
   libs: `${src}/js/libs/*.js`,
   plugins: [`${src}/js/plugins/*.js`, `!${src}/js/plugins/index.js`],
-  pluginsIndex: [`${src}/js/plugins/index.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -87,18 +86,7 @@ function plugins() {
       ]
     }))
     .pipe(concat('plugins.js'))
-    .pipe(gulp.dest(dist+'/js/plugins/'))
-}
-
-function pluginsIndex() {
-  return gulp.src(paths.pluginsIndex, { sourcemaps: true })
-    .pipe(bro({
-      transform: [
-        babelify.configure({ presets: ['@babel/preset-env'] }),
-        //[ 'uglifyify', { global: true } ]
-      ]
-    }))
-    .pipe(gulp.dest(dist+'/js/plugins/'))
+    .pipe(gulp.dest(dist+'/js/'))
 }
 
 function copyImage() {
@@ -125,10 +113,8 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.scss, style)
   gulp.watch(paths.html, htmlInclude)
-  // gulp.watch(paths.plugins, plugins)
   gulp.watch(paths.libs, libs)
   gulp.watch(paths.plugins, plugins)
-  gulp.watch(paths.pluginsIndex, pluginsIndex)
   gulp.watch(paths.js, scripts)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
@@ -136,7 +122,7 @@ function watchFiles(done) {
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(style, scripts, libs, plugins, pluginsIndex, htmlInclude, copyImage, copyFonts, copyData))
+const build = gulp.series(clean, gulp.parallel(style, scripts, libs, plugins, htmlInclude, copyImage, copyFonts, copyData))
 
 // build
 exports.build = build

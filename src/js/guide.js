@@ -1,5 +1,5 @@
 /** guide.js ******************************************************************************************************** */
-;(($, App) => {
+;($ => {
   return {
     modal: (() => {
       $('.modalBtn').on('click', event => {
@@ -225,7 +225,7 @@
         let left = parseInt($(window).width() - $('.transform.obj').width() * 3)
         $('.transform.obj').transform({
           transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
-          transition: `1s ${App.Ease.Cubic.easeInOut} 0s`
+          transition: `1s ${$.ease.Expo.easeInOut} 0s`
         }).on('transition-end', () => {
           console.log('transition-end')
         })
@@ -302,5 +302,5 @@
       })
     })()
   }
-})(window.jQuery, window.App)
+})(window.jQuery)
 /** ***************************************************************************************************************** */
