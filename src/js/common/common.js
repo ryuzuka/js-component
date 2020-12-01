@@ -6,6 +6,16 @@
         return navigator.userAgent.indexOf('Mobi') > -1
       },
 
+      // url parameter
+      urlParam: function (_name) {
+        let results = new RegExp('[?&]' + _name + '=([^&#]*)').exec(window.location.href)
+        if (results==null) {
+          return null
+        } else {
+          return results[1] || 0
+        }
+      },
+
       /**
        * ex) 00-000-0000, 000-0000-0000
        * @param   {String}    number

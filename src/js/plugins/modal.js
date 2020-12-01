@@ -3,7 +3,7 @@
   let _modalPlugin = {}
 
   $.fn.extend({
-    modal(options = {}, callback) {
+    modal: function (options = {}, callback) {
       const id = this.attr('id')
       if (typeof options === 'string') {
         _modalPlugin[id][options](callback)
@@ -15,7 +15,7 @@
   })
 
   class Modal {
-    constructor($this, options, callback) {
+    constructor ($this, options, callback) {
       this.$modal = $this
       this.id = $this.attr('id')
       this.callback = callback || function () {}
@@ -41,7 +41,7 @@
       this.init()
     }
 
-    init() {
+    init () {
       this.$modal.addClass(this.options.classes)
       let $form = $('#' + this.id).find('button, input, select, textarea')
       let $firstForm = null
@@ -86,24 +86,20 @@
       this.open()
     }
 
-    open() {
-      this.prevScroll = window.scrollY || window.pageYOffset
-      $('body').attr('style', 'margin-top: ' + -1 * this.prevScroll + 'px')
+    open () {
       $.blockBodyScroll(true)
 
       this.$modal.show()
       this.callback({type: 'open', $modal: this.$modal})
     }
 
-    close(params) {
+    close (params) {
       this.callback($.extend({type: 'before-close', $modal: this.$modal}, params))
       this.$modal.find('button, input, select, textarea').off()
       this.$modal.removeClass(this.options.classes).off().hide()
       $(this.options.closedFocus).focus()
 
       $.blockBodyScroll(false)
-      $('html, body').scrollTop(this.prevScroll)
-      $('body').removeAttr('style')
     }
   }
 })(window.jQuery)

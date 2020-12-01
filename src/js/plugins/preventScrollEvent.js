@@ -3,7 +3,7 @@
   let _plugin = null
 
   $.extend({
-    preventScrollEvent (isPrevent) {
+    preventScrollEvent: function (isPrevent) {
       _plugin = _plugin || new preventScrollEvent()
 
       let method = isPrevent ? 'add' : 'remove'

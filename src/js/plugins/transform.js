@@ -1,7 +1,7 @@
 /** transform.js ********************************************************************************************************** */
 ;($ => {
   $.fn.extend({
-    transform: function (_options) {
+    transform: function (options) {
       /**
        * transform
        * @params	{Object}
@@ -11,8 +11,8 @@
        *
        */
 
-      let {transform} = _options
-      let {transition} = _options
+      let {transform} = options
+      let {transition} = options
 
       this.css({'transform': transform, 'transition': transition})
       this.css({'WebkitTransform': transform, 'WebkitTransition': transition})

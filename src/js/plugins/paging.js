@@ -18,7 +18,7 @@
   })
 
   class Paging {
-    constructor($this, options) {
+    constructor ($this, options) {
       this.$paging = $this
       this.$pagingList = this.$paging.find('.paging-list')
 
@@ -36,7 +36,7 @@
       this.init()
     }
 
-    init() {
+    init () {
       this.$paging.find('.paging-prev, .paging-next, .paging-first, .paging-last').on('click', e => {
         let {className} = e.currentTarget
         let _curIdx = 0
@@ -64,7 +64,7 @@
       this.activePaging(this.offset)
     }
 
-    setPagingGroup(curIdx) {
+    setPagingGroup (curIdx) {
       this.pagingGroup = []
       for (let i = 0; i < this.pagingGroupLength; ++i) {
         this.pagingGroup[i] = []
@@ -88,7 +88,7 @@
       }
     }
 
-    draw(groupIdx) {
+    draw (groupIdx) {
       let _pagingHTML = ''
       this.pagingGroup[groupIdx].forEach(value => {
         _pagingHTML += `<a href="#" data-index="${value.pagingIndex}">${value.text}</a>`
@@ -104,7 +104,7 @@
       })
     }
 
-    activePaging(curIdx) {
+    activePaging (curIdx) {
       this.offset = curIdx || 0
       let _activeIdx = curIdx - this.pagingLength * this.groupIndex
       let _pagingGroup = this.pagingGroup[this.groupIndex]
@@ -134,13 +134,13 @@
       this.$paging.triggerHandler({type: 'change', offset: this.offset, total: this.totalPage})
     }
 
-    set(curIdx) {
+    set (curIdx) {
       this.setPagingGroup(curIdx)
       this.draw(this.groupIndex)
       this.activePaging(curIdx)
     }
 
-    clear() {
+    clear () {
       this.pagingGroup = []
       this.$paging.find('button, a').off()
       this.offset = 0

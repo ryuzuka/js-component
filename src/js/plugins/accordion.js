@@ -18,7 +18,7 @@
   })
 
   class Accordion {
-    constructor($this, options) {
+    constructor ($this, options) {
       this.$accordion = $this
       this.$btn = this.$accordion.find('.accordion-head > button')
       this.$content = this.$accordion.find('.accordion-content')
@@ -31,7 +31,7 @@
       this.init()
     }
 
-    init() {
+    init () {
       this.$btn.each((index, el) => {
         $(el).attr('btn-index', index)
       })
@@ -73,7 +73,7 @@
       }
     }
 
-    active(idx) {
+    active (idx) {
       this.activeIndex = idx
       this.$content.each(index => {
         if (idx === index) {
@@ -86,7 +86,7 @@
       })
     }
 
-    clear() {
+    clear () {
       this.$btn.off()
       this.$btn.attr('aria-expanded', false).removeClass('active')
       this.$content.prop('hidden', true).removeClass('active')

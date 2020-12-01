@@ -183,20 +183,20 @@
 
         if (classList.indexOf('body') > -1) {
           if (classList.indexOf('on') > -1) {
-            $.preventScroll(true)
+            $.preventScrollEvent(true)
             $.bodySwipe('on')
           } else {
             $.bodySwipe('off')
-            $.preventScroll(false)
+            $.preventScrollEvent(false)
           }
 
         } else {
           if (classList.indexOf('on') > -1) {
-            $.preventScroll(true)
+            $.preventScrollEvent(true)
             $('.zone').swipe('on')
           } else {
             $('.zone').swipe('off')
-            $.preventScroll(false)
+            $.preventScrollEvent(false)
           }
         }
       })

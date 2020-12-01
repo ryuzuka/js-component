@@ -3,7 +3,7 @@
   let _plugin = null
 
   $.extend({
-    blockBodyScroll (isBlock) {
+    blockBodyScroll: function (isBlock) {
       _plugin = _plugin || new BlockBodyScroll()
 
       let method = isBlock ? 'block' : 'scroll'

@@ -3,28 +3,28 @@
   let pluginName = 'swipe'
 
   $.extend({
-    bodySwipe: function (_options = {}, _value) {
+    bodySwipe: function (options = {}, value) {
       let $documentBody= $(document).find('body')
 
-      if (typeof _options === 'string') {
-        $.plugin.call($documentBody, _options, _value)
+      if (typeof options === 'string') {
+        $.plugin.call($documentBody, options, value)
       } else {
-        _options.direction = _options.direction || 'vertical'
-        $documentBody.swipe(_options)
+        options.direction = options.direction || 'vertical'
+        $documentBody.swipe(options)
       }
       return this
     }
   })
 
   $.fn.extend({
-    swipe: function (_options = {}, _value) {
-      if (typeof _options === 'string') {
-        $.plugin.call(this, _options, _value)
+    swipe: function (options = {}, value) {
+      if (typeof options === 'string') {
+        $.plugin.call(this, options, value)
       } else {
         this.each((_index, _el) => {
           if (!$(_el).attr('applied-plugin')) {
-            _options.direction = _options.direction || 'horizontal'
-            $.plugin.add($(_el), pluginName, new Swipe($(_el), _options))
+            options.direction = options.direction || 'horizontal'
+            $.plugin.add($(_el), pluginName, new Swipe($(_el), options))
           }
         })
       }
@@ -33,13 +33,13 @@
   })
 
   class Swipe {
-    constructor($this, _options) {
+    constructor ($this, options) {
       this.target = $this.get(0)
-      this.direction = _options.direction // horizontal, vertical
+      this.direction = options.direction // horizontal, vertical
       this.callback = {
-        down: _options.down,
-        move: _options.move,
-        up: _options.up
+        down: options.down,
+        move: options.move,
+        up: options.up
       }
 
       this.isTouchPad = (/hp-tablet/gi).test(navigator.appVersion)

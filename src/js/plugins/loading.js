@@ -3,7 +3,7 @@
   let _plugin = null
 
   $.extend({
-    loading(method, value) {
+    loading: function (method) {
       let $loading = $(`<div class="loading-wrap" style="display: none">
         <!--: Start #contents -->
         <svg class="loading" width="46" height="46">
@@ -28,31 +28,29 @@
       </div>`)
 
       _plugin = _plugin || new Loading($loading)
-      _plugin[method](value)
+      _plugin[method]()
+
       return $loading
     }
   })
 
   class Loading {
-    constructor($loading) {
+    constructor ($loading) {
       this.$body = $('body')
       this.$loading = $loading
       this.$body.append(this.$loading)
     }
 
-    start() {
-      this.prevScroll = window.scrollY || window.pageYOffset
-      $('body').attr('style', 'margin-top: ' + -1 * this.prevScroll + 'px')
+    start () {
       $.blockBodyScroll(true)
       this.$loading.show()
+
       return this.$loading
     }
 
-    stop() {
+    stop () {
       this.$loading.hide()
       $.blockBodyScroll(false)
-      $(window).scrollTop(this.prevScroll)
-      $('body').removeAttr('style')
 
       return this.$loading
     }

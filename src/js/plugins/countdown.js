@@ -18,7 +18,7 @@
   })
 
   class Countdown {
-    constructor($this, options) {
+    constructor ($this, options) {
       this.$countdown = $this
 
       this.options = options
@@ -31,7 +31,7 @@
       this.init()
     }
 
-    init() {
+    init () {
       let minute = this.formatNumber(parseInt(this.options.start / 60, 10))
       let seconds = this.formatNumber(parseInt(this.options.start % 60, 10))
       this.time = $moment(minute + ':' + seconds, 'mm:ss')
@@ -40,12 +40,12 @@
       this.$countdown.find('.time').text(this.time.format(this.options.format))
     }
 
-    formatNumber(num) {
+    formatNumber (num) {
       num = String(num).length < 2 ? '0' + num : num
       return num
     }
 
-    start() {
+    start () {
       if (this.interval) {
         return
       }
@@ -59,7 +59,7 @@
       }, 1000)
     }
 
-    stop() {
+    stop () {
       if (!this.interval) {
         return
       }
@@ -67,7 +67,7 @@
       this.interval = null
     }
 
-    clear() {
+    clear () {
       this.stop()
       this.time = null
       this.$countdown.find('.time').text($moment(0, this.options.format).format(this.options.format))

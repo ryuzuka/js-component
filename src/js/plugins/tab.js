@@ -18,7 +18,7 @@
   })
 
   class Tab {
-    constructor($this, options) {
+    constructor ($this, options) {
       this.$tab = $this
       this.$list = this.$tab.find('> .tab-list')
       this.$content = this.$tab.find('> .tab-content')
@@ -30,7 +30,7 @@
       this.init()
     }
 
-    init() {
+    init () {
       this.$list.find('button').on('click', e => {
         let idx = $(e.target).index()
         if (idx === this.activeIndex) return
@@ -42,7 +42,7 @@
       }
     }
 
-    active(idx) {
+    active (idx) {
       let $btn = this.$list.find('button')
       let $content = this.$content.find('> .content')
       this.activeIndex = idx
@@ -55,7 +55,7 @@
       this.$tab.triggerHandler({type: 'change', activeIndex: this.activeIndex})
     }
 
-    clear() {
+    clear () {
       this.$list.find('button').removeClass('active').attr('aria-selected', false)
       this.$content.find('> .content').removeClass('active').prop('hidden', true)
       this.$list.find('button').off()

@@ -18,7 +18,7 @@
   })
 
   class Dropdown {
-    constructor($this, options) {
+    constructor ($this, options) {
       this.$dropdown = $this
       this.$button = this.$dropdown.find('.dropdown-btn')
 
@@ -28,7 +28,7 @@
       this.init()
     }
 
-    init() {
+    init () {
       this.$button.text(this.$dropdown.attr('placeholder'))
       this.$button.on('click', e => {
         $(e.target).attr('aria-expanded', true)
@@ -64,7 +64,7 @@
       }
     }
 
-    toggle(isOpen) {
+    toggle (isOpen) {
       if (isOpen) {
         this.$dropdown.find('.dropdown-list').addClass('active')
       } else {
@@ -74,7 +74,7 @@
       return this.$dropdown
     }
 
-    active(idx) {
+    active (idx) {
       this.$dropdown.find('.dropdown-list li').each((index, el) => {
         if (idx === index) {
           this.activeIndex = index
@@ -87,7 +87,7 @@
       })
     }
 
-    disable(index) {
+    disable (index) {
       // index[type: number or Array]
       if (typeof (index) === 'number') {
         this.$dropdown.find('.dropdown-list li').eq(index).find('button').addClass('disabled', true)
@@ -98,7 +98,7 @@
       }
     }
 
-    clear() {
+    clear () {
       this.$button.off()
       this.$dropdown.find('.dropdown-list li button').removeClass('disabled').off()
       this.activeIndex = null

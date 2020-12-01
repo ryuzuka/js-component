@@ -36,21 +36,6 @@
     }
   })
 
-  /** common plugins */
-  $.extend({
-    // url parameter
-    urlParam: function (_name) {
-      let results = new RegExp('[?&]' + _name + '=([^&#]*)').exec(window.location.href)
-      if (results==null) {
-        return null
-      } else {
-        return results[1] || 0
-      }
-    }
-  })
-
-
-
   /** execution */
   $(() => {
     $('.js-tab').tab()
