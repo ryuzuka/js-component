@@ -54,25 +54,6 @@
       }
     },
 
-    // body scroll block
-    blockBodyScroll(_isBlock) {
-      /**
-       * block body scroll
-       *
-       */
-
-      if (_isBlock) {
-        this._prevScroll = window.scrollY || window.pageYOffset
-        $('body').attr({
-          // 'style': `overflow: hidden; min-height: 100%;` // pc
-          'style': `position: fixed; overflow: hidden; min-width: 100%; min-height: 100%; margin-top: ${-1 * this._prevScroll}px;` // mo
-        })
-      } else {
-        $('body').removeAttr('style')
-        $('html, body').scrollTop(this._prevScroll)
-      }
-    },
-
     // touch & scroll event prevent
     preventScroll: function (_isScroll) {
       if (_isScroll) {
@@ -117,6 +98,7 @@
     $('.js-tab').tab()
     $('.js-dropdown').dropdown()
     $('.js-accordion').accordion()
+
   })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
