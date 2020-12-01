@@ -211,7 +211,7 @@
       })
     })(),
 
-    preventScroll: (() => {
+    preventScrollEvent: (() => {
       $('.btn.prevent:not(.scroll)').on('click', e => {
         $.preventScrollEvent(true)
       })
