@@ -123,16 +123,16 @@
         speed: 300,
         loop: true,
         on: {
-          init() {
+          init () {
             console.log('swiper-init', this.realIndex)
           },
-          transitionEnd() {
+          transitionEnd () {
             console.log('swiper-end', this.realIndex)
           },
-          slideChange() {
+          slideChange () {
             console.log('swiper-change', this.realIndex)
           },
-          resize() {
+          resize () {
             console.log('swiper-resize')
           }
         }

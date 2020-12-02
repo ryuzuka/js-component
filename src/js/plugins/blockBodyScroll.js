@@ -21,11 +21,9 @@
 
     block () {
       this.prevScroll = window.scrollY || window.pageYOffset
-      let style = ''
+      let style = 'overflow: hidden; width: 100%; min-width: 100%; height: 100%; min-height: 100%;'
       if (navigator.userAgent.indexOf('Mobi') > -1) {
-        style = `position: fixed; overflow: hidden; width: 100%; height: 100%; min-width: 100%; min-height: 100%; margin-top: ${-1 * this.prevScroll}px;`
-      } else {
-        style = `overflow: hidden; min-height: 100%;`
+        style += `position: fixed; margin-top: ${-1 * this.prevScroll}px;`
       }
       this.$body.attr('style', style)
     }
