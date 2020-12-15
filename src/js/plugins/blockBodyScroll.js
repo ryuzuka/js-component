@@ -17,19 +17,29 @@
     constructor () {
       this.prevScroll = 0
       this.$body = $('body')
+      this.isBlock = false
     }
 
     block () {
+      if (this.$body.hasClass('blockBodyScroll')) {
+        this.isBlock = true
+      }
+
       this.prevScroll = window.scrollY || window.pageYOffset
-      let style = 'overflow: hidden; width: 100%; min-width: 100%; height: 100%; min-height: 100%;'
+      let style = 'overflow: hidden; width: 100%; height: 100%; min-width: 100%; min-height: 100%;'
       if (navigator.userAgent.indexOf('Mobi') > -1) {
         style += ' ' + `position: fixed; margin-top: ${-1 * this.prevScroll}px;`
       }
-      this.$body.attr('style', style)
+      this.$body.attr('style', style).addClass('blockBodyScroll')
     }
 
     scroll () {
-      this.$body.removeAttr('style')
+      if (this.isBlock) {
+        this.isBlock = false
+        return
+      }
+
+      this.$body.removeAttr('style').removeClass('blockBodyScroll')
       $(window).scrollTop(this.prevScroll)
     }
   }
