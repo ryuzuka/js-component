@@ -32,6 +32,7 @@
     }
 
     init () {
+      let _this = this
       this.$btn.each((index, el) => {
         $(el).attr('btn-index', index)
       })
@@ -40,8 +41,8 @@
         this.activeIndex = idx
         if (this.options.type === 'single') {
           this.$content.each((index, el) => {
-            let $btn = this.$btn.eq(index)
-            let $content = this.$content.eq(index)
+            let $btn = _this.$btn.eq(index)
+            let $content = _this.$content.eq(index)
 
             if (idx === index) {
               if (!$btn.hasClass('active')) {
@@ -57,12 +58,15 @@
             }
           })
         } else if (this.options.type === 'multi') {
-          if (!this.$btn.eq(idx).hasClass('active')) {
-            this.$btn.eq(idx).addClass('active').attr('aria-expanded', true)
-            this.$content.eq(idx).addClass('active').prop('hidden', false)
+          let $btn = _this.$btn.eq(idx)
+          let $content = _this.$content.eq(idx)
+
+          if (!_this.$btn.eq(idx).hasClass('active')) {
+            $btn.addClass('active').attr('aria-expanded', true)
+            $content.addClass('active').prop('hidden', false)
           } else {
-            this.$btn.eq(idx).removeClass('active').attr('aria-expanded', false)
-            this.$content.eq(idx).removeClass('active').prop('hidden', true)
+            $btn.removeClass('active').attr('aria-expanded', false)
+            $content.removeClass('active').prop('hidden', true)
           }
         }
         this.$accordion.triggerHandler({type: 'open', activeIndex: this.activeIndex})
