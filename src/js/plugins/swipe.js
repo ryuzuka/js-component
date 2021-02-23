@@ -112,9 +112,9 @@
           if (Math.abs(this.dragDist) < 80) return false
 
           if (this.dragDist < 0) {
-            this.dragDir = 0
-          } else {
             this.dragDir = 1
+          } else {
+            this.dragDir = -1
           }
 
           if (this.callback.up) {
