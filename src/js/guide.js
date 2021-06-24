@@ -183,20 +183,20 @@
 
         if (classList.indexOf('body') > -1) {
           if (classList.indexOf('on') > -1) {
-            $.preventScrollEvent(true)
+            $.preventScroll(true)
             $.bodySwipe('on')
           } else {
             $.bodySwipe('off')
-            $.preventScrollEvent(false)
+            $.preventScroll(false)
           }
 
         } else {
           if (classList.indexOf('on') > -1) {
-            $.preventScrollEvent(true)
+            $.preventScroll(true)
             $('.zone').swipe('on')
           } else {
             $('.zone').swipe('off')
-            $.preventScrollEvent(false)
+            $.preventScroll(false)
           }
         }
       })
@@ -213,10 +213,10 @@
 
     preventScrollEvent: (() => {
       $('.btn.prevent:not(.scroll)').on('click', e => {
-        $.preventScrollEvent(true)
+        $.preventScroll(true)
       })
       $('.btn.prevent.scroll').on('click', e => {
-        $.preventScrollEvent(false)
+        $.preventScroll(false)
       })
     })(),
 

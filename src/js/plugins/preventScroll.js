@@ -1,10 +1,10 @@
-/** preventScrollEvent.js ****************************************************************************************************** */
+/** preventScroll.js ****************************************************************************************************** */
 ;($ => {
   let _plugin = null
-
+  console.log($.common.isMobile())
   $.extend({
-    preventScrollEvent: function (isPrevent) {
-      _plugin = _plugin || new preventScrollEvent()
+    preventScroll: function (isPrevent) {
+      _plugin = _plugin || new PreventScroll()
 
       let method = isPrevent ? 'add' : 'remove'
       _plugin[method]()
@@ -13,9 +13,9 @@
     }
   })
 
-  class preventScrollEvent {
+  class PreventScroll {
     constructor () {
-      if (navigator.userAgent.indexOf('Mobi') > -1) {
+      if ($.common.isMobile()) {
         this.scrollEvent = 'touchmove'
       } else {
         this.scrollEvent = 'wheel'
