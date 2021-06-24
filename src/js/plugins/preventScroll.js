@@ -1,7 +1,6 @@
 /** preventScroll.js ****************************************************************************************************** */
 ;($ => {
   let _plugin = null
-  console.log($.common.isMobile())
   $.extend({
     preventScroll: function (isPrevent) {
       _plugin = _plugin || new PreventScroll()
@@ -15,7 +14,14 @@
 
   class PreventScroll {
     constructor () {
-      if ($.common.isMobile()) {
+      let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+      if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
+        if (navigator.maxTouchPoints > 0) {
+          isMobile = true
+        }
+      }
+
+      if (isMobile) {
         this.scrollEvent = 'touchmove'
       } else {
         this.scrollEvent = 'wheel'
