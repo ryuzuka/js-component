@@ -93,8 +93,8 @@
       this.callback({type: 'open', $modal: this.$modal})
     }
 
-    close (params) {
-      this.callback($.extend({type: 'before-close', $modal: this.$modal}, params))
+    close (buttonIndex) {
+      this.callback($.extend({type: 'before-close', $modal: this.$modal}, buttonIndex))
       this.$modal.find('button, input, select, textarea').off()
       this.$modal.removeClass(this.options.classes).off().hide()
       $(this.options.closedFocus).focus()
