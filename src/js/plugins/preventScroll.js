@@ -14,14 +14,7 @@
 
   class PreventScroll {
     constructor () {
-      let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
-      if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
-        if (navigator.maxTouchPoints > 0) {
-          isMobile = true
-        }
-      }
-
-      if (isMobile) {
+      if ($.common.isMobile()) {
         this.scrollEvent = 'touchmove'
       } else {
         this.scrollEvent = 'wheel'
@@ -35,10 +28,12 @@
 
     add () {
       window.addEventListener(this.scrollEvent, this.preventScrollEventHandler, {passive: false})
+      $('body').addClass('prevent-scroll')
     }
 
     remove () {
       window.removeEventListener(this.scrollEvent, this.preventScrollEventHandler)
+      $('body').removeClass('prevent-scroll')
     }
   }
 })(window.jQuery)

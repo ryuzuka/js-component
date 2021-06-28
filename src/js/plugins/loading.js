@@ -36,13 +36,12 @@
 
   class Loading {
     constructor ($loading) {
-      this.$body = $('body')
       this.$loading = $loading
-      this.$body.append(this.$loading)
+      $('body').append(this.$loading)
     }
 
     start () {
-      $.blockBodyScroll(true)
+      $.preventScroll(true)
       this.$loading.show()
 
       return this.$loading
@@ -50,7 +49,7 @@
 
     stop () {
       this.$loading.hide()
-      $.blockBodyScroll(false)
+      $.preventScroll(false)
 
       return this.$loading
     }
