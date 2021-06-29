@@ -26,12 +26,12 @@ const dist = 'dist'
 const paths = {
   js: [`${src}/**/*.js`, `!${src}/js/libs/*.js`, `!${src}/js/plugins/*.js`],
   libs: `${src}/js/libs/*.js`,
-  plugins: [`${src}/js/plugins/*.js`, `!${src}/js/plugins/index.js`],
+  plugins: [`!${src}/js/plugins/index.js`, `${src}/js/plugins/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
   font: `${src}/**/*.{ttf,otf,woff,woff2,eot,svg}`,
-  data: `${src}/**/*.json`,
+  data: `${src}/**/*.json`
 }
 
 const htmlIncludeOptions = {
