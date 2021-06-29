@@ -87,7 +87,7 @@
     }
 
     open () {
-      $.preventScroll(true)
+      $.blockBodyScroll(true)
 
       this.$modal.show()
       this.callback({type: 'open', $modal: this.$modal})
@@ -99,7 +99,7 @@
       this.$modal.removeClass(this.options.classes).off().hide()
       $(this.options.closedFocus).focus()
 
-      $.preventScroll(false)
+      $.blockBodyScroll(false)
     }
   }
 })(window.jQuery)
