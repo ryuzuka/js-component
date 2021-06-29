@@ -24,7 +24,8 @@
       const defaultOptions = {
         classes: '',
         dimmed: true,
-        clickToClose: true
+        clickToClose: true,
+        preventScroll: false
       }
 
       if (typeof options === 'object') {
@@ -87,19 +88,29 @@
     }
 
     open () {
-      $.blockBodyScroll(true)
-
       this.$modal.show()
       this.callback({type: 'open', $modal: this.$modal})
+
+      if (this.options.preventScroll) {
+        $.preventScroll(true)
+      } else {
+        $.blockBodyScroll(true)
+      }
     }
 
     close (buttonIndex) {
       this.callback($.extend({type: 'before-close', $modal: this.$modal}, buttonIndex))
       this.$modal.find('button, input, select, textarea').off()
       this.$modal.removeClass(this.options.classes).off().hide()
-      $(this.options.closedFocus).focus()
 
-      $.blockBodyScroll(false)
+      if (this.options.preventScroll) {
+        $.preventScroll(false)
+      } else {
+        $.blockBodyScroll(false)
+      }
+      setTimeout(() => {
+        $(this.options.closedFocus).focus()
+      }, 1)
     }
   }
 })(window.jQuery)

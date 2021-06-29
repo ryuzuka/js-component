@@ -5,6 +5,7 @@
       $('.modalBtn').on('click', event => {
         /**
          * closedFocus: 접근성 준수
+         * preventScroll: 스크롤 처리 방식
          ** */
 
         if (event.target.className.indexOf(' alert') > -1) {
@@ -13,7 +14,7 @@
           })
 
         } else if (event.target.className.indexOf(' confirm') > -1) {
-          $('#pop-confirm').modal({classes: 'add class test', closedFocus: '.modalBtn.confirm'}, e => {
+          $('#pop-confirm').modal({classes: 'add class test', closedFocus: '.modalBtn.confirm', preventScroll: true}, e => {
             console.log(e)
           })
 
