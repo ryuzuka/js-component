@@ -26,7 +26,7 @@ const dist = 'dist'
 const paths = {
   js: [`${src}/**/*.js`, `!${src}/js/libs/*.js`, `!${src}/js/plugins/*.js`],
   libs: `${src}/js/libs/*.js`,
-  plugins: [`!${src}/js/plugins/index.js`, `${src}/js/plugins/*.js`],
+  plugins: [`${src}/js/plugins/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -61,6 +61,11 @@ function htmlInclude() {
 }
 
 // js
+function libs() {
+  return gulp.src(paths.libs, { sourcemaps: true })
+    .pipe(gulp.dest(dist+'/js/libs/'))
+}
+
 function scripts() {
   return gulp.src(paths.js, { sourcemaps: true })
     .pipe(bro({
@@ -70,11 +75,6 @@ function scripts() {
       ]
     }))
     .pipe(gulp.dest(dist))
-}
-
-function libs() {
-  return gulp.src(paths.libs, { sourcemaps: true })
-    .pipe(gulp.dest(dist+'/js/libs/'))
 }
 
 function plugins() {

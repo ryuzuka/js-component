@@ -39,7 +39,7 @@ $mq-md:	640px;
 @mixin iconImg ($bgSize:350px, $x:0, $y:0, $display: inline-block, $ratio:1) {
   display: $display;
   background: {
-    image:url(../images/common/icons.svg);
+    image:url(../../images/common/icons.svg);
     size:($bgSize * $ratio) auto;
     repeat:no-repeat;
     position:($x * $ratio) ($y * $ratio);

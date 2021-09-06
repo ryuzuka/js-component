@@ -17,24 +17,24 @@
 
 <body>
   <style>
-      .contents section + section {
-          margin-top:40px;
-      }
-      .contents h2 {
-          margin-bottom:20px;
-          padding:20px 0;
-          border-bottom:1px solid #e8e8e8;
-          font-size:20px;
-          font-weight:bold;
-          text-transform:capitalize;
-      }
-      .contents h3 {
-          padding:20px 0;
-          text-transform:capitalize;
-      }
-      .contents h3:before {
-          content:'* ';
-      }
+    .contents section + section {
+      margin-top:40px;
+    }
+    .contents h2 {
+      margin-bottom:20px;
+      padding:20px 0;
+      border-bottom:1px solid #e8e8e8;
+      font-size:20px;
+      font-weight:bold;
+      text-transform:capitalize;
+    }
+    .contents h3 {
+      padding:20px 0;
+      text-transform:capitalize;
+    }
+    .contents h3:before {
+      content:'* ';
+    }
   </style>
 
   <div class="wrap">
@@ -378,14 +378,12 @@
     @@include('./html/inc/footer.html')
   </div>
 
-  <!-- common -->
+  <!-- common, plugins, app -->
   <script type="text/javascript" src="/js/common.js"></script>
-
-  <!-- plugins -->
   <script type="text/javascript" src="/js/plugins.js"></script>
-
-  <!-- app, components -->
   <script type="text/javascript" src="/js/app.js"></script>
-  <script type="text/javascript" src="/js/guide.js"></script>
+
+  <!-- components -->
+  <script type="text/javascript" src="/js/components/guide.js"></script>
 </body>
 </html>

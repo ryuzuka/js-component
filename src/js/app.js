@@ -24,6 +24,13 @@
   }, {passive: false})
 
   // before unload
-  window.onbeforeunload = () => window.scrollTo(0, 0)
+  // window.onbeforeunload = () => window.scrollTo(0, 0)
+
+  /** jquery plugins execution */
+  $(function () {
+    $('.js-accordion').accordion()
+    $('.js-dropdown').dropdown()
+    $('.js-tab').tab()
+  })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
