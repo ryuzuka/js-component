@@ -24,8 +24,8 @@ const scssOptions = { // Sass compile option
 const src = 'src'
 const dist = 'dist'
 const paths = {
-  js: [`${src}/**/*.js`, `!${src}/js/libs/*.js`, `!${src}/js/plugins/*.js`],
-  libs: `${src}/js/libs/*.js`,
+  js: [`${src}/**/*.js`, `!${src}/libs/*.js`, `!${src}/js/plugins/*.js`],
+  libs: `${src}/libs/*.js`,
   plugins: [`${src}/js/plugins/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
@@ -63,7 +63,7 @@ function htmlInclude() {
 // js
 function libs() {
   return gulp.src(paths.libs, { sourcemaps: true })
-    .pipe(gulp.dest(dist+'/js/libs/'))
+    .pipe(gulp.dest(dist+'/libs/'))
 }
 
 function scripts() {
