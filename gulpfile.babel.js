@@ -25,8 +25,7 @@ const src = 'src'
 const dist = 'dist'
 const paths = {
   scripts: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`],
-  libs: [`${src}/js/libs/*.js`],
-  common: [`${src}/js/common.js`, `${src}/js/plugins/*.js`],
+  plugins: [`${src}/js/plugins/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -60,12 +59,6 @@ function style() {
     .pipe(browserSync.stream())
 }
 
-// js
-function libs() {
-  return gulp.src(paths.libs, { sourcemaps: true })
-    .pipe(gulp.dest(dist+'/js/libs/'))
-}
-
 function scripts() {
   return gulp.src(paths.scripts, {sourcemaps: true})
     // .pipe(bro({
@@ -73,18 +66,14 @@ function scripts() {
     //     babelify.configure({ presets: ['@babel/preset-env'] }),
     //   ]
     // }))
+    // .pipe(uglify({toplevel: true}))
     .pipe(gulp.dest(dist))
 }
 
-function common() {
-  return gulp.src(paths.common, { sourcemaps: true })
-    // .pipe(bro({
-    //   transform: [
-    //     babelify.configure({ presets: ['@babel/preset-env'] }),
-    //   ]
-    // }))
+function plugins() {
+  return gulp.src(paths.plugins, { sourcemaps: true })
     // .pipe(uglify({toplevel: true}))
-    .pipe(concat('common.js'))
+    .pipe(concat('plugins.js'))
     .pipe(gulp.dest(dist+'/js/'))
 }
 
@@ -110,19 +99,17 @@ function watchFiles(done) {
     open: false
   })
   done()
-  gulp.watch(paths.scss, style)
   gulp.watch(paths.html, htmlInclude)
-  // gulp.watch(paths.scripts, libs)
+  gulp.watch(paths.scss, style)
   gulp.watch(paths.scripts, scripts)
-  gulp.watch(paths.libs, common)
+  gulp.watch(paths.plugins, plugins)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
   gulp.watch(paths.data, copyData)
 }
 
 const watch = gulp.parallel(watchFiles)
-// const build = gulp.series(clean, gulp.parallel(libs, scripts, common, style, htmlInclude, copyImage, copyFonts, copyData))
-const build = gulp.series(clean, gulp.parallel(scripts, common, style, htmlInclude, copyImage, copyFonts, copyData))
+const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, plugins, copyImage, copyFonts, copyData))
 
 // build
 exports.build = build
