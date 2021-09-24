@@ -71,9 +71,9 @@ function scripts() {
     .pipe(bro({
       transform: [
         babelify.configure({ presets: ['@babel/preset-env'] }),
-        //[ 'uglifyify', { global: true } ]
       ]
     }))
+    // .pipe(uglify({toplevel: true}))
     .pipe(gulp.dest(dist))
 }
 
@@ -82,10 +82,10 @@ function plugins() {
     .pipe(bro({
       transform: [
         babelify.configure({ presets: ['@babel/preset-env'] }),
-        //[ 'uglifyify', { global: true } ]
       ]
     }))
     .pipe(concat('plugins.js'))
+    .pipe(uglify({toplevel: true}))
     .pipe(gulp.dest(dist+'/js/'))
 }
 
