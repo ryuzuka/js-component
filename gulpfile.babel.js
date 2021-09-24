@@ -5,9 +5,9 @@ import autoprefixer from 'gulp-autoprefixer'
 import fileinclude from 'gulp-file-include'
 import del from 'del'
 import browserSync from 'browser-sync'
+import concat from 'gulp-concat'
 import babelify from 'babelify'
 import bro from 'gulp-bro'
-import concat from 'gulp-concat'
 import uglify from 'gulp-uglify'
 
 const server = browserSync.create()
@@ -24,9 +24,9 @@ const scssOptions = { // Sass compile option
 const src = 'src'
 const dist = 'dist'
 const paths = {
-  js: [`${src}/**/*.js`, `!${src}/libs/*.js`, `!${src}/js/plugins/*.js`],
-  libs: `${src}/libs/*.js`,
-  plugins: [`${src}/js/plugins/*.js`],
+  scripts: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`],
+  libs: [`${src}/js/libs/*.js`],
+  common: [`${src}/js/common.js`, `${src}/js/plugins/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
@@ -38,6 +38,13 @@ const htmlIncludeOptions = {
   prefix: '@@',
   basepath: '@file',
   indent: true
+}
+
+function htmlInclude() {
+  return gulp.src([paths.html, '!src/html/inc/*.html'])
+    .pipe(fileinclude(htmlIncludeOptions))
+    .pipe(gulp.dest(dist))
+    .pipe(browserSync.stream())
 }
 
 function style() {
@@ -53,39 +60,31 @@ function style() {
     .pipe(browserSync.stream())
 }
 
-function htmlInclude() {
-  return gulp.src([paths.html, '!src/html/inc/*.html'])
-    .pipe(fileinclude(htmlIncludeOptions))
-    .pipe(gulp.dest(dist))
-    .pipe(browserSync.stream())
-}
-
 // js
 function libs() {
   return gulp.src(paths.libs, { sourcemaps: true })
-    .pipe(gulp.dest(dist+'/libs/'))
+    .pipe(gulp.dest(dist+'/js/libs/'))
 }
 
 function scripts() {
-  return gulp.src(paths.js, { sourcemaps: true })
-    .pipe(bro({
-      transform: [
-        babelify.configure({ presets: ['@babel/preset-env'] }),
-      ]
-    }))
-    // .pipe(uglify({toplevel: true}))
+  return gulp.src(paths.scripts, {sourcemaps: true})
+    // .pipe(bro({
+    //   transform: [
+    //     babelify.configure({ presets: ['@babel/preset-env'] }),
+    //   ]
+    // }))
     .pipe(gulp.dest(dist))
 }
 
-function plugins() {
-  return gulp.src(paths.plugins, { sourcemaps: true })
-    .pipe(bro({
-      transform: [
-        babelify.configure({ presets: ['@babel/preset-env'] }),
-      ]
-    }))
-    .pipe(concat('plugins.js'))
-    .pipe(uglify({toplevel: true}))
+function common() {
+  return gulp.src(paths.common, { sourcemaps: true })
+    // .pipe(bro({
+    //   transform: [
+    //     babelify.configure({ presets: ['@babel/preset-env'] }),
+    //   ]
+    // }))
+    // .pipe(uglify({toplevel: true}))
+    .pipe(concat('common.js'))
     .pipe(gulp.dest(dist+'/js/'))
 }
 
@@ -113,16 +112,17 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.scss, style)
   gulp.watch(paths.html, htmlInclude)
-  gulp.watch(paths.libs, libs)
-  gulp.watch(paths.plugins, plugins)
-  gulp.watch(paths.js, scripts)
+  // gulp.watch(paths.scripts, libs)
+  gulp.watch(paths.scripts, scripts)
+  gulp.watch(paths.libs, common)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
   gulp.watch(paths.data, copyData)
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(style, scripts, libs, plugins, htmlInclude, copyImage, copyFonts, copyData))
+// const build = gulp.series(clean, gulp.parallel(libs, scripts, common, style, htmlInclude, copyImage, copyFonts, copyData))
+const build = gulp.series(clean, gulp.parallel(scripts, common, style, htmlInclude, copyImage, copyFonts, copyData))
 
 // build
 exports.build = build
