@@ -110,12 +110,15 @@ function watchFiles(done) {
 
 const watch = gulp.parallel(watchFiles)
 const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, plugins, copyImage, copyFonts, copyData))
+const dataBuild = gulp.parallel(copyImage, copyFonts, copyData)
 
 // build
 exports.build = build
 
+
 // dev
 export const dev = gulp.series([build, watch]);
+export const data = gulp.series([dataBuild])
 
 
 
