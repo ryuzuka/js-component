@@ -31,8 +31,11 @@
     init () {
       this.$button.text(this.$dropdown.attr('placeholder'))
       this.$button.on('click', e => {
-        $(e.target).attr('aria-expanded', true)
-        this.toggle(true)
+        if (this.$dropdown.find('.dropdown-list').hasClass('active')) {
+          this.toggle(false)
+        } else {
+          this.toggle(true)
+        }
       })
 
       this.$dropdown.find('.dropdown-list li button').on('click', e => {
@@ -42,7 +45,6 @@
         let idx = $(e.currentTarget).parent().index()
         if (idx !== this.activeIndex) {
           this.active(idx)
-          this.$button.attr('aria-expanded', false)
         }
         this.toggle(false)
       })
@@ -70,6 +72,7 @@
       } else {
         this.$dropdown.find('.dropdown-list').removeClass('active')
       }
+      this.$button.attr('aria-expanded', isOpen)
 
       return this.$dropdown
     }
