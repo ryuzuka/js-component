@@ -490,13 +490,17 @@
 
             accordion: (() => {
               let $accordion = $('.js-accordion')
+              // event
+              $accordion.on('open', e => {
+                console.log('accordion, type: ' + e.type + ', activeIndex: ' + e.activeIndex)
+              })
+              // init
               $accordion.accordion('clear').accordion({
                 // type: 'multi', // type: single(default), multi
                 activeIndex: 2 // default: -1
               })
-              $accordion.accordion('active', 0).on('open', e => {
-                console.log('accordion, type: ' + e.type + ', activeIndex: ' + e.activeIndex)
-              })
+              // method - active
+              // $accordion.accordion('active', 2)
             })(),
 
             paging: (() => {

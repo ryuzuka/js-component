@@ -25,8 +25,7 @@
 
       this.options = options
       this.options.type = options.type || 'single'
-      this.options.toggle = options.toggle || false
-      this.activeIndex = -1
+      this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : -1
 
       this.init()
     }
@@ -36,6 +35,11 @@
       this.$btn.each((index, el) => {
         $(el).attr('btn-index', index)
       })
+
+      if (typeof this.activeIndex === 'number') {
+        this.active(this.activeIndex)
+      }
+
       this.$btn.on('click', e => {
         let idx = Number($(e.currentTarget).attr('btn-index'))
         this.activeIndex = idx
@@ -71,10 +75,6 @@
         }
         this.$accordion.triggerHandler({type: 'open', activeIndex: this.activeIndex})
       })
-
-      if (typeof this.options.activeIndex === 'number') {
-        this.active(this.options.activeIndex)
-      }
     }
 
     active (idx) {
@@ -91,11 +91,8 @@
     }
 
     clear () {
-      this.$btn.off()
-      this.$btn.attr('aria-expanded', false).removeClass('active')
+      this.$btn.attr('aria-expanded', false).removeClass('active').off('click')
       this.$content.prop('hidden', true).removeClass('active')
-      this.$accordion = null
-      this.activeIndex = null
     }
   }
 })(window.jQuery)
