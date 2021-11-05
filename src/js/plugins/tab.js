@@ -24,8 +24,7 @@
       this.$content = this.$tab.find('> .tab-content')
 
       this.options = options
-      this.options.activeIndex = options.activeIndex || 0
-      this.activeIndex = null
+      this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : 0
 
       this.init()
     }
@@ -37,8 +36,8 @@
         this.active(idx)
       })
 
-      if (typeof this.options.activeIndex === 'number') {
-        this.active(this.options.activeIndex)
+      if (typeof this.activeIndex === 'number') {
+        this.active(this.activeIndex)
       }
     }
 
@@ -56,11 +55,8 @@
     }
 
     clear () {
-      this.$list.find('button').removeClass('active').attr('aria-selected', false)
+      this.$list.find('button').removeClass('active').attr('aria-selected', false).off('click')
       this.$content.find('> .content').removeClass('active').prop('hidden', true)
-      this.$list.find('button').off()
-      this.$tab = null
-      this.activeIndex = null
     }
   }
 })(window.jQuery)

@@ -145,7 +145,7 @@
         <h2>tab</h2>
         <div class="tab js-tab">
           <div class="tab-list" role="tablist">
-            <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="true">tab1</button>
+            <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
             <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
             <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
           </div>
@@ -161,6 +161,9 @@
             </div>
           </div>
         </div>
+        <br>
+        <button class="btn btn-tertiary tab-apply">apply</button>
+        <button class="btn btn-tertiary tab-clear">clear</button>
       </section>
 
       <section>
@@ -466,11 +469,22 @@
 
             tab: (() => {
               let $tab = $('.js-tab')
-              $tab.tab('clear').tab({
-                activeIndex: 1 // default: 0
-              })
-              $tab.tab('active', 1).on('change', e => {
+              // event
+              $tab.on('change', e => {
                 console.log('tab, type: ' + e.type + ', activeIndex: ' + e.activeIndex)
+              })
+              // init
+              $tab.tab('clear').tab({
+                // activeIndex: 1 // default: 0
+              })
+              // method - active
+              // $tab.tab('active', 2)
+
+              $('.tab-apply').on('click', e => {
+                $('.js-tab').tab()
+              })
+              $('.tab-clear').on('click', e => {
+                $('.js-tab').tab('clear')
               })
             })(),
 
