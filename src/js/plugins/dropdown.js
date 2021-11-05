@@ -66,7 +66,6 @@
         let idx = $(e.currentTarget).parent().index()
         if (idx !== this.activeIndex) {
           this.active(idx)
-          this.$button.attr('aria-expanded', false)
         }
         this.toggle(false)
       })
