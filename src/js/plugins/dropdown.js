@@ -23,16 +23,40 @@
       this.$button = this.$dropdown.find('.dropdown-btn')
 
       this.options = options
-      this.activeIndex = -1
+
+      let defaultIndex = 0
+      this.placeholder = this.$dropdown.attr('placeholder')
+      if (this.placeholder) {
+        defaultIndex = -1
+      } else {
+        defaultIndex = 0
+      }
+      this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : defaultIndex
+      this.disableIndex = this.options.disableIndex
 
       this.init()
     }
 
     init () {
-      this.$button.text(this.$dropdown.attr('placeholder'))
+      if (this.placeholder) {
+        this.$button.text(this.$dropdown.attr('placeholder'))
+      }
+
+      if (typeof this.activeIndex === 'number') {
+        this.active(this.activeIndex)
+      }
+      if (typeof this.disableIndex === 'number') {
+        this.disable([this.disableIndex])
+      } else if (typeof this.disableIndex === 'object') {
+        this.disable(this.disableIndex)
+      }
+
       this.$button.on('click', e => {
-        $(e.target).attr('aria-expanded', true)
-        this.toggle(true)
+        if (this.$dropdown.find('.dropdown-list').hasClass('active')) {
+          this.toggle(false)
+        } else {
+          this.toggle(true)
+        }
       })
 
       this.$dropdown.find('.dropdown-list li button').on('click', e => {
@@ -52,16 +76,6 @@
           this.toggle(false)
         }
       })
-
-      if (typeof this.options.activeIndex === 'number') {
-        this.active(this.options.activeIndex)
-      }
-
-      if (typeof this.options.disableIndex === 'number') {
-        this.disable([this.options.disableIndex])
-      } else if (typeof this.options.disableIndex === 'object') {
-        this.disable(this.options.disableIndex)
-      }
     }
 
     toggle (isOpen) {
@@ -70,6 +84,7 @@
       } else {
         this.$dropdown.find('.dropdown-list').removeClass('active')
       }
+      this.$button.attr('aria-expanded', isOpen)
 
       return this.$dropdown
     }
@@ -88,10 +103,12 @@
     }
 
     disable (index) {
-      // index[type: number or Array]
+      // index[type: Number or Array]
       if (typeof (index) === 'number') {
+        // Number
         this.$dropdown.find('.dropdown-list li').eq(index).find('button').addClass('disabled', true)
       } else {
+        // Array
         index.forEach(val => {
           this.$dropdown.find('.dropdown-list li').eq(val).find('button').addClass('disabled', true)
         })
@@ -99,10 +116,8 @@
     }
 
     clear () {
-      this.$button.off()
-      this.$dropdown.find('.dropdown-list li button').removeClass('disabled').off()
-      this.activeIndex = null
-      this.$button = null
+      this.$dropdown.find('.dropdown-list li button').removeClass('disabled').off('click')
+      this.$button.removeAttr('aria-expanded').off('click')
     }
   }
 })(window.jQuery)
