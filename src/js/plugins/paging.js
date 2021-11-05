@@ -59,9 +59,7 @@
         this.activePaging(_curIdx)
       })
 
-      this.setPagingGroup(this.offset)
-      this.draw(this.groupIndex)
-      this.activePaging(this.offset)
+      this.set(this.offset)
     }
 
     setPagingGroup (curIdx) {
@@ -115,9 +113,17 @@
         if (this.offset === 0) {
           this.$paging.find('.paging-first').prop('disabled', true)
         }
+        if (this.totalPage === this.pagingGroup[this.groupIndex].length) {
+          this.$paging.find('.paging-next').prop('disabled', true)
+        } else if (this.totalPage === 1) {
+          this.$paging.find('.paging-last').prop('disabled', true)
+        }
+        if (this.pagingGroup.length === 1 && _activeIdx === _pagingGroup.length - 1) {
+          this.$paging.find('.paging-last').prop('disabled', true)
+        }
       } else if (this.groupIndex === this.pagingGroup.length - 1) {
         this.$paging.find('.paging-next').prop('disabled', true)
-        if (this.offset === this.totalPage - 1) {
+        if (_activeIdx === _pagingGroup.length - 1) {
           this.$paging.find('.paging-last').prop('disabled', true)
         }
       }
@@ -141,12 +147,10 @@
     }
 
     clear () {
+      this.offset = 0
+      this.options = {}
       this.pagingGroup = []
       this.$paging.find('button, a').off()
-      this.offset = 0
-      this.options = null
-      this.$pagingList = null
-      this.$paging = null
     }
   }
 })(window.jQuery)
