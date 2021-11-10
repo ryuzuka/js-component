@@ -19,6 +19,8 @@
 
   class Dropdown {
     constructor ($this, options) {
+      let _this = this
+
       this.$dropdown = $this
       this.$button = this.$dropdown.find('.dropdown-btn')
 
@@ -28,6 +30,12 @@
       this.placeholder = this.$dropdown.attr('placeholder')
       if (this.placeholder) {
         defaultIndex = -1
+        this.$button.text(this.$dropdown.attr('placeholder'))
+        this.$dropdown.find('.dropdown-list li').each(function (index) {
+          if (_this.placeholder === $(this).find('button').text()) {
+            defaultIndex = index
+          }
+        })
       } else {
         defaultIndex = 0
       }
@@ -38,10 +46,6 @@
     }
 
     init () {
-      if (this.placeholder) {
-        this.$button.text(this.$dropdown.attr('placeholder'))
-      }
-
       if (typeof this.activeIndex === 'number') {
         this.active(this.activeIndex)
       }
