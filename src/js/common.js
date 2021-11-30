@@ -2,8 +2,8 @@
 ;($ => {
   $.extend({
 
-    /** common */
-    common: {
+    /** utils */
+    utils: {
       isMobile: function () {
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
         if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
@@ -179,6 +179,37 @@
        */
       isLandscape: function () {
         return window.innerWidth > window.innerHeight
+      },
+
+      /**
+       * set cookie
+       * @param {String}    key
+       * @param {*}         value
+       * @param {Number}    expire     day = 1
+       * @return  {*}
+       */
+      setCookie: function (name, value, day) {
+        let today_date = new Date()
+        today_date.setDate(today_date.getDate() + day)
+        let here_cookie = ''
+        here_cookie += `${name}=${value};`
+        here_cookie += `Expires=${today_date.toUTCString()}`
+        document.cookie = here_cookie
+      },
+
+      /**
+       * get cookie
+       * @param {String}    key
+       * @return  {*}
+       */
+      getCookie: function (key) {
+        let cookies = document.cookie.split(';')
+        for (let i in cookies) {
+          if (cookies[i].indexOf(key) > -1) {
+            return 1
+          }
+        }
+        return 0
       }
     },
 

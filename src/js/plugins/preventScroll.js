@@ -14,7 +14,7 @@
 
   class PreventScroll {
     constructor () {
-      if ($.common.isMobile()) {
+      if ($.utils.isMobile()) {
         this.scrollEvent = 'touchmove'
       } else {
         this.scrollEvent = 'wheel'
