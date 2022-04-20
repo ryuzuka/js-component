@@ -109,6 +109,7 @@
         $.blockBodyScroll(false)
       }
       setTimeout(() => {
+        this.callback({type: 'close', $modal: this.$modal})
         $(this.options.closedFocus).focus()
       }, 1)
     }
