@@ -21,6 +21,7 @@
     constructor ($this, options) {
       this.$tab = $this
       this.$list = this.$tab.find('> .tab-list')
+      this.$button = this.$list.find('a, button')
       this.$content = this.$tab.find('> .tab-content')
 
       this.options = options
@@ -30,10 +31,11 @@
     }
 
     init () {
-      this.$list.find('button').on('click', e => {
+      this.$button.on('click', e => {
         let idx = $(e.target).index()
         if (idx === this.activeIndex) return
         this.active(idx)
+        e.preventDefault()
       })
 
       if (typeof this.activeIndex === 'number') {
@@ -42,12 +44,11 @@
     }
 
     active (idx) {
-      let $btn = this.$list.find('button')
       let $content = this.$content.find('> .content')
       this.activeIndex = idx
 
-      $btn.removeClass('active').attr('aria-selected', false)
-      $btn.eq(idx).addClass('active').attr('aria-selected', true)
+      this.$button.removeClass('active').attr('aria-selected', false)
+      this.$button.eq(idx).addClass('active').attr('aria-selected', true)
       $content.prop('hidden', true).removeClass('active')
       $content.eq(idx).prop('hidden', false).addClass('active')
 
@@ -55,7 +56,7 @@
     }
 
     clear () {
-      this.$list.find('button').removeClass('active').attr('aria-selected', false).off('click')
+      this.$button.removeClass('active').attr('aria-selected', false).off('click')
       this.$content.find('> .content').removeClass('active').prop('hidden', true)
     }
   }
