@@ -24,7 +24,7 @@
 
       this.options = options
       this.offset = options.offset || 0 // 현재 페이지 index
-      this.limit = options.limit // 화면에 보여지는 리스트 갯수
+      this.limit = options.limit || 10 // 화면에 보여지는 리스트 갯수
       this.total = options.total // 전체 리스트 갯수
       this.totalPage = Math.ceil(this.total / this.limit) // 전체 페이지 갯수
       this.pagingLength = options.pagingLength || 10 // 화면에 보여지는 paging button 갯수
