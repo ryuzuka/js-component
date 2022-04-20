@@ -1,6 +1,7 @@
 import gulp from 'gulp'
 import base64 from 'gulp-base64'
-import sass from 'gulp-sass'
+// import sass from 'gulp-sass' // node version: 12.22.8
+const sass = require('gulp-sass')(require('node-sass')) // node version: 16.13.1(stable)
 import autoprefixer from 'gulp-autoprefixer'
 import fileinclude from 'gulp-file-include'
 import del from 'del'

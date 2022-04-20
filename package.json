@@ -28,7 +28,8 @@
     "gulp-cli": "^2.2.0",
     "gulp-concat": "^2.6.1",
     "gulp-file-include": "^2.2.2",
-    "gulp-sass": "^4.1.0",
+    "gulp-sass": "^5.1.0",
+    "node-sass": "^7.0.1",
     "gulp-uglify": "^3.0.2"
   },
   "browserslist": [
@@ -37,6 +38,5 @@
     "safari >= 9",
     "android >= 4.4",
     "not ie <= 10"
-  ],
-  "dependencies": {}
+  ]
 }
