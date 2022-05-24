@@ -1,10 +1,7 @@
 /** loading.js ****************************************************************************************************** */
 ;($ => {
   let _plugin = null
-
-  $.extend({
-    loading: function (method) {
-      let $loading = $(`<div class="loading-wrap" style="display: none">
+  let _$loading = $(`<div class="loading-wrap" style="display: none">
         <!--: Start #contents -->
         <svg class="loading" width="46" height="46">
           <defs>
@@ -27,10 +24,12 @@
         <!--: End #contents -->
       </div>`)
 
-      _plugin = _plugin || new Loading($loading)
+  $.extend({
+    loading: function (method) {
+      _plugin = _plugin || new Loading(_$loading)
       _plugin[method]()
 
-      return $loading
+      return _$loading
     }
   })
 
