@@ -109,6 +109,19 @@
       </section>
 
       <section>
+        <h2>Increase Number</h2>
+        <div>
+          <input class="increase-number" type="text" disabled>
+        </div>
+        <br>
+        <div>
+          <span class="increase-number"></span>
+        </div>
+        <br>
+        <button class="btn btn-tertiary increase-start">start</button>
+      </section>
+
+      <section>
         <h2>swiper</h2>
 
         <div class="swiper-container" style="height: 100px;">
@@ -445,6 +458,14 @@
                   console.log('loading: end')
                   $.loading('stop')
                 }, 1000)
+              })
+            })(),
+
+            increaseNumber: (() => {
+							$('.increase-start').on('click', e => {
+								$('.increase-number').each(function () {
+									$.increaseNumber($(this), {start: 99999, end: 11111})
+                })
               })
             })(),
 
