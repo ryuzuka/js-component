@@ -1,7 +1,7 @@
 import gulp from 'gulp'
 import base64 from 'gulp-base64'
 // import sass from 'gulp-sass' // node version: 12.22.8 - "gulp-sass": "^4.1.0"
-const sass = require('gulp-sass')(require('node-sass')) // node version: 16.14.1(stable)
+const sass = require('gulp-sass')(require('node-sass'))
 import autoprefixer from 'gulp-autoprefixer'
 import fileinclude from 'gulp-file-include'
 import del from 'del'
@@ -10,6 +10,10 @@ import concat from 'gulp-concat'
 import babelify from 'babelify'
 import bro from 'gulp-bro'
 import uglify from 'gulp-uglify'
+
+/**
+ * node version: 16.15.1(stable)
+ */
 
 const server = browserSync.create()
 const clean = () => {return del(['dist'])}
