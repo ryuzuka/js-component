@@ -29,7 +29,8 @@ const scssOptions = { // Sass compile option
 const src = 'src'
 const dist = 'dist'
 const paths = {
-  scripts: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`],
+  scripts: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`, `!${src}/js/libs/*.js`],
+  libs: [`${src}/js/libs/*.js`],
   plugins: [`${src}/js/plugins/*.js`],
   scss: `${src}/**/*.scss`,
   html: `${src}/**/*.html`,
@@ -66,18 +67,27 @@ function style() {
 
 function scripts() {
   return gulp.src(paths.scripts, {sourcemaps: true})
-    // .pipe(bro({
-    //   transform: [
-    //     babelify.configure({ presets: ['@babel/preset-env'] }),
-    //   ]
-    // }))
-    // .pipe(uglify({toplevel: true}))
+    .pipe(bro({
+      transform: [
+        babelify.configure({ presets: ['@babel/preset-env'] }),
+      ]
+    }))
+    .pipe(uglify({toplevel: true}))
     .pipe(gulp.dest(dist))
+}
+
+function libs() {
+  return gulp.src(paths.libs, { sourcemaps: true }).pipe(gulp.dest(dist+'/js/libs/'))
 }
 
 function plugins() {
   return gulp.src(paths.plugins, { sourcemaps: true })
-    // .pipe(uglify({toplevel: true}))
+    .pipe(bro({
+      transform: [
+        babelify.configure({ presets: ['@babel/preset-env'] }),
+      ]
+    }))
+    .pipe(uglify({toplevel: true}))
     .pipe(concat('plugins.js'))
     .pipe(gulp.dest(dist+'/js/'))
 }
@@ -107,6 +117,7 @@ function watchFiles(done) {
   gulp.watch(paths.html, htmlInclude)
   gulp.watch(paths.scss, style)
   gulp.watch(paths.scripts, scripts)
+  gulp.watch(paths.plugins, libs)
   gulp.watch(paths.plugins, plugins)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
@@ -114,7 +125,7 @@ function watchFiles(done) {
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, plugins, copyImage, copyFonts, copyData))
+const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, libs, plugins, copyImage, copyFonts, copyData))
 const dataBuild = gulp.parallel(copyImage, copyFonts, copyData)
 
 // build
