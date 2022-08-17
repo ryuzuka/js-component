@@ -28,7 +28,6 @@
        * delete cookie
        * @param   {String}    key
        */
-
       clear: function (key) {
         document.cookie = key + '=; expires=Thu, 01 Jan 1999 00:00:00 GMT;'
       }
@@ -62,16 +61,6 @@
         }
 
         return value
-      },
-
-      /**
-       * 1,234,567
-       * @param   {String}    number
-       * @returns {String}
-       */
-      commaNumberFormat: function (number) {
-        let regexp = /\B(?=(\d{3})+(?!\d))/g
-        return number.toString().replace(regexp, ',')
       },
 
       /**
@@ -212,6 +201,16 @@
         } else {
           return results[1] || 0
         }
+      },
+
+      /**
+       * 1,234,567
+       * @param   {String}    number
+       * @returns {String}
+       */
+      commaNumberFormat: function (number) {
+        let regexp = /\B(?=(\d{3})+(?!\d))/g
+        return number.toString().replace(regexp, ',')
       },
 
       /**
