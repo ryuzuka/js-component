@@ -35,6 +35,134 @@
       <!--: Start #contents -->
       <div id="contents" class="contents">
         <section>
+          <h2>accordion</h2>
+          <dl class="accordion js-accordion">
+            <dt class="accordion-head"><button type="button" aria-controls="acco-content1" aria-expanded="false">accordion1</button></dt>
+            <dd id="acco-content1" class="accordion-content">contents1</dd>
+            <dt class="accordion-head"><button type="button" aria-controls="acco-content2" aria-expanded="false">accordion2</button></dt>
+            <dd id="acco-content2" class="accordion-content">contents2</dd>
+            <dt class="accordion-head"><button type="button" aria-controls="acco-content3" aria-expanded="false">accordion3</button></dt>
+            <dd id="acco-content3" class="accordion-content">contents3</dd>
+          </dl>
+        </section>
+
+        <section>
+          <h2>dropdown</h2>
+          <div class="dropdown js-dropdown" placeholder="선택하세요">
+            <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">SKT</button>
+            <ul class="dropdown-list" role="listbox" aria-labelledby="dropdown" tabindex="-1">
+              <li role="option" aria-selected="false"><button type="button" data-value="SKT">SKT</button></li>
+              <li role="option" aria-selected="false"><button type="button" data-value="KT">KT</button></li>
+              <li role="option" aria-selected="false"><button type="button" data-value="LG">LG U+</button></li>
+              <li role="option" aria-selected="false"><button type="button" data-value="frugal">알뜰폰</button></li>
+            </ul>
+          </div>
+          <br>
+          <button class="btn btn-tertiary dropdown-apply">apply</button>
+          <button class="btn btn-tertiary dropdown-clear">clear</button>
+        </section>
+
+        <section>
+          <h2>tab</h2>
+          <div class="tab js-tab">
+            <div class="tab-list" role="tablist">
+              <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
+              <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
+              <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
+            </div>
+            <div class="tab-content">
+              <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
+                tab1 contents
+              </div>
+              <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
+                tab2 contents
+              </div>
+              <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
+                tab3 contents
+              </div>
+            </div>
+          </div>
+          <br>
+          <button class="btn btn-tertiary tab-apply">apply</button>
+          <button class="btn btn-tertiary tab-clear">clear</button>
+        </section>
+
+        <section>
+          <h2>paging</h2>
+          <div class="paging js-paging">
+            <button type="button" class="paging-first" disabled><span>처음</span></button>
+            <button type="button" class="paging-prev" disabled><span>이전</span></button>
+            <div class="paging-list">
+              <a href="#" aria-current="page">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <a href="#">4</a>
+              <a href="#">5</a>
+              <a href="#">6</a>
+              <a href="#">7</a>
+              <a href="#">8</a>
+              <a href="#">9</a>
+              <a href="#">10</a>
+            </div>
+            <button type="button" class="paging-next"><span>다음</span></button>
+            <button type="button" class="paging-last"><span>마지막</span></button>
+          </div>
+          <br>
+          <button class="btn btn-tertiary paging-apply">apply</button>
+          <button class="btn btn-tertiary paging-clear">clear</button>
+        </section>
+
+        <section>
+          <h2>swiper</h2>
+
+          <div class="swiper-container" style="height: 100px;">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">Slide 1</div>
+              <div class="swiper-slide">Slide 2</div>
+              <div class="swiper-slide">Slide 3</div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+          </div>
+          <br>
+          <p><a href="https://swiperjs.com/" target="_blank">https://swiperjs.com/</a></p>
+        </section>
+
+        <section>
+          <h2>textarea</h2>
+          <div class="js-textarea">
+            <textarea id="txt-field" name="txt-field" maxlength="1000" cols="30" rows="10">0123456789</textarea>
+            <span class="current-length">0</span>/<span class="total-length">100</span>
+          </div>
+        </section>
+
+        <section>
+          <h2>countdown</h2>
+          <div class="js-countdown">
+            <span class="time">00:00</span>
+          </div>
+          <br>
+          <button class="btn btn-tertiary countdown-apply">apply</button>
+          <button class="btn btn-tertiary countdown-start">start</button>
+          <button class="btn btn-tertiary countdown-stop">stop</button>
+          <button class="btn btn-tertiary countdown-clear">clear</button>
+        </section>
+
+        <section>
+          <h2>Increase Number</h2>
+          <div>
+            <input class="increase-number" type="text" disabled>
+          </div>
+          <br>
+          <div>
+            <span class="increase-number"></span>
+          </div>
+          <br>
+          <button class="btn btn-tertiary increase-start">start</button>
+        </section>
+
+        <section>
           <h2>modal</h2>
           <div>
             <button style="padding: 12px" type="button" class="modalBtn btn alert" aria-haspopup="dialog" aria-controls="pop-alert">alert</button>
@@ -106,126 +234,6 @@
         <section>
           <h2>loading</h2>
           <button class="btn loadingBtn">loading start</button>
-        </section>
-
-        <section>
-          <h2>Increase Number</h2>
-          <div>
-            <input class="increase-number" type="text" disabled>
-          </div>
-          <br>
-          <div>
-            <span class="increase-number"></span>
-          </div>
-          <br>
-          <button class="btn btn-tertiary increase-start">start</button>
-        </section>
-
-        <section>
-          <h2>swiper</h2>
-
-          <div class="swiper-container" style="height: 100px;">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">Slide 1</div>
-              <div class="swiper-slide">Slide 2</div>
-              <div class="swiper-slide">Slide 3</div>
-            </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-pagination"></div>
-          </div>
-          <br>
-          <p><a href="https://swiperjs.com/" target="_blank">https://swiperjs.com/</a></p>
-        </section>
-
-        <section>
-          <h2>dropdown</h2>
-          <div class="dropdown js-dropdown" placeholder="선택하세요">
-            <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">SKT</button>
-            <ul class="dropdown-list" role="listbox" aria-labelledby="dropdown" tabindex="-1">
-              <li role="option" aria-selected="false"><button type="button" data-value="SKT">SKT</button></li>
-              <li role="option" aria-selected="false"><button type="button" data-value="KT">KT</button></li>
-              <li role="option" aria-selected="false"><button type="button" data-value="LG">LG U+</button></li>
-              <li role="option" aria-selected="false"><button type="button" data-value="frugal">알뜰폰</button></li>
-            </ul>
-          </div>
-          <br>
-          <button class="btn btn-tertiary dropdown-apply">apply</button>
-          <button class="btn btn-tertiary dropdown-clear">clear</button>
-        </section>
-
-        <section>
-          <h2>tab</h2>
-          <div class="tab js-tab">
-            <div class="tab-list" role="tablist">
-              <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
-              <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
-              <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
-            </div>
-            <div class="tab-content">
-              <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
-                tab1 contents
-              </div>
-              <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
-                tab2 contents
-              </div>
-              <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
-                tab3 contents
-              </div>
-            </div>
-          </div>
-          <br>
-          <button class="btn btn-tertiary tab-apply">apply</button>
-          <button class="btn btn-tertiary tab-clear">clear</button>
-        </section>
-
-        <section>
-          <h2>accordion</h2>
-          <dl class="accordion js-accordion">
-            <dt class="accordion-head"><button type="button" aria-controls="acco-content1" aria-expanded="false">accordion1</button></dt>
-            <dd id="acco-content1" class="accordion-content">contents1</dd>
-            <dt class="accordion-head"><button type="button" aria-controls="acco-content2" aria-expanded="false">accordion2</button></dt>
-            <dd id="acco-content2" class="accordion-content">contents2</dd>
-            <dt class="accordion-head"><button type="button" aria-controls="acco-content3" aria-expanded="false">accordion3</button></dt>
-            <dd id="acco-content3" class="accordion-content">contents3</dd>
-          </dl>
-        </section>
-
-        <section>
-          <h2>paging</h2>
-          <div class="paging js-paging">
-            <button type="button" class="paging-first" disabled><span>처음</span></button>
-            <button type="button" class="paging-prev" disabled><span>이전</span></button>
-            <div class="paging-list">
-              <a href="#" aria-current="page">1</a>
-              <a href="#">2</a>
-              <a href="#">3</a>
-              <a href="#">4</a>
-              <a href="#">5</a>
-              <a href="#">6</a>
-              <a href="#">7</a>
-              <a href="#">8</a>
-              <a href="#">9</a>
-              <a href="#">10</a>
-            </div>
-            <button type="button" class="paging-next"><span>다음</span></button>
-            <button type="button" class="paging-last"><span>마지막</span></button>
-          </div>
-          <br>
-          <button class="btn btn-tertiary paging-apply">apply</button>
-          <button class="btn btn-tertiary paging-clear">clear</button>
-        </section>
-
-        <section>
-          <h2>countdown</h2>
-          <div class="js-countdown">
-            <span class="time">00:00</span>
-          </div>
-          <br>
-          <button class="btn btn-tertiary countdown-apply">apply</button>
-          <button class="btn btn-tertiary countdown-start">start</button>
-          <button class="btn btn-tertiary countdown-stop">stop</button>
-          <button class="btn btn-tertiary countdown-clear">clear</button>
         </section>
 
         <section>
@@ -320,12 +328,6 @@
             <label for="inp-tel">input Tel-Number</label><input type="tel" id="inp-tel"><br><br>
             <label for="inp-file">input File</label>
             <div><input type="file" id="inp-file"></div>
-          </div>
-
-          <h3>text field (textarea)</h3>
-          <div class="js-textarea">
-            <textarea id="txt-field" name="txt-field" maxlength="10" cols="30" rows="10">0123456789</textarea>
-            <span class="current-length">0</span>/<span class="total-length">100</span>
           </div>
 
           <h3>select</h3>
@@ -521,7 +523,7 @@
                 // init
                 $accordion.accordion('clear').accordion({
                   // type: 'multi', // type: single(default), multi
-                  activeIndex: 2 // default: -1
+                  // activeIndex: 2 // default: -1
                 })
                 // method - active
                 // $accordion.accordion('active', 2)

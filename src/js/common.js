@@ -65,6 +65,16 @@
       },
 
       /**
+       * 1,234,567
+       * @param   {String}    number
+       * @returns {String}
+       */
+      commaNumberFormat: function (number) {
+        let regexp = /\B(?=(\d{3})+(?!\d))/g
+        return number.toString().replace(regexp, ',')
+      },
+
+      /**
        * set localStorage
        * @param {String}    key
        * @param {*}         value
@@ -205,7 +215,7 @@
       },
 
       /**
-       * ex) 00-000-0000, 000-0000-0000
+       * 00-000-0000, 000-0000-0000
        * @param   {String}    number
        * @returns {String}
        */
