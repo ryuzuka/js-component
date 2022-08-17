@@ -1,8 +1,177 @@
 /** common.js ******************************************************************************************************** */
 ;($ => {
   $.extend({
+    cookie: {
+      /**
+       * get cookie
+       * @param   {String}    key
+       * @return  {String}
+       */
+      get: function (key) {
+        var value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+        return value ? decodeURIComponent(value[2]) : null;
+      },
 
-    /** utils */
+      /**
+       * set cookie
+       * @param   {String}    key
+       * @param   {*}         value
+       * @param   {Number}    expire     day = 1
+       */
+      set: function (key, value, day) {
+        const expired = new Date();
+        expired.setTime(expired.getTime() + day * 24 * 60 * 60 * 1000);
+        document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + expired.toUTCString() + ';path=/';
+      },
+
+      /**
+       * delete cookie
+       * @param   {String}    key
+       */
+
+      clear: function (key) {
+        document.cookie = key + '=; expires=Thu, 01 Jan 1999 00:00:00 GMT;'
+      }
+    },
+
+    localStorage: {
+      /**
+       * get localStorage
+       * @param   {String}    key
+       * @return  {*}
+       */
+      get: function (key) {
+        let value = localStorage.getItem(key)
+        let now = new Date().getTime()
+
+        if (value) {
+          value = JSON.parse(value)
+
+          if (value.expires === -1 || value.expires >= now) {
+            if (value.json) {
+              value = JSON.parse(value.origin)
+            } else {
+              value = value.origin
+            }
+          } else {
+            this.clearLocalStorage(key)
+            value = undefined
+          }
+        } else {
+          value = undefined
+        }
+
+        return value
+      },
+
+      /**
+       * set localStorage
+       * @param {String}    key
+       * @param {*}         value
+       * @param {Number}    expireMinutes     30 sec = 0.5
+       */
+      set: function (key, value, expireMinutes) {
+        let json = false
+
+        if (expireMinutes) {
+          let today = new Date()
+          today.setSeconds(today.getSeconds() + expireMinutes * 60)
+          expireMinutes = today.getTime()
+        }
+
+        if (typeof value === 'object') {
+          value = JSON.stringify(value)
+          json = true
+        }
+
+        window.localStorage.setItem(
+          key,
+          JSON.stringify({
+            expires: expireMinutes || -1,
+            origin: value,
+            json: json
+          })
+        )
+      },
+
+      /**
+       * clear localStorage
+       * @param    {String}    key
+       */
+      clear: function (key) {
+        localStorage.removeItem(key)
+      }
+    },
+
+    sessionStorage: {
+      /**
+       * get SessionStorage
+       * @param  {String}    key
+       * @return {*}
+       */
+      get: function (key) {
+        let value = sessionStorage.getItem(key)
+        let now = new Date().getTime()
+
+        if (value) {
+          value = JSON.parse(value)
+
+          if (value.expires === -1 || value.expires >= now) {
+            if (value.json) {
+              value = JSON.parse(value.origin)
+            } else {
+              value = value.origin
+            }
+          } else {
+            this.clearSessionStorage(key)
+            value = undefined
+          }
+        } else {
+          value = undefined
+        }
+
+        return value
+      },
+
+      /**
+       * set SessionStorage
+       * @param {String}    key
+       * @param {*}         value
+       * @param {Number}    expireMinutes     30 sec = 0.5
+       */
+      set: function (key, value, expireMinutes) {
+        let json = false
+
+        if (expireMinutes) {
+          let today = new Date()
+          today.setSeconds(today.getSeconds() + expireMinutes * 60)
+          expireMinutes = today.getTime()
+        }
+
+        if (typeof value === 'object') {
+          value = JSON.stringify(value)
+          json = true
+        }
+
+        sessionStorage.setItem(
+            key,
+            JSON.stringify({
+              expires: expireMinutes || -1,
+              origin: value,
+              json: json
+            })
+        )
+      },
+
+      /**
+       * clear sessionStorage
+       * @param    {String}    key
+       */
+      clear: function (key) {
+        sessionStorage.removeItem(key)
+      }
+    },
+
     utils: {
       isMobile: function () {
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
@@ -12,6 +181,14 @@
           }
         }
         return isMobile
+      },
+
+      /**
+       * 가로모드 인지 체크하여 반환
+       * @returns {Boolean}
+       */
+      isLandscape: function () {
+        return window.innerWidth > window.innerHeight
       },
 
       /**
@@ -37,183 +214,21 @@
           .replace(/[^0-9]/g, '')
           .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
           .replace('--', '-')
-      },
-
-      /**
-       * set localStorage
-       * @param {String}    key
-       * @param {*}         value
-       * @param {Number}    expireMinutes     30 sec = 0.5
-       */
-      setLocalStorage: function (key, value, expireMinutes) {
-        let json = false
-
-        if (expireMinutes) {
-          let today = new Date()
-          today.setSeconds(today.getSeconds() + expireMinutes * 60)
-          expireMinutes = today.getTime()
-        }
-
-        if (typeof value === 'object') {
-          value = JSON.stringify(value)
-          json = true
-        }
-
-        localStorage.setItem(
-          key,
-          JSON.stringify({
-            expires: expireMinutes || -1,
-            origin: value,
-            json: json
-          })
-        )
-      },
-
-      /**
-       * get localStorage
-       * @param {String}    key
-       * @return  {*}
-       */
-      getLocalStorage: function (key) {
-        let value = localStorage.getItem(key)
-        let now = new Date().getTime()
-
-        if (value) {
-          value = JSON.parse(value)
-
-          if (value.expires === -1 || value.expires >= now) {
-            if (value.json) {
-              value = JSON.parse(value.origin)
-            } else {
-              value = value.origin
-            }
-          } else {
-            this.clearLocalStorage(key)
-            value = undefined
-          }
-        } else {
-          value = undefined
-        }
-
-        return value
-      },
-
-      /**
-       * LocalStorage Item clear
-       * @param    {String}    key
-       */
-      clearLocalStorage: function (key) {
-        localStorage.removeItem(key)
-      },
-
-      /**
-       * set SessionStorage
-       * @param {String}    key
-       * @param {*}         value
-       * @param {Number}    expireMinutes     30 sec = 0.5
-       */
-      setSessionStorage: function (key, value, expireMinutes) {
-        let json = false
-
-        if (expireMinutes) {
-          let today = new Date()
-          today.setSeconds(today.getSeconds() + expireMinutes * 60)
-          expireMinutes = today.getTime()
-        }
-
-        if (typeof value === 'object') {
-          value = JSON.stringify(value)
-          json = true
-        }
-
-        sessionStorage.setItem(
-          key,
-          JSON.stringify({
-            expires: expireMinutes || -1,
-            origin: value,
-            json: json
-          })
-        )
-      },
-
-      /**
-       * get SessionStorage
-       * @param {String}    key
-       * @return  {*}
-       */
-      getSessionStorage: function (key) {
-        let value = sessionStorage.getItem(key)
-        let now = new Date().getTime()
-
-        if (value) {
-          value = JSON.parse(value)
-
-          if (value.expires === -1 || value.expires >= now) {
-            if (value.json) {
-              value = JSON.parse(value.origin)
-            } else {
-              value = value.origin
-            }
-          } else {
-            this.clearSessionStorage(key)
-            value = undefined
-          }
-        } else {
-          value = undefined
-        }
-
-        return value
-      },
-
-      /**
-       * SessionStorage Item clear
-       * @param    {String}    key
-       */
-      clearSessionStorage: function (key) {
-        sessionStorage.removeItem(key)
-      },
-
-      /**
-       * 가로모드 인지 체크하여 반환
-       * @returns {Boolean}
-       */
-      isLandscape: function () {
-        return window.innerWidth > window.innerHeight
-      },
-
-      /**
-       * set cookie
-       * @param {String}    key
-       * @param {*}         value
-       * @param {Number}    expire     day = 1
-       * @return  {*}
-       */
-      setCookie: function (name, value, day) {
-        let today_date = new Date()
-        today_date.setDate(today_date.getDate() + day)
-        let here_cookie = ''
-        here_cookie += `${name}=${value};`
-        here_cookie += `Expires=${today_date.toUTCString()}`
-        document.cookie = here_cookie
-      },
-
-      /**
-       * get cookie
-       * @param {String}    key
-       * @return  {*}
-       */
-      getCookie: function (key) {
-        let cookies = document.cookie.split(';')
-        for (let i in cookies) {
-          if (cookies[i].indexOf(key) > -1) {
-            return 1
-          }
-        }
-        return 0
       }
     },
 
-    /** easing */
+    validate: {
+      email: function (email) {
+        let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
+        if (exptext.test(email)==false) {
+          //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
+          alert("이메일형식이 올바르지 않습니다.")
+          return false
+        }
+        return true
+      }
+    },
+
     ease: {
       Quad: {
         easeIn: 'cubic-bezier(0.550, 0.085, 0.680, 0.530)',
