@@ -1,30 +1,17 @@
 import gulp from 'gulp'
 import base64 from 'gulp-base64'
-// import sass from 'gulp-sass' // node version: 12.22.8 - "gulp-sass": "^4.1.0"
-const sass = require('gulp-sass')(require('node-sass'))
 import autoprefixer from 'gulp-autoprefixer'
 import fileinclude from 'gulp-file-include'
 import del from 'del'
 import browserSync from 'browser-sync'
 import concat from 'gulp-concat'
-import babelify from 'babelify'
 import bro from 'gulp-bro'
+import babelify from 'babelify'
 import uglify from 'gulp-uglify'
 
 /**
  * node version: 16.15.1(stable)
  */
-
-const server = browserSync.create()
-const clean = () => {return del(['dist'])}
-
-const scssOptions = { // Sass compile option
-  outputStyle: 'compact',
-  indentType: 'space',
-  indentWidth: 2,
-  precision: 6,
-  sourceComments: false
-}
 
 const src = 'src'
 const dist = 'dist'
@@ -39,6 +26,16 @@ const paths = {
   data: `${src}/**/*.json`
 }
 
+const clean = () => {return del(['dist'])}
+const server = browserSync.create()
+const sass = require('gulp-sass')(require('node-sass'))
+const scssOptions = { // Sass compile option
+  outputStyle: 'compact',
+  indentType: 'space',
+  indentWidth: 2,
+  precision: 6,
+  sourceComments: false
+}
 const htmlIncludeOptions = {
   prefix: '@@',
   basepath: '@file',
@@ -47,9 +44,9 @@ const htmlIncludeOptions = {
 
 function htmlInclude() {
   return gulp.src([paths.html, '!src/html/inc/*.html'])
-    .pipe(fileinclude(htmlIncludeOptions))
-    .pipe(gulp.dest(dist))
-    .pipe(browserSync.stream())
+  .pipe(fileinclude(htmlIncludeOptions))
+  .pipe(gulp.dest(dist))
+  .pipe(browserSync.stream())
 }
 
 function style() {
@@ -63,17 +60,6 @@ function style() {
     .pipe(autoprefixer())
     .pipe(gulp.dest(dist, {sourcemaps: '/maps'}))
     .pipe(browserSync.stream())
-}
-
-function scripts() {
-  return gulp.src(paths.scripts, {sourcemaps: true})
-    .pipe(bro({
-      transform: [
-        babelify.configure({ presets: ['@babel/preset-env'] }),
-      ]
-    }))
-    .pipe(uglify({toplevel: true}))
-    .pipe(gulp.dest(dist))
 }
 
 function libs() {
@@ -90,6 +76,17 @@ function plugins() {
     .pipe(uglify({toplevel: true}))
     .pipe(concat('plugins.js'))
     .pipe(gulp.dest(dist+'/js/'))
+}
+
+function scripts() {
+  return gulp.src(paths.scripts, {sourcemaps: true})
+  .pipe(bro({
+    transform: [
+      babelify.configure({ presets: ['@babel/preset-env'] }),
+    ]
+  }))
+  .pipe(uglify({toplevel: true}))
+  .pipe(gulp.dest(dist))
 }
 
 function copyImage() {
@@ -116,9 +113,9 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.html, htmlInclude)
   gulp.watch(paths.scss, style)
-  gulp.watch(paths.scripts, scripts)
   gulp.watch(paths.plugins, libs)
   gulp.watch(paths.plugins, plugins)
+  gulp.watch(paths.scripts, scripts)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
   gulp.watch(paths.data, copyData)
