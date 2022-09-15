@@ -7,7 +7,7 @@
        * @param   {String}    key
        * @return  {String}
        */
-      get: function (key) {
+      get: key => {
         var value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
         return value ? decodeURIComponent(value[2]) : null;
       },
@@ -18,7 +18,7 @@
        * @param   {*}         value
        * @param   {Number}    expire     day = 1
        */
-      set: function (key, value, day) {
+      set: (key, value, day) => {
         const expired = new Date();
         expired.setTime(expired.getTime() + day * 24 * 60 * 60 * 1000);
         document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + expired.toUTCString() + ';path=/';
@@ -28,7 +28,7 @@
        * delete cookie
        * @param   {String}    key
        */
-      clear: function (key) {
+      clear: key => {
         document.cookie = key + '=; expires=Thu, 01 Jan 1999 00:00:00 GMT;'
       }
     },
@@ -39,7 +39,7 @@
        * @param   {String}    key
        * @return  {*}
        */
-      get: function (key) {
+      get: key => {
         let value = localStorage.getItem(key)
         let now = new Date().getTime()
 
@@ -69,7 +69,7 @@
        * @param {*}         value
        * @param {Number}    expireMinutes     30 sec = 0.5
        */
-      set: function (key, value, expireMinutes) {
+      set: (key, value, expireMinutes) => {
         let json = false
 
         if (expireMinutes) {
@@ -97,7 +97,7 @@
        * clear localStorage
        * @param    {String}    key
        */
-      clear: function (key) {
+      clear: key => {
         localStorage.removeItem(key)
       }
     },
@@ -108,7 +108,7 @@
        * @param  {String}    key
        * @return {*}
        */
-      get: function (key) {
+      get: key => {
         let value = sessionStorage.getItem(key)
         let now = new Date().getTime()
 
@@ -138,7 +138,7 @@
        * @param {*}         value
        * @param {Number}    expireMinutes     30 sec = 0.5
        */
-      set: function (key, value, expireMinutes) {
+      set: (key, value, expireMinutes) => {
         let json = false
 
         if (expireMinutes) {
@@ -166,13 +166,13 @@
        * clear sessionStorage
        * @param    {String}    key
        */
-      clear: function (key) {
+      clear: key => {
         sessionStorage.removeItem(key)
       }
     },
 
     utils: {
-      isMobile: function () {
+      isMobile: () => {
         let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
         if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
           if (navigator.maxTouchPoints > 0) {
@@ -186,7 +186,7 @@
        * 가로모드 인지 체크하여 반환
        * @returns {Boolean}
        */
-      isLandscape: function () {
+      isLandscape: () => {
         return window.innerWidth > window.innerHeight
       },
 
@@ -194,8 +194,8 @@
        * url parameter
        *
        */
-      urlParam: function (_name) {
-        let results = new RegExp('[?&]' + _name + '=([^&#]*)').exec(window.location.href)
+      urlParam: name => {
+        let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
         if (results==null) {
           return null
         } else {
@@ -208,7 +208,7 @@
        * @param   {String}    number
        * @returns {String}
        */
-      commaNumberFormat: function (number) {
+      commaNumberFormat: number => {
         let regexp = /\B(?=(\d{3})+(?!\d))/g
         return number.toString().replace(regexp, ',')
       },
@@ -218,7 +218,7 @@
        * @param   {String}    number
        * @returns {String}
        */
-      telNumberFormat: function (number) {
+      telNumberFormat: number => {
         return number
           .replace(/[^0-9]/g, '')
           .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
@@ -227,7 +227,7 @@
     },
 
     validate: {
-      email: function (email) {
+      email: email => {
         let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
         if (exptext.test(email)==false) {
           //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
