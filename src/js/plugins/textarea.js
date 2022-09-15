@@ -30,13 +30,13 @@
 
     init () {
       this.$current.text(this.value.length)
-      this.$total.text($.utils.commaNumberFormat(this.maxlength))
+      this.$total.text($.COMMON.utils.commaNumberFormat(this.maxlength))
 
       this.$textarea.on('keydown keyup', e => {
         let value = e.target.value
 
         this.value = value
-        this.$current.text($.utils.commaNumberFormat(value.length))
+        this.$current.text($.COMMON.utils.commaNumberFormat(value.length))
         if (this.value.length > this.maxlength) {
           this.$textarea.addClass('error')
         } else {

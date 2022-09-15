@@ -1,244 +1,191 @@
 /** common.js ******************************************************************************************************** */
 ;($ => {
   $.extend({
-    cookie: {
-      /**
-       * get cookie
-       * @param   {String}    key
-       * @return  {String}
-       */
-      get: key => {
-        var value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-        return value ? decodeURIComponent(value[2]) : null;
+    COMMON: {
+      cookie: {
+        /**
+         * get cookie
+         * @param   {String}  key
+         */
+        get (key) {
+          var value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+          return value ? decodeURIComponent(value[2]) : null;
+        },
+
+        /**
+         * set cookie
+         * @param   {String}  key
+         * @param   {*}       value
+         * @param   {Number}  expire     day = 1
+         */
+        set (key, value, day) {
+          const expired = new Date();
+          expired.setTime(expired.getTime() + day * 24 * 60 * 60 * 1000);
+          document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + expired.toUTCString() + ';path=/';
+        },
+
+        /**
+         * delete cookie
+         * @param   {String}  key
+         */
+        clear (key) {
+          document.cookie = key + '=; expires=Thu, 01 Jan 1999 00:00:00 GMT;'
+        }
       },
 
-      /**
-       * set cookie
-       * @param   {String}    key
-       * @param   {*}         value
-       * @param   {Number}    expire     day = 1
-       */
-      set: (key, value, day) => {
-        const expired = new Date();
-        expired.setTime(expired.getTime() + day * 24 * 60 * 60 * 1000);
-        document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + expired.toUTCString() + ';path=/';
-      },
+      storage: {
+        /**
+         * get SessionStorage
+         * @param   {String}  storage
+         * @param   {String}  key
+         */
+        get (storageType, key) {
+          let value = (storageType === 'local') ? window.localStorage.getItem(key) : window.sessionStorage.getItem(key)
+          let now = new Date().getTime()
 
-      /**
-       * delete cookie
-       * @param   {String}    key
-       */
-      clear: key => {
-        document.cookie = key + '=; expires=Thu, 01 Jan 1999 00:00:00 GMT;'
-      }
-    },
+          if (value) {
+            value = JSON.parse(value)
 
-    localStorage: {
-      /**
-       * get localStorage
-       * @param   {String}    key
-       * @return  {*}
-       */
-      get: key => {
-        let value = localStorage.getItem(key)
-        let now = new Date().getTime()
-
-        if (value) {
-          value = JSON.parse(value)
-
-          if (value.expires === -1 || value.expires >= now) {
-            if (value.json) {
-              value = JSON.parse(value.origin)
+            if (value.expires === -1 || value.expires >= now) {
+              if (value.json) {
+                value = JSON.parse(value.origin)
+              } else {
+                value = value.origin
+              }
             } else {
-              value = value.origin
+              this.remove(storageType, key)
+              value = undefined
             }
           } else {
-            this.clearLocalStorage(key)
             value = undefined
           }
-        } else {
-          value = undefined
-        }
 
-        return value
-      },
+          return value
+        },
 
-      /**
-       * set localStorage
-       * @param {String}    key
-       * @param {*}         value
-       * @param {Number}    expireMinutes     30 sec = 0.5
-       */
-      set: (key, value, expireMinutes) => {
-        let json = false
+        /**
+         * set storage
+         * @param   {String}  storage
+         * @param   {String}  key
+         * @param   {*}       value
+         * @param   {Number}  expireMinutes   30 sec = 0.5
+         */
+        set (storageType, key, value, expireMinutes) {
+          let storage = storageType === 'local' ? window.localStorage : window.sessionStorage
 
-        if (expireMinutes) {
-          let today = new Date()
-          today.setSeconds(today.getSeconds() + expireMinutes * 60)
-          expireMinutes = today.getTime()
-        }
+          let json = false
 
-        if (typeof value === 'object') {
-          value = JSON.stringify(value)
-          json = true
-        }
-
-        window.localStorage.setItem(
-          key,
-          JSON.stringify({
-            expires: expireMinutes || -1,
-            origin: value,
-            json: json
-          })
-        )
-      },
-
-      /**
-       * clear localStorage
-       * @param    {String}    key
-       */
-      clear: key => {
-        localStorage.removeItem(key)
-      }
-    },
-
-    sessionStorage: {
-      /**
-       * get SessionStorage
-       * @param  {String}    key
-       * @return {*}
-       */
-      get: key => {
-        let value = sessionStorage.getItem(key)
-        let now = new Date().getTime()
-
-        if (value) {
-          value = JSON.parse(value)
-
-          if (value.expires === -1 || value.expires >= now) {
-            if (value.json) {
-              value = JSON.parse(value.origin)
-            } else {
-              value = value.origin
-            }
-          } else {
-            this.clearSessionStorage(key)
-            value = undefined
+          if (expireMinutes) {
+            let today = new Date()
+            today.setSeconds(today.getSeconds() + expireMinutes * 60)
+            expireMinutes = today.getTime()
           }
-        } else {
-          value = undefined
-        }
 
-        return value
-      },
+          if (typeof value === 'object') {
+            value = JSON.stringify(value)
+            json = true
+          }
 
-      /**
-       * set SessionStorage
-       * @param {String}    key
-       * @param {*}         value
-       * @param {Number}    expireMinutes     30 sec = 0.5
-       */
-      set: (key, value, expireMinutes) => {
-        let json = false
-
-        if (expireMinutes) {
-          let today = new Date()
-          today.setSeconds(today.getSeconds() + expireMinutes * 60)
-          expireMinutes = today.getTime()
-        }
-
-        if (typeof value === 'object') {
-          value = JSON.stringify(value)
-          json = true
-        }
-
-        sessionStorage.setItem(
+          storage['setItem'](
             key,
             JSON.stringify({
               expires: expireMinutes || -1,
               origin: value,
               json: json
             })
-        )
+          )
+        },
+
+        /**
+         * remove storage
+         * @param   {String}  storage
+         * @param   {String}  key
+         */
+        remove (storageType, key) {
+          let storage = storageType === 'local' ? window.localStorage : window.sessionStorage
+          storage['removeItem'](key)
+        },
+
+        /**
+         * clear storage
+         * @param   {String}  storage
+         * @param   {String}  key
+         */
+        clear (storageType) {
+          let storage = storageType === 'local' ? window.localStorage : window.sessionStorage
+          storage['clear']()
+        }
       },
 
-      /**
-       * clear sessionStorage
-       * @param    {String}    key
-       */
-      clear: key => {
-        sessionStorage.removeItem(key)
-      }
-    },
-
-    utils: {
-      isMobile: () => {
-        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
-        if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
-          if (navigator.maxTouchPoints > 0) {
-            isMobile = true
+      utils: {
+        isMobile () {
+          let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+          if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
+            if (navigator.maxTouchPoints > 0) {
+              isMobile = true
+            }
           }
+          return isMobile
+        },
+
+        /**
+         * 가로모드 인지 체크하여 반환
+         * @return   {Boolean}
+         */
+        isLandscape () {
+          return window.innerWidth > window.innerHeight
+        },
+
+        /**
+         * url parameter
+         * @param   {String}  name
+         *
+         */
+        urlParam (name) {
+          let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
+          if (results==null) {
+            return null
+          } else {
+            return results[1] || 0
+          }
+        },
+
+        /**
+         * 1,234,567
+         * @param   {String}  number
+         * @return  {String}
+         */
+        commaNumberFormat (number) {
+          let regexp = /\B(?=(\d{3})+(?!\d))/g
+          return number.toString().replace(regexp, ',')
+        },
+
+        /**
+         * 00-000-0000, 000-0000-0000
+         * @param   {String}  number
+         * @return  {String}
+         */
+        telNumberFormat (number) {
+          return number
+            .replace(/[^0-9]/g, '')
+            .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+            .replace('--', '-')
         }
-        return isMobile
       },
 
-      /**
-       * 가로모드 인지 체크하여 반환
-       * @returns {Boolean}
-       */
-      isLandscape: () => {
-        return window.innerWidth > window.innerHeight
-      },
-
-      /**
-       * url parameter
-       *
-       */
-      urlParam: name => {
-        let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
-        if (results==null) {
-          return null
-        } else {
-          return results[1] || 0
+      validate: {
+        email (email) {
+          let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
+          if (exptext.test(email)==false) {
+            //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
+            alert("이메일형식이 올바르지 않습니다.")
+            return false
+          }
+          return true
         }
       },
 
-      /**
-       * 1,234,567
-       * @param   {String}    number
-       * @returns {String}
-       */
-      commaNumberFormat: number => {
-        let regexp = /\B(?=(\d{3})+(?!\d))/g
-        return number.toString().replace(regexp, ',')
-      },
-
-      /**
-       * 00-000-0000, 000-0000-0000
-       * @param   {String}    number
-       * @returns {String}
-       */
-      telNumberFormat: number => {
-        return number
-          .replace(/[^0-9]/g, '')
-          .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
-          .replace('--', '-')
-      }
-    },
-
-    validate: {
-      email: email => {
-        let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
-        if (exptext.test(email)==false) {
-          //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
-          alert("이메일형식이 올바르지 않습니다.")
-          return false
-        }
-        return true
-      }
-    },
-
-    ease: {
+      ease: {
       Quad: {
         easeIn: 'cubic-bezier(0.550, 0.085, 0.680, 0.530)',
         easeOut: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
@@ -279,6 +226,7 @@
         easeOut: 'cubic-bezier(0.175, 0.885, 0.320, 1.275)',
         easeInOut: 'cubic-bezier(0.680, -0.550, 0.265, 1.550)'
       }
+    }
     }
   })
 })(window.jQuery)
