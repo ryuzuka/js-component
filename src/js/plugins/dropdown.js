@@ -20,17 +20,18 @@
   class Dropdown {
     constructor ($this, options) {
       let _this = this
+      let defaultIndex = 0
 
       this.$dropdown = $this
       this.$button = this.$dropdown.find('.dropdown-btn')
 
       this.options = options
+      this.placeholder = options.placeholder ? options.placeholder : this.$dropdown.attr('placeholder')
 
-      let defaultIndex = 0
-      this.placeholder = this.$dropdown.attr('placeholder')
       if (this.placeholder) {
         defaultIndex = -1
-        this.$button.text(this.$dropdown.attr('placeholder'))
+        // this.$button.text(this.$dropdown.attr('placeholder'))
+        this.$button.text(this.placeholder)
         this.$dropdown.find('.dropdown-list li').each(function (index) {
           if (_this.placeholder === $(this).find('button').text()) {
             defaultIndex = index
@@ -109,17 +110,21 @@
       // index[type: Number or Array]
       if (typeof (index) === 'number') {
         // Number
-        this.$dropdown.find('.dropdown-list li').eq(index).find('button').addClass('disabled', true)
+        this.$dropdown.find('.dropdown-list li').eq(index).addClass('disabled', true)
+        this.$dropdown.find('.dropdown-list li').eq(index).find('button').prop('disabled', true)
       } else {
         // Array
         index.forEach(val => {
-          this.$dropdown.find('.dropdown-list li').eq(val).find('button').addClass('disabled', true)
+          this.$dropdown.find('.dropdown-list li').eq(val).addClass('disabled', true)
+          this.$dropdown.find('.dropdown-list li').eq(val).find('button').prop('disabled', true)
         })
       }
     }
 
     clear () {
-      this.$dropdown.find('.dropdown-list li button').removeClass('disabled').off('click')
+      this.$button.text(this.placeholder)
+      this.$dropdown.find('.dropdown-list li').removeAttr('aria-selected').removeClass('active disabled')
+      this.$dropdown.find('.dropdown-list li button').prop('disabled', false).off('click')
       this.$button.removeAttr('aria-expanded').off('click')
     }
   }
