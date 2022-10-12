@@ -1,6 +1,5 @@
 /package-lock.json
-/gulpfile.babel.js
 /node_modules/
-/dist/
 /.vscode/
 /.idea/
+/dist/
