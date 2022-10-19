@@ -27,7 +27,7 @@
 
       this.prevScroll = window.scrollY || window.pageYOffset
       let style = 'overflow: hidden; width: 100%; height: 100%; min-width: 100%; min-height: 100%;'
-      if ($.COMMON.utils.isMobile()) {
+      if ($.UTILS.isMobile()) {
         style += ' ' + `position: fixed; margin-top: ${-1 * this.prevScroll}px;`
       }
       this.$body.attr('style', style).addClass('block-body-scroll')

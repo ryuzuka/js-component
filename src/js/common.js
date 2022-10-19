@@ -1,63 +1,7 @@
 /** common.js ******************************************************************************************************** */
 ;($ => {
   $.extend({
-    COMMON: {
-      utils: {
-        isMobile () {
-          let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
-          if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
-            if (navigator.maxTouchPoints > 0) {
-              isMobile = true
-            }
-          }
-          return isMobile
-        },
-
-        /**
-         * 가로모드 인지 체크하여 반환
-         * @return   {Boolean}
-         */
-        isLandscape () {
-          return window.innerWidth > window.innerHeight
-        },
-
-        /**
-         * url parameter
-         * @param   {String}  name
-         *
-         */
-        urlParam (name) {
-          let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
-          if (results==null) {
-            return null
-          } else {
-            return results[1] || 0
-          }
-        },
-
-        /**
-         * 1,234,567
-         * @param   {String}  number
-         * @return  {String}
-         */
-        commaNumberFormat (number) {
-          let regexp = /\B(?=(\d{3})+(?!\d))/g
-          return number.toString().replace(regexp, ',')
-        },
-
-        /**
-         * 00-000-0000, 000-0000-0000
-         * @param   {String}  number
-         * @return  {String}
-         */
-        telNumberFormat (number) {
-          return number
-          .replace(/[^0-9]/g, '')
-          .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
-          .replace('--', '-')
-        }
-      },
-
+    utils: {
       cookie: {
         /**
          * get cookie
@@ -183,6 +127,60 @@
           }
           return true
         }
+      },
+
+      isMobile () {
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)
+        if (!isMobile && navigator.userAgent.indexOf('Safari') > -1) {
+          if (navigator.maxTouchPoints > 0) {
+            isMobile = true
+          }
+        }
+        return isMobile
+      },
+
+      /**
+       * 가로모드 인지 체크하여 반환
+       * @return   {Boolean}
+       */
+      isLandscape () {
+        return window.innerWidth > window.innerHeight
+      },
+
+      /**
+       * url parameter
+       * @param   {String}  name
+       *
+       */
+      urlParam (name) {
+        let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
+        if (results==null) {
+          return null
+        } else {
+          return results[1] || 0
+        }
+      },
+
+      /**
+       * 1,234,567
+       * @param   {String}  number
+       * @return  {String}
+       */
+      commaNumberFormat (number) {
+        let regexp = /\B(?=(\d{3})+(?!\d))/g
+        return number.toString().replace(regexp, ',')
+      },
+
+      /**
+       * 00-000-0000, 000-0000-0000
+       * @param   {String}  number
+       * @return  {String}
+       */
+      telNumberFormat (number) {
+        return number
+        .replace(/[^0-9]/g, '')
+        .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+        .replace('--', '-')
       }
     },
     EASE: {
