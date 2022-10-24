@@ -4,15 +4,15 @@
 
   $.fn.extend({
     tab: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
+      this.each((index, el) => {
+        if (typeof options === 'string') {
+          $.plugin.call($(el), options, value)
+        } else {
           if (!$(el).attr('applied-plugin')) {
             $.plugin.add($(el), pluginName, new Tab($(el), options))
           }
-        })
-      }
+        }
+      })
       return this
     }
   })
