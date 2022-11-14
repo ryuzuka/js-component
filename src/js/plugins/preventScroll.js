@@ -4,9 +4,7 @@
   $.extend({
     preventScroll: function (isPrevent) {
       _plugin = _plugin || new PreventScroll()
-
-      let method = isPrevent ? 'add' : 'remove'
-      _plugin[method]()
+      _plugin[isPrevent ? 'add' : 'remove']()
 
       return _plugin
     }
@@ -14,11 +12,7 @@
 
   class PreventScroll {
     constructor () {
-      if ($.UTILS.isMobile()) {
-        this.scrollEvent = 'touchmove'
-      } else {
-        this.scrollEvent = 'wheel'
-      }
+      this.scrollEvent = $.utils.isMobile() ? 'touchmove' : 'wheel'
     }
 
     preventScrollEventHandler (e) {

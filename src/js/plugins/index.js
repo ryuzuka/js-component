@@ -34,10 +34,11 @@
 
   /** plugins execution */
   $(function () {
+    $('.js-tab').tab()
     $('.js-accordion').accordion()
     $('.js-dropdown').dropdown()
-    $('.js-tab').tab()
     $('.js-textarea').textarea()
+    $('.js-postcode').postcode()
   })
 })(window.jQuery)
 /** ***************************************************************************************************************** */

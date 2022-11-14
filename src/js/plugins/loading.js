@@ -47,8 +47,8 @@
     }
 
     stop () {
-      this.$loading.hide()
       $.preventScroll(false)
+      this.$loading.hide()
 
       return this.$loading
     }

@@ -1,25 +1,26 @@
 /** increaseNumber.js ********************************************************************************************************** */
 ;($ => {
   $.extend({
-    increaseNumber: function ($target, options = {}) {
+    increaseNumber ($target, options = {}) {
       /**
-       * transform
        * @params	{Object}
-       * 				  ex) start: Number
-       * 				  ex) end: Number
+       * 				  start: Number
+       * 				  end: Number
+       * 				  duration: Number
        * @event		transition-end
        *
        */
 
       $({num: Number(options.start) }).animate({num: Number(options.end)}, {
-        step: function() {
+        step () {
           let num = numberWithCommas(Math.floor(this.num))
           writeNumber($target, num)
         },
-        duration: 500,
-        complete: function() {
+        duration: 800,
+        complete () {
           let num = numberWithCommas(Math.floor(this.num))
           writeNumber($target, num)
+          $target.triggerHandler('complete')
         }
       })
 
@@ -34,6 +35,8 @@
       function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
+
+      return $target
     }
   })
 })(window.jQuery)

@@ -5,9 +5,7 @@
   $.extend({
     blockBodyScroll: function (isBlock) {
       _plugin = _plugin || new BlockBodyScroll()
-
-      let method = isBlock ? 'block' : 'scroll'
-      _plugin[method]()
+      _plugin[isBlock ? 'block' : 'scroll']()
 
       return _plugin
     }
@@ -27,7 +25,7 @@
 
       this.prevScroll = window.scrollY || window.pageYOffset
       let style = 'overflow: hidden; width: 100%; height: 100%; min-width: 100%; min-height: 100%;'
-      if ($.UTILS.isMobile()) {
+      if ($.utils.isMobile()) {
         style += ' ' + `position: fixed; margin-top: ${-1 * this.prevScroll}px;`
       }
       this.$body.attr('style', style).addClass('block-body-scroll')
