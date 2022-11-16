@@ -35,8 +35,8 @@
            * get cookie
            * @param   {String}  key
            */
-          var value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
-          return value ? decodeURIComponent(value[2]) : null;
+          let value = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)')
+          return value ? decodeURIComponent(value[2]) : null
         },
         set (key, value, day) {
           /**
@@ -45,9 +45,9 @@
            * @param   {*}       value
            * @param   {Number}  expire     day = 1
            */
-          const expired = new Date();
-          expired.setTime(expired.getTime() + day * 24 * 60 * 60 * 1000);
-          document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + expired.toUTCString() + ';path=/';
+          const expired = new Date()
+          expired.setTime(expired.getTime() + day * 24 * 60 * 60 * 1000)
+          document.cookie = key + '=' + encodeURIComponent(value) + ';expires=' + expired.toUTCString() + ';path=/'
         },
         clear (key) {
           /**
@@ -71,11 +71,8 @@
             value = JSON.parse(value)
 
             if (value.expires === -1 || value.expires >= now) {
-              if (value.json) {
-                value = JSON.parse(value.origin)
-              } else {
-                value = value.origin
-              }
+              value = value.json ? JSON.parse(value.origin) : value.origin
+
             } else {
               this.remove(storageType, key)
               value = undefined
@@ -139,7 +136,7 @@
       validate: {
         email (email) {
           let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/
-          if (exptext.test(email)==false) {
+          if (!exptext.test(email)) {
             //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
             alert("이메일형식이 올바르지 않습니다.")
             return false
@@ -169,12 +166,8 @@
          * @param   {String}  name
          *
          */
-        let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
-        if (results==null) {
-          return null
-        } else {
-          return results[1] || 0
-        }
+        let result = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
+        return result === null ? null : result[1] || 0
       },
       commaNumberFormat (number) {
         /**
