@@ -3,9 +3,11 @@
   const App = {
     DATE_FORMAT: 'YYYY-MM-DD',
     MOBILE_WIDTH: 1024,
-    DEVICE: navigator.userAgent
+    DEVICE: navigator.userAgent,
+    depth1Index: -1,
+    depthI2ndex: -1
   }
-  window.App = $.extend(window.App || {}, App)
+  $.App = $.extend($.App || {}, App)
 
   // pinch zoom prevent
   document.addEventListener('touchmove', e => {
