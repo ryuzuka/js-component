@@ -1,6 +1,6 @@
 /** common.js ******************************************************************************************************** */
 ;($ => {
-  let Header = (depth1Index, depth2Index) => {
+  let Header = () => {
     let _this = {}
     return _this
   }
@@ -15,7 +15,7 @@
   })()
 
   $(function () {
-    window.App.Header = Header($.depth1Index, $.depth2Index)
+    window.App.Header = Header()
     window.App.Footer = Footer()
     for (let component in components) {
       components[component]()
