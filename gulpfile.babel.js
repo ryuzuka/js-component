@@ -16,10 +16,10 @@ import babelify from 'babelify'
 const src = 'src'
 const dist = 'dist'
 const paths = {
-  scripts: [`${src}/**/*.js`, `!${src}/js/plugins/*.js`, `!${src}/js/libs/*.js`],
-  libs: [`${src}/js/libs/*.js`],
-  plugins: [`${src}/js/plugins/*.js`],
-  scss: `${src}/**/*.scss`,
+  scripts: [`${src}/**/*.js`, `!${src}/js/plugin/*.js`, `!${src}/libs/*.js`],
+  libs: [`${src}/libs/*.js`],
+  plugin: [`${src}/js/plugin/*.js`],
+  scss: `${src}/**/*.{css,scss}`,
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
   font: `${src}/**/*.{ttf,otf,woff,woff2,eot,svg}`,
@@ -63,18 +63,18 @@ function style() {
 }
 
 function libs() {
-  return gulp.src(paths.libs, { sourcemaps: true }).pipe(gulp.dest(dist+'/js/libs/'))
+  return gulp.src(paths.libs, { sourcemaps: true }).pipe(gulp.dest(dist+'/libs/'))
 }
 
-function plugins() {
-  return gulp.src(paths.plugins, { sourcemaps: true })
+function plugin() {
+  return gulp.src(paths.plugin, { sourcemaps: true })
     .pipe(bro({
       transform: [
         babelify.configure({ presets: ['@babel/preset-env'] }),
       ]
     }))
     // .pipe(uglify({toplevel: true}))
-    .pipe(concat('plugins.js'))
+    .pipe(concat('plugin.js'))
     .pipe(gulp.dest(dist+'/js/'))
 }
 
@@ -113,8 +113,8 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.html, htmlInclude)
   gulp.watch(paths.scss, style)
-  gulp.watch(paths.plugins, libs)
-  gulp.watch(paths.plugins, plugins)
+  gulp.watch(paths.plugin, libs)
+  gulp.watch(paths.plugin, plugin)
   gulp.watch(paths.scripts, scripts)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
@@ -122,7 +122,7 @@ function watchFiles(done) {
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, libs, plugins, copyImage, copyFonts, copyData))
+const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, libs, plugin, copyImage, copyFonts, copyData))
 const dataBuild = gulp.parallel(copyImage, copyFonts, copyData)
 
 // build

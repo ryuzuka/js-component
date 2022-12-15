@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
   @@include('./html/inc/meta.html',{
-    "pagetitle": "Guide"
+		"rootpath": "",
+    "pagetitle": "guide"
   })
 </head>
 <body>
@@ -306,10 +307,20 @@
     @@include('./html/inc/footer.html')
   </div>
 
+<!-- libs -->
+<script src="/libs/jquery.easing.min.js"></script>
+<script src="/libs/swiper-bundle.min.js"></script>
+<script src="/libs/datepicker.min.js"></script>
+<script src="/libs/lottie.min.js"></script>
+<script src="/libs/moment.min.js"></script>
+<script src="/libs/postcode.v2.js"></script>
+<script src="/libs/gsap.min.js"></script>
+<script src="/libs/wow.min.js"></script>
+
 <!-- common, plugins, app -->
-<script type="text/javascript" src="/js/App.js"></script>
-<script type="text/javascript" src="/js/plugins.js"></script>
-<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/App.js"></script>
+<script type="text/javascript" src="/js/plugin.js"></script>
+<script type="text/javascript" src="/js/utils.js"></script>
 
 </body>
 <script>
@@ -578,7 +589,7 @@
 						let left = parseInt($(window).width() - $('.transform.obj').width() * 3)
 						$('.transform.obj').transform({
 							transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
-							transition: `1s ${$.ease.Expo.easeInOut} 0s`
+							transition: `1s ${$.utils.easing.Expo.easeInOut} 0s`
 						}).on('transition-end', () => {
 							console.log('transition-end')
 						})
