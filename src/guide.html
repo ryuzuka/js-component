@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   @@include('./html/inc/meta.html',{
-		"rootpath": "",
+		"rootpath": "app",
     "pagetitle": "guide"
   })
 </head>
@@ -319,19 +319,19 @@
   </div>
 
 <!-- libs -->
-<script src="/libs/jquery.easing.min.js"></script>
-<script src="/libs/swiper-bundle.min.js"></script>
-<script src="/libs/datepicker.min.js"></script>
-<script src="/libs/lottie.min.js"></script>
-<script src="/libs/moment.min.js"></script>
-<script src="/libs/postcode.v2.js"></script>
-<script src="/libs/gsap.min.js"></script>
-<script src="/libs/wow.min.js"></script>
+<script src="/app/libs/jquery.easing.min.js"></script>
+<script src="/app/libs/swiper-bundle.min.js"></script>
+<script src="/app/libs/datepicker.min.js"></script>
+<script src="/app/libs/lottie.min.js"></script>
+<script src="/app/libs/moment.min.js"></script>
+<script src="/app/libs/postcode.v2.js"></script>
+<script src="/app/libs/gsap.min.js"></script>
+<script src="/app/libs/wow.min.js"></script>
 
-<!-- common, plugins, app -->
-<script src="/App.js"></script>
-<script src="/js/utils.js"></script>
-<script src="/js/plugin.js"></script>
+<!-- app, utils, plugin -->
+<script src="/app/js/App.js"></script>
+<script src="/app/js/utils.js"></script>
+<script src="/app/js/plugin.js"></script>
 
 </body>
 <script>
@@ -649,7 +649,7 @@
 				},
 				ajax () {
 					$.ajax({
-						url: '/data/lottie.json',
+						url: '/App/data/lottie.json',
 						data: {},
 						success (result) {
 							console.log(result)
@@ -661,7 +661,7 @@
 						container: document.getElementById('lottie'),
 						renderer: 'svg',
 						// animationData: '', async
-						path: '/data/lottie.json',
+						path: '/App/data/lottie.json',
 						loop: false, // default: true
 						autoplay: true // default: true
 					})

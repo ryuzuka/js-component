@@ -13,8 +13,9 @@ import babelify from 'babelify'
  * node version: 16.15.1(stable)
  */
 
+const app = 'app'
 const src = 'src'
-const dist = 'dist'
+const dist = `dist/${app}`
 const paths = {
   scripts: [`${src}/**/*.js`, `!${src}/js/plugin/*.js`, `!${src}/libs/*.js`],
   libs: [`${src}/libs/*.js`],
@@ -43,7 +44,7 @@ const htmlIncludeOptions = {
 }
 
 function htmlInclude() {
-  return gulp.src([paths.html, '!src/html/inc/*.html'])
+  return gulp.src([paths.html, `!${src}/html/inc/*.html`])
   .pipe(fileinclude(htmlIncludeOptions))
   .pipe(gulp.dest(dist))
   .pipe(browserSync.stream())
@@ -108,7 +109,8 @@ function watchFiles(done) {
   server.init({
     server: './dist/',
     port: 5000,
-    open: false
+    open: false,
+    startPath: `${app}/index.html`
   })
   done()
   gulp.watch(paths.html, htmlInclude)
@@ -127,7 +129,6 @@ const dataBuild = gulp.parallel(copyImage, copyFonts, copyData)
 
 // build
 exports.build = build
-
 
 // dev
 export const dev = gulp.series([build, watch]);

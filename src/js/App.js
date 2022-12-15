@@ -5,7 +5,7 @@
     MOBILE_WIDTH: 1024,
     DEVICE: navigator.userAgent,
     depth1Index: -1,
-    depthI2ndex: -1
+    depth2Index: -1
   }
   $.App = $.extend($.App || {}, App)
 

@@ -16,7 +16,7 @@
   })()
 
   $(function () {
-    $.App.Header = Header($.App.depth1Index, $.App.depthI2ndex)
+    $.App.Header = Header($.App.depth1Index, $.App.depth2Index)
     $.App.Footer = Footer()
     for (let component in components) {
       $.App[component] = components[component]()

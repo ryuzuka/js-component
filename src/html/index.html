@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
   @@include('./inc/meta.html',{
-	"rootpath": "",
-  "pagetitle": "index"
+	"rootpath": "app",
+  "pagetitle": "app"
   })
 </head>
 
@@ -19,14 +19,17 @@
     @@include('./inc/footer.html')
   </div>
 
-  <!-- index, common, plugins -->
-  <script src="/App.js"></script>
-  <script src="/js/utils.js"></script>
-  <script src="/js/plugin.js"></script>
-  <script src="/js/components.js"></script>
+  <!-- app, utils, plugin -->
+  <script src="/app/js/App.js"></script>
+  <script src="/app/js/utils.js"></script>
+  <script src="/app/js/plugin.js"></script>
 
-  <!-- component -->
+  <!-- components -->
+  <script src="/app/js/components.js"></script>
   <script>
+	  ;($ => {
+			$(() => {})
+	  })(window.jQuery)
   </script>
 </body>
 </html>
