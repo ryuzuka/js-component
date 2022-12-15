@@ -165,18 +165,29 @@
       </section>
       <section>
         <h2>swiper</h2>
-
-        <div class="swiper-container" style="height: 100px;">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">Slide 1</div>
-            <div class="swiper-slide">Slide 2</div>
-            <div class="swiper-slide">Slide 3</div>
-          </div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-pagination"></div>
-        </div>
-        <br>
+	
+	      <!-- Slider main container -->
+	      <div class="swiper" style="height: 100px;">
+		      <!-- Additional required wrapper -->
+		      <div class="swiper-wrapper">
+			      <!-- Slides -->
+			      <div class="swiper-slide">Slide 1</div>
+			      <div class="swiper-slide">Slide 2</div>
+			      <div class="swiper-slide">Slide 3</div>
+			      ...
+		      </div>
+		      <!-- If we need pagination -->
+		      <div class="swiper-pagination"></div>
+		
+		      <!-- If we need navigation buttons -->
+		      <div class="swiper-button-prev"></div>
+		      <div class="swiper-button-next"></div>
+		
+		      <!-- If we need scrollbar -->
+		      <div class="swiper-scrollbar"></div>
+	      </div>
+	
+	      <br>
         <p><a href="https://swiperjs.com/" target="_blank">https://swiperjs.com/</a></p>
       </section>
       <section>
@@ -318,21 +329,21 @@
 <script src="/libs/wow.min.js"></script>
 
 <!-- common, plugins, app -->
-<script type="text/javascript" src="/App.js"></script>
-<script type="text/javascript" src="/js/plugin.js"></script>
-<script type="text/javascript" src="/js/utils.js"></script>
+<script src="/App.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/plugin.js"></script>
 
 </body>
 <script>
 	;($ => {
 		$(() => {
-			let guide = window.App.Guide()
+			let guide = $.App.Guide()
 			for (let plugin in guide) {
 				guide[plugin]()
 			}
 		})
 		
-		window.App.Guide = () => {
+		$.App.Guide = () => {
 			return {
 				accordion () {
 					let $accordion = $('.js-accordion')
@@ -480,26 +491,29 @@
 					})
 				},
 				swiper () {
-					let swiper = new Swiper('.swiper-container', {
-						navigation: {
-							nextEl: '.swiper-button-next',
-							prevEl: '.swiper-button-prev'
-						},
+					const swiper = new Swiper('.swiper', {
+						// direction: 'vertical',
+						loop: true,
 						pagination: {
 							el: '.swiper-pagination',
 							clickable: true
 						},
-						speed: 300,
-						loop: true,
+						navigation: {
+							nextEl: '.swiper-button-next',
+							prevEl: '.swiper-button-prev',
+						},
+						scrollbar: {
+							el: '.swiper-scrollbar',
+						},
 						on: {
 							init () {
 								console.log('swiper-init', this.realIndex)
 							},
 							transitionEnd () {
-								console.log('swiper-end', this.realIndex)
+								// console.log('swiper-end', this.realIndex)
 							},
 							slideChange () {
-								console.log('swiper-change', this.realIndex)
+								// console.log('swiper-change', this.realIndex)
 							},
 							resize () {
 								console.log('swiper-resize')
