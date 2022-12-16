@@ -20,21 +20,18 @@
   class Postcode {
     constructor ($this, options) {
       this.$postcode = $this
-      this.$searchBtn = this.$postcode.find('.btn-search')
-      this.$result = this.$postcode.find('.result input')
+      this.$address = this.$postcode.find('.address input')
       this.$detail = this.$postcode.find('.detail input')
 
       this.options = options
-
-      this.$searchBtn.on('click', () => {
-        this.search()
-      })
+      this.$postcode.find('.address input, button.btn-search').on('click', () => this.search())
     }
 
     search () {
+      const width = 400
+      const height = 500
+
       let _this = this
-      let width = 400
-      let height = 500
 
       new daum.Postcode({
         oncomplete (data) {
@@ -47,14 +44,14 @@
             address = data['jibunAddress']
             // 지명
           }
-          _this.$result.val(address)
+          _this.$address.val(address).attr('value', address)
         },
         onclose (state) {
           if (state === 'COMPLETE_CLOSE') {
             _this.$detail.focus()
-            _this.$postcode.triggerHandler('complete-close', {result: _this.$result.val()})
+            _this.$postcode.triggerHandler({type: 'complete-close'}, _this.$address.val())
           } else if (state === 'FORCE_CLOSE') {
-            _this.$postcode.triggerHandler('force-close')
+            _this.$postcode.triggerHandler({type: 'force-close'})
           }
         },
         width: width,

@@ -34,6 +34,20 @@
     <!--: Start #contents -->
     <div id="contents" class="contents">
 	    <section>
+		    <h2>postcode - Daum 우편번호 서비스</h2>
+		
+		    <div class="js-postcode">
+			    <div class="address">
+			      <input type="text" readonly>
+			    </div>
+			    <div class="detail">
+				    <input type="text" title="상세 주소 입력" placeholder="상세주소를 입력해주세요.">
+			    </div>
+			    <button type="button" class="btn btn-search">주소 검색</button>
+		    </div>
+	    </section>
+	    
+	    <section>
 		    <h2>calendar (datepicker)</h2>
 		
 		    <div class="js-calendar datepicker">
@@ -244,33 +258,6 @@
         <button class="btn loadingBtn">loading start</button>
       </section>
       <section>
-	      <h2>postcode - Daum 우편번호 서비스</h2>
-	
-	      <div class="form-cell js-postcode">
-		      <em class="kurly-text-09">픽업지 주소</em>
-		      <div class="input-group address">
-			      <div class="inbox">
-				      <div class="input-area js-input">
-					      <div class="input result">
-						      <input type="text" readonly>
-					      </div>
-				      </div>
-				      <div class="btn-wrap">
-				        <button type="button" class="btn btn btn-tertiary btn-search"><span class="blind">주소 검색</span>주소 검색</button>
-				      </div>
-			      </div>
-			      <div class="inbox">
-				      <div class="input-area js-input">
-					      <div class="input detail">
-						      <input type="text" title="상세 주소 입력" placeholder="상세주소를 입력해주세요.">
-						      <button type="button" class="btn-clear"><span><span class="blind">입력 텍스트 삭제</span></span></button>
-					      </div>
-				      </div>
-			      </div>
-		      </div>
-	      </div>
-      </section>
-      <section>
         <h2>swipe</h2>
         <button class="btn btn-tertiary body swipe-on">body swipe - on</button>
         <button class="btn btn-tertiary body swipe-off">body swipe - off</button>
@@ -355,6 +342,15 @@
 		
 		$.App.Guide = () => {
 			return {
+				postcode () {
+					let $postcode = $('.js-postcode')
+					
+					$postcode.on('complete-close force-close', (e, address) => {
+						if (e.type === 'complete-close') {
+							console.log(e, address)
+						}
+					})
+				},
 				calendar () {
 					let $calendar = $('.js-calendar')
 					
@@ -363,8 +359,8 @@
 						// datepicker options
 					}).calendar('set', new Date())
 					
-					$calendar.on('change', e => {
-						console.log(e.date, e.calendar)
+					$calendar.on('change', (e, info) => {
+						console.log(e.date, info)
 					})
 					
 					// get
@@ -701,13 +697,6 @@
 					})
 					$('.lottie-stop').on('click', e => {
 						_lottie.stop()
-					})
-				},
-				postcode () {
-					$('.js-postcode').on('complete-close force-close', (e, data) => {
-						if (e.type === 'complete-close') {
-							console.log(data.result)
-						}
 					})
 				}
 			}

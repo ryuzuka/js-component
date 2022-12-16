@@ -33,10 +33,10 @@
         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
         showMonthAfterYear: true,
         yearSuffix: '년',
-        onSelect: (date, calendar) => {
+        onSelect: (date, info) => {
           this.selectedDate = date
           this.$datepicker.attr('value', date)
-          this.$calendar.triggerHandler(_.extend({type: 'change'}, {date, calendar}))
+          this.$calendar.triggerHandler({type: 'change', date}, info)
         }
       }
       _.extend(this.options, options)
