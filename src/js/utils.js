@@ -142,27 +142,30 @@
         let result = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href)
         return result === null ? null : result[1] || 0
       },
-      commaNumberFormat (number) {
-        /**
-         * 1,234,567
-         * @param   {String}  number
-         * @return  {String}
-         */
-        let regexp = /\B(?=(\d{3})+(?!\d))/g
-        return number.toString().replace(regexp, ',')
-      },
-      telNumberFormat (number) {
-        /**
-         * 00-000-0000, 000-0000-0000
-         * @param   {String}  number
-         * @return  {String}
-         */
-        return number
-        .replace(/[^0-9]/g, '')
-        .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
-        .replace('--', '-')
+      numberFormat: {
+        comma (number) {
+          /**
+           * 1,234,567
+           * @param   {String}  number
+           * @return  {String}
+           */
+          let regexp = /\B(?=(\d{3})+(?!\d))/g
+          return number.toString().replace(regexp, ',')
+        },
+        tel (number) {
+          /**
+           * 00-000-0000, 000-0000-0000
+           * @param   {String}  number
+           * @return  {String}
+           */
+          return number.toString()
+            .replace(/[^0-9]/g, '')
+            .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
+            .replace('--', '-')
+        }
       },
       easing: {
+        // transform
         Quad: {
           easeIn: 'cubic-bezier(0.550, 0.085, 0.680, 0.530)',
           easeOut: 'cubic-bezier(0.250, 0.460, 0.450, 0.940)',
