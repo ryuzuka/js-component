@@ -1,13 +1,7 @@
 /** App.js ******************************************************************************************************** */
 ;($ => {
-  const App = {
-    DATE_FORMAT: 'YYYY-MM-DD',
-    MOBILE_WIDTH: 1024,
-    DEVICE: navigator.userAgent,
-    depth1Index: -1,
-    depth2Index: -1
-  }
-  $.App = $.extend($.App || {}, App)
+  // before unload
+  // window.onbeforeunload = () => window.scrollTo(0, 0)
 
   // pinch zoom prevent
   document.addEventListener('touchmove', e => {
@@ -26,7 +20,12 @@
     lastTouchEnd = now
   }, {passive: false})
 
-  // before unload
-  // window.onbeforeunload = () => window.scrollTo(0, 0)
+  $.App = $.extend($.App || {}, {
+    DATE_FORMAT: 'YYYY-MM-DD',
+    MOBILE_WIDTH: 1024,
+    DEVICE: navigator.userAgent,
+    depth1Index: -1,
+    depth2Index: -1
+  })
 })(window.jQuery)
 /** ***************************************************************************************************************** */

@@ -24,10 +24,13 @@
         if (!pluginId) {
           return
         }
+        let _return = pluginPool[pluginId][_method](_value)
         pluginPool[pluginId][_method](_value)
         if (_method === 'clear') {
           this.remove($el)
         }
+
+        return _return
       }
     }
   })
@@ -39,6 +42,7 @@
     $('.js-dropdown').dropdown()
     $('.js-textarea').textarea()
     $('.js-postcode').postcode()
+    $('.js-calendar').calendar()
   })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
