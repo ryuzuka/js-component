@@ -7,33 +7,26 @@
        * 				  start: Number
        * 				  end: Number
        * 				  duration: Number
-       * @event		transition-end
+       * @event		complete
        *
        */
 
       $({num: Number(options.start) }).animate({num: Number(options.end)}, {
         step () {
-          let num = numberWithCommas(Math.floor(this.num))
+          let num = $.utils.numberFormat.comma(Math.floor(this.num))
           writeNumber($target, num)
         },
-        duration: 800,
+        duration: options.duration || 2000,
+        easing: options.easing || 'easeOutExpo',
         complete () {
-          let num = numberWithCommas(Math.floor(this.num))
+          let num = $.utils.numberFormat.comma(Math.floor(this.num))
           writeNumber($target, num)
-          $target.triggerHandler('complete')
+          $target.triggerHandler({type: 'complete'})
         }
       })
 
       function writeNumber ($target, num) {
-        if ($target[0].tagName === 'INPUT') {
-          $target.val(num)
-        } else {
-          $target.text(num)
-        }
-      }
-
-      function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        $target[0].tagName === 'INPUT' ? $target.attr('value', num.replace(/,/g, '')).val(num) : $target.text(num)
       }
 
       return $target

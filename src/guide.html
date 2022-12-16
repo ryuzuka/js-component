@@ -40,9 +40,11 @@
 			    <div class="address">
 			      <input type="text" readonly>
 			    </div>
+			    <br>
 			    <div class="detail">
 				    <input type="text" title="상세 주소 입력" placeholder="상세주소를 입력해주세요.">
 			    </div>
+			    <br>
 			    <button type="button" class="btn btn-search">주소 검색</button>
 		    </div>
 	    </section>
@@ -233,13 +235,9 @@
         <button class="btn btn-tertiary countdown-clear">clear</button>
       </section>
       <section>
-        <h2>Increase Number</h2>
-        <div>
-          <span class="increase-number">0</span>
-        </div>
-        <div>
-	        <input class="increase-number" type="text" value="0" disabled>
-        </div>
+	      <h2>Increase Number</h2>
+        <input class="increase-number" type="text" value="0" disabled>
+        <br>
         <br>
         <button class="btn btn-tertiary increase-start">start</button>
       </section>
@@ -506,10 +504,15 @@
 				},
 				increaseNumber () {
 					$('.increase-start').on('click', e => {
-						$('.increase-number').each(function () {
-							$.increaseNumber($(this), {start: 0, end: 99999}).on('complete', e => {
-								console.log(e.type)
-							})
+						$.increaseNumber(
+							$('.increase-number'), {
+								start: '0',               // required
+								end: 99999,               // required
+								duration: 2000,           // default: 2000
+								easing: 'easeInOutCubic'  // default: easeOutExpo
+							}, // start, end - number
+						).on('complete', e => {
+							console.log(e.type)
 						})
 					})
 				},
