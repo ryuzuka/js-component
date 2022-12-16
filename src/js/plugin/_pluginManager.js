@@ -32,8 +32,8 @@
     }
   })
 
-  /** plugins execution */
-  $(function () {
+  /** document ready - plugin execution */
+  $(() => {
     $('.js-tab').tab()
     $('.js-accordion').accordion()
     $('.js-dropdown').dropdown()
