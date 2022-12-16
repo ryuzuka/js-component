@@ -24,7 +24,7 @@
       const defaultOptions = {
         classes: '',
         dimmed: false,
-        clickToClose: true,
+        clickToClose: false,
         preventScroll: false
       }
 
