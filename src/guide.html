@@ -33,6 +33,16 @@
 
     <!--: Start #contents -->
     <div id="contents" class="contents">
+	    <section>
+		    <h2>calendar (datepicker)</h2>
+		
+		    <div class="js-calendar datepicker">
+			    <input type="text" id="datepicker" readonly>
+		    </div>
+		    <br>
+	      <button type="button" class="calendar-btn btn btn-tertiary">get</button>
+	    </section>
+	    
       <section>
         <h2>accordion</h2>
         <dl class="accordion js-accordion">
@@ -328,7 +338,7 @@
 <script src="/app/libs/gsap.min.js"></script>
 <script src="/app/libs/wow.min.js"></script>
 
-<!-- app, utils, plugin -->
+<!-- App, utils, plugin -->
 <script src="/app/js/App.js"></script>
 <script src="/app/js/utils.js"></script>
 <script src="/app/js/plugin.js"></script>
@@ -345,6 +355,23 @@
 		
 		$.App.Guide = () => {
 			return {
+				calendar () {
+					let $calendar = $('.js-calendar')
+					
+					// init, event
+					$calendar.calendar('clear').calendar({
+						// datepicker options
+					}).calendar('set', new Date())
+					
+					$calendar.on('change', e => {
+						console.log(e.date, e.calendar)
+					})
+					
+					// get
+					$('.calendar-btn').on('click', e => {
+						console.log('calendar get: ', $calendar.calendar('get'))
+					})
+				},
 				accordion () {
 					let $accordion = $('.js-accordion')
 					// event
