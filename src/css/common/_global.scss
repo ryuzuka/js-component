@@ -33,6 +33,8 @@
     width:100%;
     border:1px solid #d0d0d0;
     background-color:#fff;
+    overflow: auto;
+    max-height: 192px;
     button, a {
       display:block;
       position:relative;

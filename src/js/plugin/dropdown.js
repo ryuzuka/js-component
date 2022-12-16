@@ -42,6 +42,12 @@
     init () {
       if (typeof this.activeIndex === 'number') {
         this.active(this.activeIndex)
+        if (this.activeIndex > -1) {
+          this.toggle(true)
+          let scrollTop = this.$dropdown.find('.dropdown-list li').eq(this.activeIndex).position().top
+          this.$dropdown.find('.dropdown-list').scrollTop(scrollTop)
+          this.toggle(false)
+        }
       }
       if (typeof this.disableIndex === 'number') {
         this.disable([this.disableIndex])
@@ -76,11 +82,7 @@
     }
 
     toggle (isOpen) {
-      if (isOpen) {
-        this.$dropdown.find('.dropdown-list').addClass('active')
-      } else {
-        this.$dropdown.find('.dropdown-list').removeClass('active')
-      }
+      this.$dropdown.find('.dropdown-list')[isOpen ? 'addClass' : 'removeClass']('active')
       this.$button.attr('aria-expanded', isOpen)
 
       return this.$dropdown
