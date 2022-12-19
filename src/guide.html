@@ -8,34 +8,33 @@
 </head>
 <body>
   <style>
-      .contents section + section {
-        margin-top:40px;
-      }
-      .contents h2 {
-        margin-bottom:20px;
-        padding:20px 0;
-        border-bottom:1px solid #e8e8e8;
-        font-size:20px;
-        font-weight:bold;
-        text-transform:capitalize;
-      }
-      .contents h3 {
-        padding:20px 0;
-        text-transform:capitalize;
-      }
-      .contents h3:before {
-        content:'* ';
-      }
-    </style>
+    .contents section + section {
+      margin-top:40px;
+    }
+    .contents h2 {
+      margin-bottom:20px;
+      padding:20px 0;
+      border-bottom:1px solid #e8e8e8;
+      font-size:20px;
+      font-weight:bold;
+      text-transform:capitalize;
+    }
+    .contents h3 {
+      padding:20px 0;
+      text-transform:capitalize;
+    }
+    .contents h3:before {
+      content:'* ';
+    }
+  </style>
 
   <div class="wrap">
     @@include('./html/inc/header.html')
 
     <!--: Start #contents -->
     <div id="contents" class="contents">
+	    <h2>postcode - Daum 우편번호 서비스</h2>
 	    <section>
-		    <h2>postcode - Daum 우편번호 서비스</h2>
-		
 		    <div class="js-postcode">
 			    <div class="address">
 			      <input type="text" readonly>
@@ -48,10 +47,9 @@
 			    <button type="button" class="btn btn-search">주소 검색</button>
 		    </div>
 	    </section>
-	    
+	
+	    <h2>calendar (datepicker)</h2>
 	    <section>
-		    <h2>calendar (datepicker)</h2>
-		
 		    <div class="js-calendar datepicker">
 			    <input type="text" id="datepicker" readonly>
 		    </div>
@@ -59,8 +57,8 @@
 	      <button type="button" class="calendar-btn btn btn-tertiary">get</button>
 	    </section>
 	    
+      <h2>accordion</h2>
       <section>
-        <h2>accordion</h2>
         <dl class="accordion js-accordion">
           <dt class="accordion-head"><button type="button" aria-controls="acco-content1" aria-expanded="false">accordion1</button></dt>
           <dd id="acco-content1" class="accordion-content">contents1</dd>
@@ -70,8 +68,9 @@
           <dd id="acco-content3" class="accordion-content">contents3</dd>
         </dl>
       </section>
+	
+	    <h2>dropdown</h2>
       <section>
-        <h2>dropdown</h2>
         <div class="dropdown js-dropdown" data-placeholder="선택하세요.">
           <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">SKT</button>
           <ul class="dropdown-list" role="listbox" aria-labelledby="dropdown" tabindex="-1">
@@ -89,8 +88,9 @@
         <button class="btn btn-tertiary dropdown-apply">apply</button>
         <button class="btn btn-tertiary dropdown-clear">clear</button>
       </section>
+	
+	    <h2>tab</h2>
       <section>
-        <h2>tab</h2>
         <div class="tab js-tab">
           <div class="tab-list" role="tablist">
             <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
@@ -113,8 +113,9 @@
         <button class="btn btn-tertiary tab-apply">apply</button>
         <button class="btn btn-tertiary tab-clear">clear</button>
       </section>
+	
+	    <h2>paging</h2>
       <section>
-        <h2>paging</h2>
         <div class="paging js-paging">
           <button type="button" class="paging-first" disabled><span>처음</span></button>
           <button type="button" class="paging-prev" disabled><span>이전</span></button>
@@ -137,8 +138,9 @@
         <button class="btn btn-tertiary paging-apply">apply</button>
         <button class="btn btn-tertiary paging-clear">clear</button>
       </section>
+	
+	    <h2>modal</h2>
       <section>
-        <h2>modal</h2>
         <div>
           <button style="padding: 12px" type="button" class="modalBtn btn alert" aria-haspopup="dialog" aria-controls="pop-alert">alert</button>
           <button style="padding: 12px" type="button" class="modalBtn btn confirm" aria-haspopup="dialog" aria-controls="pop-confirm">confirm</button>
@@ -193,9 +195,9 @@
           </div>
         </div>
       </section>
+	    
+      <h2>swiper</h2>
       <section>
-        <h2>swiper</h2>
-	
 	      <!-- Slider main container -->
 	      <div class="swiper" style="height: 100px;">
 		      <!-- Additional required wrapper -->
@@ -220,15 +222,17 @@
 	      <br>
         <p><a href="https://swiperjs.com/" target="_blank">https://swiperjs.com/</a></p>
       </section>
-      <section>
-        <h2>textarea</h2>
+	
+	    <h2>textarea</h2>
+	    <section>
         <div class="js-textarea">
           <textarea id="txt-field" name="txt-field" maxlength="1000" cols="30" rows="10">0123456789</textarea>
           <span class="current-length">0</span>/<span class="total-length">100</span>
         </div>
       </section>
-      <section>
-        <h2>countdown</h2>
+	
+	    <h2>countdown</h2>
+	    <section>
         <div class="js-countdown">
           <span class="time">00:00</span>
         </div>
@@ -238,29 +242,34 @@
         <button class="btn btn-tertiary countdown-stop">stop</button>
         <button class="btn btn-tertiary countdown-clear">clear</button>
       </section>
+	
+	    <h2>Increase Number</h2>
       <section>
-	      <h2>Increase Number</h2>
         <input class="increase-number" type="text" value="0" disabled>
         <br>
         <br>
         <button class="btn btn-tertiary increase-start">start</button>
       </section>
+	
+	    <h2>block body scroll</h2>
       <section>
-        <h2>block body scroll</h2>
         <button class="btn btn-tertiary block">block</button>
         <button class="btn btn-tertiary block scroll">scroll</button>
       </section>
-      <section>
-        <h2>prevent scroll event</h2>
+	
+	    <h2>prevent scroll event</h2>
+	    <section>
         <button class="btn btn-tertiary prevent">prevent</button>
         <button class="btn btn-tertiary prevent scroll">scroll</button>
       </section>
+	
+	    <h2>loading</h2>
       <section>
-        <h2>loading</h2>
         <button class="btn loadingBtn">loading start</button>
       </section>
+	
+	    <h2>swipe</h2>
       <section>
-        <h2>swipe</h2>
         <button class="btn btn-tertiary body swipe-on">body swipe - on</button>
         <button class="btn btn-tertiary body swipe-off">body swipe - off</button>
         <br>
@@ -279,14 +288,16 @@
           element - swipe zone
         </div>
       </section>
+	
+	    <h2>transform</h2>
       <section>
-        <h2>transform</h2>
         <div class="transform obj" style="position: relative; width: 30px; height: 30px; background: #ddd"></div>
         <br>
         <button class="transform btn">transform start</button>
       </section>
+	
+	    <h2>gsap</h2>
       <section>
-        <h2>gsap</h2>
         <h4>Tween</h4>
         <div class="gsap obj" style="position: relative; width: 30px; height: 30px; background: #ddd"></div>
         <br>
@@ -304,8 +315,9 @@
         <button class="timeline btn pause">timeline pause</button>
         <button class="timeline btn stop">timeline stop</button>
       </section>
+	
+	    <h2>lottie</h2>
       <section>
-        <h2>lottie</h2>
         <div id="lottie" style="width: 100%; height: 500px"></div>
         <button class="btn btn-tertiary lottie-start">start</button>
         <button class="btn btn-tertiary lottie-pause">pause</button>
