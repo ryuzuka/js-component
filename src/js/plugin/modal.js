@@ -23,7 +23,7 @@
 
       const defaultOptions = {
         classes: '',
-        dimmed: false,
+        dimmed: true,
         clickToClose: false,
         preventScroll: false
       }
