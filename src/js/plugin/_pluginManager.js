@@ -34,15 +34,5 @@
       }
     }
   })
-
-  /** document ready - plugin execution */
-  $(() => {
-    $('.js-tab').tab()
-    $('.js-accordion').accordion()
-    $('.js-dropdown').dropdown()
-    $('.js-textarea').textarea()
-    $('.js-postcode').postcode()
-    $('.js-calendar').calendar()
-  })
 })(window.jQuery)
 /** ***************************************************************************************************************** */

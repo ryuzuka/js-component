@@ -1,5 +1,13 @@
 /** App.js ******************************************************************************************************** */
 ;($ => {
+  $.App = $.extend($.App || {}, {
+    DATE_FORMAT: 'YYYY-MM-DD',
+    MOBILE_WIDTH: 1024,
+    DEVICE: navigator.userAgent,
+    depth1Index: -1,
+    depth2Index: -1
+  })
+
   // before unload
   // window.onbeforeunload = () => window.scrollTo(0, 0)
 
@@ -19,13 +27,5 @@
     }
     lastTouchEnd = now
   }, {passive: false})
-
-  $.App = $.extend($.App || {}, {
-    DATE_FORMAT: 'YYYY-MM-DD',
-    MOBILE_WIDTH: 1024,
-    DEVICE: navigator.userAgent,
-    depth1Index: -1,
-    depth2Index: -1
-  })
 })(window.jQuery)
 /** ***************************************************************************************************************** */

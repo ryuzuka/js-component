@@ -19,9 +19,8 @@
     }
 
     block () {
-      if (this.$body.hasClass('block-body-scroll')) {
-        this.isBlock = true
-      }
+      if (this.isBlock) return
+      this.isBlock = true
 
       this.prevScroll = window.scrollY || window.pageYOffset
       let style = 'overflow: hidden; width: 100%; height: 100%; min-width: 100%; min-height: 100%;'
@@ -32,10 +31,8 @@
     }
 
     scroll () {
-      if (this.isBlock) {
-        this.isBlock = false
-        return
-      }
+      if (!this.isBlock) return
+      this.isBlock = false
 
       this.$body.removeAttr('style').removeClass('block-body-scroll')
       $(window).scrollTop(this.prevScroll)
