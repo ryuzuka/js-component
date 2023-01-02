@@ -21,16 +21,13 @@
       },
       call ($el, _method, _value) {
         let pluginId = $el.attr('applied-plugin')
-        if (!pluginId) {
-          return
-        }
-        let _return = pluginPool[pluginId][_method](_value)
-        pluginPool[pluginId][_method](_value)
+        if (!pluginId) return
+
         if (_method === 'clear') {
           this.remove($el)
         }
 
-        return _return
+        return pluginPool[pluginId][_method](_value)
       }
     }
   })
