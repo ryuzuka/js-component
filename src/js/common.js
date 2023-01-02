@@ -1,4 +1,4 @@
-/** components.js ******************************************************************************************************** */
+/** common.js ******************************************************************************************************** */
 ;(($, _) => {
   let Header = (_depth1Index, _depth2Index) => {
     let _this = {}
@@ -15,7 +15,16 @@
     }
   })()
 
+  /** document ready */
   $(function () {
+    /** plugin execution */
+    $('.js-tab').tab()
+    $('.js-accordion').accordion()
+    $('.js-dropdown').dropdown()
+    $('.js-textarea').textarea()
+    $('.js-postcode').postcode()
+    $('.js-calendar').calendar()
+
     $.App.Header = Header($.App.depth1Index, $.App.depth2Index)
     $.App.Footer = Footer()
     for (let component in components) {
