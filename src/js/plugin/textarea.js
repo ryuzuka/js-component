@@ -22,7 +22,7 @@
       this.$textarea = $this.find('textarea')
       this.$current = $this.find('.current-length')
       this.$total = $this.find('.total-length')
-      this.value = ''
+      this.value = $this.find('textarea').val() || ''
       this.maxlength = parseInt(this.$textarea.attr('maxlength'))
 
       this.init()
