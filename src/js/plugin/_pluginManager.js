@@ -21,15 +21,28 @@
       },
       call ($el, _method, _value) {
         let pluginId = $el.attr('applied-plugin')
-        if (!pluginId) return
-
+        if (!pluginId) {
+          return
+        }
+        let _return = pluginPool[pluginId][_method](_value)
+        pluginPool[pluginId][_method](_value)
         if (_method === 'clear') {
           this.remove($el)
         }
 
-        return pluginPool[pluginId][_method](_value)
+        return _return
       }
     }
+  })
+
+  /** document ready - plugin execution */
+  $(() => {
+    $('.js-accordion').accordion()
+    $('.js-calendar').calendar()
+    $('.js-dropdown').dropdown()
+    $('.js-postcode').postcode()
+    $('.js-tab').tab()
+    $('.js-textarea').textarea()
   })
 })(window.jQuery)
 /** ***************************************************************************************************************** */
