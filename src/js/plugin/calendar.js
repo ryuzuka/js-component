@@ -4,7 +4,8 @@
 
   $.fn.extend({
     calendar: function (options = {}, value) {
-      let _return = ''
+      let _return = null
+
       this.each((index, el) => {
         if (typeof options === 'string') {
           _return = $.plugin.call($(el), options, value)
@@ -33,10 +34,10 @@
         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
         showMonthAfterYear: true,
         yearSuffix: '년',
-        onSelect: (date, info) => {
+        onSelect: (date, datepicker) => {
           this.selectedDate = date
           this.$datepicker.attr('value', date)
-          this.$calendar.triggerHandler({type: 'change', date}, info)
+          this.$calendar.triggerHandler({type: 'change', date, datepicker})
         }
       }
       _.extend(this.options, options)

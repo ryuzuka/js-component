@@ -24,13 +24,13 @@
         if (!pluginId) {
           return
         }
+
         let _return = pluginPool[pluginId][_method](_value)
-        pluginPool[pluginId][_method](_value)
         if (_method === 'clear') {
           this.remove($el)
+        } else {
+          return _return
         }
-
-        return _return
       }
     }
   })

@@ -388,8 +388,9 @@
 						// datepicker options
 					}).calendar('set', new Date())
 					
-					$calendar.on('change', (e, info) => {
-						console.log(e.date, info)
+					$calendar.on('change', e => {
+						console.log(e.date)
+						console.log(e.datepicker)
 					})
 					
 					// get
