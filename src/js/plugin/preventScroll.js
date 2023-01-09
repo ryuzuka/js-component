@@ -4,7 +4,7 @@
   $.extend({
     preventScroll: function (isPrevent) {
       _plugin = _plugin || new PreventScroll()
-      _plugin[isPrevent ? 'add' : 'remove']()
+      _plugin.prevent(isPrevent)
 
       return _plugin
     }
@@ -12,22 +12,20 @@
 
   class PreventScroll {
     constructor () {
-      this.scrollEvent = $.utils.isMobile() ? 'touchmove' : 'wheel'
+      this.isPrevent = false
     }
 
-    preventScrollEventHandler (e) {
+    preventEventHandler (e) {
       e.preventDefault()
-      return false
     }
 
-    add () {
-      window.addEventListener(this.scrollEvent, this.preventScrollEventHandler, {passive: false})
-      $('body').addClass('prevent-scroll')
-    }
+    prevent (isPrevent) {
+      if (this.isPrevent === isPrevent) return
+      this.isPrevent = isPrevent
 
-    remove () {
-      window.removeEventListener(this.scrollEvent, this.preventScrollEventHandler)
-      $('body').removeClass('prevent-scroll')
+      document.body[(isPrevent ? 'add' : 'remove') + 'EventListener']('wheel', this.preventEventHandler, {passive: false})
+      document.body[(isPrevent ? 'add' : 'remove') + 'EventListener']('touchmove', this.preventEventHandler, {passive: false})
+      document.body.classList[isPrevent ? 'add' : 'remove']('prevent-scroll')
     }
   }
 })(window.jQuery)
