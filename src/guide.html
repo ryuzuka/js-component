@@ -523,11 +523,11 @@
 				loading () {
 					$('.loadingBtn').on('click', e => {
 						console.log('loading: start')
-						console.log($.loading('start'))
+						console.log($.loading(true))
 						
 						setTimeout(() => {
 							console.log('loading: end')
-							console.log($.loading('stop'))
+							console.log($.loading(false))
 						}, 1000)
 					})
 				},

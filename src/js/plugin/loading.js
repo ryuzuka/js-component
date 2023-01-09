@@ -39,9 +39,8 @@
     }
 
     loading (isLoading) {
-      isLoading = isLoading === 'start' ? true : false
-      $.preventScroll(isLoading)
       this.$loading[0].style.display = isLoading ? 'block' : 'none'
+      $.preventScroll(isLoading)
 
       return this.$loading[0]
     }
