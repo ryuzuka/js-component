@@ -49,9 +49,9 @@
         onclose (state) {
           if (state === 'COMPLETE_CLOSE') {
             _this.$detail.focus()
-            _this.$postcode.triggerHandler({type: 'complete-close'}, _this.$address.val())
+            _this.$postcode.triggerHandler(Object.assign({type: 'complete-close'}, {address: _this.$address.val()}), _this.$address.val())
           } else if (state === 'FORCE_CLOSE') {
-            _this.$postcode.triggerHandler({type: 'force-close'})
+            _this.$postcode.triggerHandler('force-close')
           }
         },
         width: width,

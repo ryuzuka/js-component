@@ -1,7 +1,8 @@
 /** loading.js ****************************************************************************************************** */
 ;($ => {
   let _plugin = null
-  let _$loading = $(`<div class="loading-wrap" style="display: none">
+  let _$loading = $(`
+      <div class="loading-wrap" style="display: none">
         <!--: Start #contents -->
         <svg class="loading" width="46" height="46">
           <defs>

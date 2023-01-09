@@ -425,7 +425,9 @@
 					
 					$postcode.on('complete-close force-close', (e, address) => {
 						if (e.type === 'complete-close') {
-							console.log(e, address)
+							console.log(e.address, address)
+						} else if (e.type === 'force-close') {
+							console.log(e.type)
 						}
 					})
 				},
@@ -569,7 +571,7 @@
 				swiper () {
 					const swiper = new Swiper('.swiper', {
 						// direction: 'vertical',
-						loop: true,
+						loop: false,
 						pagination: {
 							el: '.swiper-pagination',
 							clickable: true
