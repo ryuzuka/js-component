@@ -183,10 +183,16 @@
           <div class="layer-wrap">
             <div class="title">modal title</div>
             <button class="close">close</button>
-            <div class="layer-content">
-              modal contents
-              <input type="checkbox">
-              <button class="modalBtn">alert</button>
+            <div class="layer-content" style="overflow: auto; height: 200px">
+	            <button class="btn modalBtn">alert</button><br>
+	            <br>scroll
+	            <br>scroll
+	            <br>scroll
+	            <br>scroll
+	            <br>scroll
+	            <br>scroll
+	            <br>scroll
+	            scroll
             </div>
           </div>
         </div>
@@ -522,12 +528,10 @@
 				},
 				loading () {
 					$('.loadingBtn').on('click', e => {
-						console.log('loading: start')
-						console.log($.loading(true))
+						console.log('loading: start', $.loading(true))
 						
 						setTimeout(() => {
-							console.log('loading: end')
-							console.log($.loading(false))
+							console.log('loading: end', $.loading(false))
 						}, 1000)
 					})
 				},
