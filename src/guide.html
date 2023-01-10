@@ -492,7 +492,7 @@
 						 ** */
 						
 						if (event.target.className.indexOf(' alert') > -1) {
-							$('#pop-alert').modal({classes: 'add class test', closedFocus: '.modalBtn.alert'}, e => {
+							$('#pop-alert').modal({clickToClose: true, classes: 'add class test', closedFocus: '.modalBtn.alert', preventScroll: true}, e => {
 								console.log(e)
 							})
 							
@@ -502,7 +502,7 @@
 							})
 							
 						} else if (event.target.className.indexOf(' modal') > -1) {
-							$('#pop-modal').modal({clickToClose: false, closedFocus: '.modalBtn.modal'}, e => {
+							$('#pop-modal').modal({closedFocus: '.modalBtn.modal'}, e => {
 								console.log(e)
 								if (e.type === 'open') {
 									e.$modal.find('.modalBtn').on('click', e => {

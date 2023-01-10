@@ -19,21 +19,14 @@
       this.$modal = $this
       this.id = $this.attr('id')
       this.callback = callback || function () {}
-      this.prevScroll = 0
 
-      const defaultOptions = {
+      this.options = Object.assign({
         classes: '',
         dimmed: true,
         clickToClose: false,
-        preventScroll: false
-      }
-
-      if (typeof options === 'object') {
-        this.options = $.extend(defaultOptions, options)
-      } else if (typeof options === 'function') {
-        this.options = defaultOptions
-        this.callback = options
-      }
+        preventScroll: false,
+        closedFocus: ''
+      }, options)
 
       if (this.options.dimmed) {
         this.options.classes += ' dimmed'
@@ -91,11 +84,7 @@
       this.$modal.show()
       this.callback({type: 'open', $modal: this.$modal})
 
-      if (this.options.preventScroll) {
-        $.preventScroll(true)
-      } else {
-        $.blockBodyScroll(true)
-      }
+      $[this.options.preventScroll ? 'preventScroll' : 'blockBodyScroll'](true)
     }
 
     close (buttonIndex) {
@@ -103,11 +92,8 @@
       this.$modal.find('button, input, select, textarea').off()
       this.$modal.removeClass(this.options.classes).off().hide()
 
-      if (this.options.preventScroll) {
-        $.preventScroll(false)
-      } else {
-        $.blockBodyScroll(false)
-      }
+      $[this.options.preventScroll ? 'preventScroll' : 'blockBodyScroll'](false)
+
       setTimeout(() => {
         this.callback({type: 'close', $modal: this.$modal})
         $(this.options.closedFocus).focus()
