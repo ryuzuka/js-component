@@ -4,15 +4,15 @@
 
   $.fn.extend({
     paging: function (options = {}, value) {
-      this.each((index, el) => {
-        if (typeof options === 'string') {
-          $.plugin.call($(el), options, value)
-        } else {
+      if (typeof options === 'string') {
+        $.plugin.call(this, options, value)
+      } else {
+        this.each((index, el) => {
           if (!$(el).attr('applied-plugin')) {
             $.plugin.add($(el), pluginName, new Paging($(el), options))
           }
-        }
-      })
+        })
+      }
       return this
     }
   })

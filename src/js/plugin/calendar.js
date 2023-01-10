@@ -6,15 +6,15 @@
     calendar: function (options = {}, value) {
       let _return = null
 
-      this.each((index, el) => {
-        if (typeof options === 'string') {
-          _return = $.plugin.call($(el), options, value)
-        } else {
+      if (typeof options === 'string') {
+        _return = $.plugin.call(this, options, value)
+      } else {
+        this.each((index, el) => {
           if (!$(el).attr('applied-plugin')) {
             $.plugin.add($(el), pluginName, new Calendar($(el), options))
           }
-        }
-      })
+        })
+      }
 
       return options === 'get' ? _return : this
     }
