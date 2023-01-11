@@ -25,8 +25,6 @@ window['$plugin'] = {
 
 /** document ready - plugin execution */
 window.addEventListener('DOMContentLoaded', e => {
-	let test = $tab(document.getElementsByClassName('js-tab'))
-	console.log(test)
-	debugger
+	$tab(document.getElementsByClassName('js-tab'))
 })
 /** ***************************************************************************************************************** */

@@ -18,7 +18,11 @@ Object.assign(window, {
 })
 
 class Tab {
-  constructor ($this, options) {
+  constructor (el, options) {
+    this.$tab = el
+    this.$list = el.querySelector('.tab-list')
+    this.$button = el.querySelectorAll('.tab-list button')
+
     // this.$tab = $this
     // this.$list = this.$tab.find('> .tab-list')
     // this.$button = this.$list.find('a, button')
@@ -61,7 +65,6 @@ class Tab {
   }
 
   clear () {
-    console.log('clear')
     // this.$button.removeClass('active').attr('aria-selected', false).off('click')
     // this.$content.find('> .content').removeClass('active').prop('hidden', true)
   }
