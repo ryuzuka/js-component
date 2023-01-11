@@ -6,11 +6,14 @@ Object.assign(window, {
     if (typeof options === 'string') {
       return $plugin.call(element, options, value)
     } else {
+      let plugin = null
       for (let el of element.length > 0 ? element : [element]) {
         if (!el.getAttribute('applied-plugin')) {
-          $plugin.add(el, new Tab(el, options), _pluginName)
+          plugin = new Tab(el, options)
+          $plugin.add(el, plugin, _pluginName)
         }
       }
+      return plugin
     }
   }
 })
@@ -59,8 +62,9 @@ class Tab {
   }
 
   clear () {
-    this.$button.removeClass('active').attr('aria-selected', false).off('click')
-    this.$content.find('> .content').removeClass('active').prop('hidden', true)
+    console.log('clear')
+    // this.$button.removeClass('active').attr('aria-selected', false).off('click')
+    // this.$content.find('> .content').removeClass('active').prop('hidden', true)
   }
 }
 /** ****************************************************************************************************************** */
