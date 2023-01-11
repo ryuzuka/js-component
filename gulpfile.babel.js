@@ -115,7 +115,7 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.html, htmlInclude)
   gulp.watch(paths.scss, style)
-  gulp.watch(paths.plugin, libs)
+  gulp.watch(paths.libs, libs)
   gulp.watch(paths.plugin, plugin)
   gulp.watch(paths.scripts, scripts)
   gulp.watch(paths.image, copyImage)
