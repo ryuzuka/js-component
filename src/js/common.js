@@ -9,17 +9,14 @@ let Footer = () => {
   return _this
 }
 
-let components = (() => {
-  return {
-  }
-})()
+let components = {}
 
 /** document ready */
 window.addEventListener('DOMContentLoaded', e => {
-  window.$Header = Header(App.depth1Index, App.depth2Index)
-  window.$Footer = Footer()
+  window['$Header'] = Header(App.depth1Index, App.depth2Index)
+  window['$Footer'] = Footer()
   for (let component in components) {
-    window.$[component] = components[component]()
+    window['$' + component] = components[component]()
   }
 })
 /** ***************************************************************************************************************** */

@@ -2,7 +2,7 @@
 let pluginPool = {}
 let pluginIndex = 0
 
-window.$plugin = {
+window['$plugin'] = {
 	add (element, plugin, pluginName) {
     let pluginId = pluginName + pluginIndex
 		element.setAttribute('applied-plugin', pluginId)
@@ -22,4 +22,11 @@ window.$plugin = {
 		return _return
 	}
 }
+
+/** document ready - plugin execution */
+window.addEventListener('DOMContentLoaded', e => {
+	let test = $tab(document.getElementsByClassName('js-tab'))
+	console.log(test)
+	debugger
+})
 /** ***************************************************************************************************************** */

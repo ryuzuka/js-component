@@ -41,7 +41,7 @@ class Loading {
 
   loading (isLoading) {
     this.$loading[0].style.display = isLoading ? 'block' : 'none'
-    window.$preventScroll(isLoading)
+    $preventScroll(isLoading)
   }
 }
 /** ***************************************************************************************************************** */
