@@ -9,8 +9,7 @@ Object.assign(window, {
       let plugin = null
       for (let el of element.length > 0 ? element : [element]) {
         if (!el.getAttribute('applied-plugin')) {
-          plugin = new Tab(el, options)
-          $plugin.add(el, plugin, _pluginName)
+          $plugin.add(el, plugin = new Tab(el, options), _pluginName)
         }
       }
       return plugin
