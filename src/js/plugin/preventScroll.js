@@ -1,7 +1,7 @@
 /** preventScroll.js ****************************************************************************************************** */
 let _plugin = null
 
-Object.assign(window || {}, {
+Object.assign(window, {
   $preventScroll: function (isPrevent) {
     _plugin = _plugin || new PreventScroll()
     _plugin.prevent(isPrevent)

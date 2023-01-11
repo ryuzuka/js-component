@@ -46,6 +46,50 @@
 	    </section>
 	    <br>
 	
+	    <h2>tab</h2>
+	    <section>
+		    <div class="tab js-tab">
+			    <div class="tab-list" role="tablist">
+				    <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
+				    <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
+				    <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
+			    </div>
+			    <div class="tab-content">
+				    <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
+					    tab1 contents
+				    </div>
+				    <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
+					    tab2 contents
+				    </div>
+				    <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
+					    tab3 contents
+				    </div>
+			    </div>
+		    </div>
+		    <div class="tab js-tab">
+			    <div class="tab-list" role="tablist">
+				    <button type="button" id="tab21" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
+				    <button type="button" id="tab22" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
+				    <button type="button" id="tab23" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
+			    </div>
+			    <div class="tab-content">
+				    <div id="tab-content21" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
+					    tab1 contents
+				    </div>
+				    <div id="tab-content22" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
+					    tab2 contents
+				    </div>
+				    <div id="tab-content23" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
+					    tab3 contents
+				    </div>
+			    </div>
+		    </div>
+		    <br>
+		    <button class="btn btn-tertiary tab-apply">apply</button>
+		    <button class="btn btn-tertiary tab-clear">clear</button>
+	    </section>
+	    <br>
+	
 	    <h2>calendar (datepicker)</h2>
 	    <section>
 		    <div class="js-calendar datepicker">
@@ -116,32 +160,6 @@
         <br>
         <button class="btn btn-tertiary paging-apply">apply</button>
         <button class="btn btn-tertiary paging-clear">clear</button>
-      </section>
-      <br>
-	
-	    <h2>tab</h2>
-      <section>
-        <div class="tab js-tab">
-          <div class="tab-list" role="tablist">
-            <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
-            <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
-            <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
-          </div>
-          <div class="tab-content">
-            <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
-              tab1 contents
-            </div>
-            <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
-              tab2 contents
-            </div>
-            <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
-              tab3 contents
-            </div>
-          </div>
-        </div>
-        <br>
-        <button class="btn btn-tertiary tab-apply">apply</button>
-        <button class="btn btn-tertiary tab-clear">clear</button>
       </section>
       <br>
 	
@@ -354,10 +372,14 @@
 
 </body>
 <script>
+	/** document ready - plugin execution */
+	window.addEventListener('DOMContentLoaded', e => {
+		$tab(document.getElementsByClassName('js-tab'))
+	})
+	
 	/** document ready */
 	window.addEventListener('DOMContentLoaded', e => {
 		let guide = App.Guide()
-		
 		for (let plugin in guide) {
 			guide[plugin]()
 		}
@@ -365,6 +387,9 @@
 	
 	window.App.Guide = () => {
 		return {
+			tab () {
+			
+			},
 			loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
 					$loading(true)
@@ -401,7 +426,7 @@
 							// console.log('swiper-change', this.realIndex)
 						},
 						resize () {
-							console.log('swiper-resize')
+							// console.log('swiper-resize')
 						}
 					}
 				})

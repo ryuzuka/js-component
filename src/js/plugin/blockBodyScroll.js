@@ -1,7 +1,7 @@
 /** blockBodyScroll.js ****************************************************************************************************** */
 let _plugin = null
 
-Object.assign(window || {}, {
+Object.assign(window, {
   $blockBodyScroll: function (isBlock) {
     _plugin = _plugin || new BlockBodyScroll()
     _plugin.block(isBlock)

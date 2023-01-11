@@ -1,50 +1,26 @@
 /** pluginManager *************************************************************************************************** */
-window.$plugin = {
-
-}
-
 let pluginPool = {}
 let pluginIndex = 0
 
-/** plugin manager */
-// $.extend({
-//   plugin: {
-//     add ($el, _pluginName, _plugin) {
-//       if ($el.attr('applied-plugin')) {
-//         return
-//       }
-//       let pluginId = _pluginName + pluginIndex
-//       $el.attr('applied-plugin', pluginId)
-//       pluginPool[pluginId] = _plugin
-//       pluginIndex++
-//     },
-//     remove ($el) {
-//       delete pluginPool[$el.attr('applied-plugin')]
-//       $el.removeAttr('applied-plugin')
-//     },
-//     call ($el, _method, _value) {
-//       let pluginId = $el.attr('applied-plugin')
-//       if (!pluginId) {
-//         return
-//       }
-//
-//       let _return = pluginPool[pluginId][_method](_value)
-//       if (_method === 'clear') {
-//         this.remove($el)
-//       } else {
-//         return _return
-//       }
-//     }
-//   }
-// })
-
-/** document ready - plugin execution */
-// $(() => {
-//   $('.js-accordion').accordion()
-//   $('.js-calendar').calendar()
-//   $('.js-dropdown').dropdown()
-//   $('.js-postcode').postcode()
-//   $('.js-tab').tab()
-//   $('.js-textarea').textarea()
-// })
+window.$plugin = {
+	add (element, plugin, pluginName) {
+		console.log('plugin add')
+      let pluginId = pluginName + pluginIndex
+			element.setAttribute('applied-plugin', pluginId)
+      pluginPool[pluginId] = plugin
+      pluginIndex++
+	},
+  remove (element) {
+    delete pluginPool[element.getAttribute('applied-plugin')]
+	  element.removeAttribute('applied-plugin')
+  },
+	call (element, method, value) {
+		let pluginId = element.getAttribute('applied-plugin')
+		if (!pluginId) {
+			return
+		}
+		if (method === 'clear') this.remove(element)
+		return pluginPool[pluginId][method](value)
+	}
+}
 /** ***************************************************************************************************************** */
