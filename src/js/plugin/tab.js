@@ -19,54 +19,55 @@ Object.assign(window, {
 
 class Tab {
   constructor (el, options) {
+    let _this = this
+
+    this.options = options
+    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : 0
+
     this.$tab = el
     this.$list = el.querySelector('.tab-list')
     this.$button = el.querySelectorAll('.tab-list button')
+    this.$content = el.querySelectorAll('.content')
 
-    // this.$tab = $this
-    // this.$list = this.$tab.find('> .tab-list')
-    // this.$button = this.$list.find('a, button')
-    // this.$content = this.$tab.find('> .tab-content')
-    //
-    // this.options = options
-    // this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : 0
-    //
-    // this.init()
-  }
+    this.eventHandler = {
+      clickTab (e) {
+        let idx = [...e.target.parentNode.children].indexOf(e.target)
+        if (idx === _this.activeIndex) return
 
-  test () {
-    console.log('test')
-    return window
-  }
+        _this.active(idx)
+        e.preventDefault()
+      }
+    }
 
-  init () {
-    this.$button.on('click', e => {
-      let idx = $(e.target).index()
-      if (idx === this.activeIndex) return
-      this.active(idx)
-      e.preventDefault()
+    this.$button.forEach(($el, idx) => {
+      $el.addEventListener('click', this.eventHandler.clickTab)
     })
 
-    if (typeof this.activeIndex === 'number') {
+    if (this.activeIndex > -1) {
       this.active(this.activeIndex)
     }
   }
 
   active (idx) {
-    let $content = this.$content.find('> .content')
     this.activeIndex = idx
+    this.$content.forEach(($el, index) => {
+      this.$button[idx === index ? idx : index].classList[idx === index ? 'add' : 'remove']('active')
+      this.$button[idx === index ? idx : index].setAttribute('aria-selected', idx === index ? true : false)
+      $el.classList[idx === index ? 'add' : 'remove']('active')
+      $el.hidden = idx === index ? false : true
+    })
 
-    this.$button.removeClass('active').attr('aria-selected', false)
-    this.$button.eq(idx).addClass('active').attr('aria-selected', true)
-    $content.prop('hidden', true).removeClass('active')
-    $content.eq(idx).prop('hidden', false).addClass('active')
-
-    this.$tab.triggerHandler({type: 'change', activeIndex: this.activeIndex})
+    this.$tab.dispatchEvent(new CustomEvent('change', {
+      detail: {activeIndex: idx}
+    }))
   }
 
   clear () {
-    // this.$button.removeClass('active').attr('aria-selected', false).off('click')
-    // this.$content.find('> .content').removeClass('active').prop('hidden', true)
+    this.active(-1)
+    this.$button.forEach(($el, idx) => {
+      $el.removeEventListener('click', this.eventHandler.clickTab)
+    })
+    return $tab
   }
 }
 /** ****************************************************************************************************************** */

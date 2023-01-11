@@ -364,7 +364,19 @@
 	window.App.Guide = () => {
 		return {
 			tab () {
-			
+				let _$tab = document.querySelector('.js-tab')
+				$tab(_$tab, 'clear')(_$tab, {activeIndex: 1})
+				
+				document.querySelector('.tab-apply').addEventListener('click', e => {
+					$tab(_$tab)
+				})
+				document.querySelector('.tab-clear').addEventListener('click', e => {
+					$tab(_$tab, 'clear')
+				})
+				
+				_$tab.addEventListener('change', e => {
+					console.log('tab, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+				})
 			},
 			loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
