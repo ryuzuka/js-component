@@ -1,8 +1,8 @@
-/** loading.js ****************************************************************************************************** */
+/** Loading.js ****************************************************************************************************** */
 let _plugin = null
 
 Object.assign(window, {
-  $loading: function (isLoading) {
+  Loading: function (isLoading) {
     _plugin = _plugin || new Loading()
     _plugin.loading(isLoading)
 
@@ -36,12 +36,12 @@ class Loading {
     </div>`
 
     document.body.insertAdjacentHTML('beforeend', _loadingHtml)
-    this.$loading = document.getElementsByClassName('loading-wrap')
+    this.Loading = document.querySelector('.loading-wrap')
   }
 
   loading (isLoading) {
-    this.$loading[0].style.display = isLoading ? 'block' : 'none'
-    $preventScroll(isLoading)
+    this.Loading.style.display = isLoading ? 'block' : 'none'
+    window.PreventScroll(isLoading)
   }
 }
 /** ***************************************************************************************************************** */

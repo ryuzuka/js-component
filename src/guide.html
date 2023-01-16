@@ -363,7 +363,9 @@
 	
 	window.App.Guide = () => {
 		return {
-			tab () {
+			Accordinon () {
+			},
+			Tab () {
 				let $tab = document.querySelector('.js-tab')
 				let tab = window.Tab($tab, 'clear')($tab, {activeIndex: 1})
 				tab.active(2)
@@ -381,17 +383,17 @@
 					window.Tab($tab, 'clear')
 				})
 			},
-			loading () {
+			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
-					$loading(true)
+					window.Loading(true)
 					console.log('loading: start')
 					setTimeout(() => {
-						$loading(false)
+						window.Loading(false)
 						console.log('loading: end', )
 					}, 1000)
 				})
 			},
-			swiper () {
+			Swiper () {
 				const swiper = new Swiper('.swiper', {
 					// direction: 'vertical',
 					loop: false,
@@ -422,23 +424,23 @@
 					}
 				})
 			},
-			blockBodyScroll () {
+			BlockBodyScroll () {
 				document.querySelector('.btn.block:not(.scroll)').addEventListener('click', e => {
-					$blockBodyScroll(true)
+					window.BlockBodyScroll(true)
 				})
 				document.querySelector('.btn.block.scroll').addEventListener('click', e => {
-					$blockBodyScroll(false)
+					window.BlockBodyScroll(false)
 				})
 			},
-			preventScroll () {
+			PreventScroll () {
 				document.querySelector('.btn.prevent:not(.scroll)').addEventListener('click', e => {
-					$preventScroll(true)
+					window.PreventScroll(true)
 				})
 				document.querySelector('.btn.prevent.scroll').addEventListener('click', e => {
-					$preventScroll(false)
+					window.PreventScroll(false)
 				})
 			},
-			lottie () {
+			Lottie () {
 				let _lottie = window['lottie'].loadAnimation({
 					container: document.getElementById('lottie'),
 					renderer: 'svg',
@@ -462,22 +464,6 @@
 	}
 	
 	let temp = {
-		accordion () {
-			let $accordion = $('.js-accordion')
-			
-			// init
-			$accordion.accordion('clear').accordion({
-				// type: 'multi', // type: single(default), multi
-				// activeIndex: 2 // default: -1
-				
-				// event
-			}).on('open', e => {
-				console.log('accordion, type: ' + e.type + ', activeIndex: ' + e.activeIndex)
-			})
-			
-			// method - active
-			$accordion.accordion('active', 2)
-		},
 		calendar () {
 			let $calendar = $('.js-calendar')
 			
@@ -580,7 +566,7 @@
 			$('.modalBtn').on('click', event => {
 				/**
 				 * closedFocus: 접근성 준수
-				 * preventScroll: 스크롤 처리 방식 (default: blockBodyScroll)
+				 * preventScroll: 스크롤 처리 방식 (default: BlockBodyScroll)
 				 ** */
 				
 				if (event.target.className.indexOf(' alert') > -1) {
