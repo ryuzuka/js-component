@@ -2,9 +2,11 @@
 let _pluginName = 'tab'
 
 Object.assign(window, {
-  $tab: function (element, options = {}, value) {
+  Tab: function (element, options = {}, value) {
     if (typeof options === 'string') {
-      return $plugin.call(element, options, value)
+      let el = element.length > 0 ? element[0] : element
+      return $plugin.call(el, options, value)
+
     } else {
       let plugin = null
       for (let el of element.length > 0 ? element : [element]) {
@@ -21,14 +23,13 @@ class Tab {
   constructor (el, options) {
     let _this = this
 
-    this.options = options
-    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : 0
-
     this.$tab = el
     this.$list = el.querySelector('.tab-list')
     this.$button = el.querySelectorAll('.tab-list button')
     this.$content = el.querySelectorAll('.content')
 
+    this.options = options
+    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : 0
     this.eventHandler = {
       clickTab (e) {
         let idx = [...e.target.parentNode.children].indexOf(e.target)
@@ -39,35 +40,37 @@ class Tab {
       }
     }
 
-    this.$button.forEach(($el, idx) => {
-      $el.addEventListener('click', this.eventHandler.clickTab)
+    this.$button.forEach($btn => {
+      $btn.addEventListener('click', this.eventHandler.clickTab)
     })
 
-    if (this.activeIndex > -1) {
-      this.active(this.activeIndex)
-    }
+    this.active(this.activeIndex)
   }
 
   active (idx) {
     this.activeIndex = idx
     this.$content.forEach(($el, index) => {
-      this.$button[idx === index ? idx : index].classList[idx === index ? 'add' : 'remove']('active')
-      this.$button[idx === index ? idx : index].setAttribute('aria-selected', idx === index ? true : false)
-      $el.classList[idx === index ? 'add' : 'remove']('active')
-      $el.hidden = idx === index ? false : true
+      let isActive = idx === index
+      this.$button[isActive ? idx : index].classList[isActive ? 'add' : 'remove']('active')
+      this.$button[isActive ? idx : index].setAttribute('aria-selected', isActive ? true : false)
+      $el.classList[isActive ? 'add' : 'remove']('active')
+      $el.hidden = isActive ? false : true
     })
 
     this.$tab.dispatchEvent(new CustomEvent('change', {
       detail: {activeIndex: idx}
     }))
+
+    return window.Tab
   }
 
   clear () {
     this.active(-1)
-    this.$button.forEach(($el, idx) => {
-      $el.removeEventListener('click', this.eventHandler.clickTab)
+    this.$button.forEach($btn => {
+      $btn.removeEventListener('click', this.eventHandler.clickTab)
     })
-    return $tab
+
+    return window.Tab
   }
 }
 /** ****************************************************************************************************************** */

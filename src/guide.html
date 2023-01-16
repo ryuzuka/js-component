@@ -50,18 +50,18 @@
 	    <section>
 		    <div class="tab js-tab">
 			    <div class="tab-list" role="tablist">
-				    <button type="button" id="tab21" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
-				    <button type="button" id="tab22" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
-				    <button type="button" id="tab23" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
+				    <button type="button" id="tab1" role="tab" aria-controls="tab-content1" aria-selected="false">tab1</button>
+				    <button type="button" id="tab2" role="tab" aria-controls="tab-content2" aria-selected="false">tab2</button>
+				    <button type="button" id="tab3" role="tab" aria-controls="tab-content3" aria-selected="false">tab3</button>
 			    </div>
 			    <div class="tab-content">
-				    <div id="tab-content21" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
+				    <div id="tab-content1" class="content" role="tabpanel" aria-labelledby="tab1" tabindex="0" hidden>
 					    tab1 contents
 				    </div>
-				    <div id="tab-content22" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
+				    <div id="tab-content2" class="content" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
 					    tab2 contents
 				    </div>
-				    <div id="tab-content23" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
+				    <div id="tab-content3" class="content" role="tabpanel" aria-labelledby="tab3" tabindex="0" hidden>
 					    tab3 contents
 				    </div>
 			    </div>
@@ -364,18 +364,21 @@
 	window.App.Guide = () => {
 		return {
 			tab () {
-				let _$tab = document.querySelector('.js-tab')
-				$tab(_$tab, 'clear')(_$tab, {activeIndex: 1})
+				let $tab = document.querySelector('.js-tab')
+				let tab = window.Tab($tab, 'clear')($tab, {activeIndex: 1})
+				tab.active(2)
+				
+				for (let tab of $tab.length > -1 ? $tab : [$tab]) {
+					tab.addEventListener('change', e => {
+						console.log('tab, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+					})
+				}
 				
 				document.querySelector('.tab-apply').addEventListener('click', e => {
-					$tab(_$tab)
+					window.Tab($tab)
 				})
 				document.querySelector('.tab-clear').addEventListener('click', e => {
-					$tab(_$tab, 'clear')
-				})
-				
-				_$tab.addEventListener('change', e => {
-					console.log('tab, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+					window.Tab($tab, 'clear')
 				})
 			},
 			loading () {
@@ -615,15 +618,6 @@
 				}
 			})
 		},
-		loading () {
-			$('.loadingBtn').on('click', e => {
-				console.log('loading: start', $.loading(true))
-				
-				setTimeout(() => {
-					console.log('loading: end', $.loading(false))
-				}, 1000)
-			})
-		},
 		countdown () {
 			let $countdown = $('.js-countdown')
 			$countdown.countdown('clear').countdown({
@@ -659,37 +653,6 @@
 				).on('complete', e => {
 					console.log(e.type)
 				})
-			})
-		},
-		swiper () {
-			const swiper = new Swiper('.swiper', {
-				// direction: 'vertical',
-				loop: false,
-				pagination: {
-					el: '.swiper-pagination',
-					clickable: true
-				},
-				navigation: {
-					nextEl: '.swiper-button-next',
-					prevEl: '.swiper-button-prev',
-				},
-				scrollbar: {
-					el: '.swiper-scrollbar',
-				},
-				on: {
-					init () {
-						console.log('swiper-init', this.realIndex)
-					},
-					transitionEnd () {
-						// console.log('swiper-end', this.realIndex)
-					},
-					slideChange () {
-						// console.log('swiper-change', this.realIndex)
-					},
-					resize () {
-						console.log('swiper-resize')
-					}
-				}
 			})
 		},
 		swipe () {
@@ -728,22 +691,6 @@
 						$.preventScroll(false)
 					}
 				}
-			})
-		},
-		blockBodyScroll () {
-			$('.btn.block:not(.scroll)').on('click', e => {
-				$.blockBodyScroll(true)
-			})
-			$('.btn.block.scroll').on('click', e => {
-				$.blockBodyScroll(false)
-			})
-		},
-		preventScrollEvent () {
-			$('.btn.prevent:not(.scroll)').on('click', e => {
-				$.preventScroll(true)
-			})
-			$('.btn.prevent.scroll').on('click', e => {
-				$.preventScroll(false)
 			})
 		},
 		transform () {
@@ -794,28 +741,7 @@
 			$('.timeline.btn.stop').on('click', e => {
 				timeline.clear().kill()
 			})
-		},
-		lottie () {
-			let _lottie = lottie.loadAnimation({
-				container: document.getElementById('lottie'),
-				renderer: 'svg',
-				// animationData: '', async
-				path: '/App/data/lottie.json',
-				loop: false, // default: true
-				autoplay: true // default: true
-			})
-			
-			$('.lottie-start').on('click', e => {
-				_lottie.play()
-			})
-			$('.lottie-pause').on('click', e => {
-				_lottie.pause()
-			})
-			$('.lottie-stop').on('click', e => {
-				_lottie.stop()
-			})
 		}
-		
 	}
 </script>
 </html>
