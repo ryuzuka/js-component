@@ -100,19 +100,27 @@
 // accordion
 .accordion {
   border-top:1px solid #e8e8e8;
-  &-head {
+  border-bottom:1px solid #e8e8e8;
+  &-section {
+    &.active {
+      .accordion-content {
+        display:block;
+      }
+    }
+    &+.accordion-section {
+      border-top:1px solid #e8e8e8;
+    }
     button {
       display:block;
       width:100%;
       padding:12px;
-      border-bottom:1px solid #e8e8e8;
       text-align:left;
     }
   }
   &-content {
     display:none;
     padding:20px;
-    border-bottom:1px solid #e8e8e8;
+    border-top:1px solid #e8e8e8;
     &.active {display:block;}
   }
 }
