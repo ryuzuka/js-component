@@ -333,26 +333,14 @@
         <div class="gsap obj" style="position: relative; width: 30px; height: 30px; background: #ddd"></div>
         <br>
         <button class="gsap btn">gsap start</button>
-
-        <br>
-        <br>
-
-        <h4>Timeline</h4>
-        <div class="motion0 obj" style="position: relative; width: 30px; height: 30px; background: #ddd"></div>
-        <div class="motion1 obj" style="position: relative; width: 30px; height: 30px; background: #eee"></div>
-        <div class="motion2 obj" style="position: relative; width: 30px; height: 30px; background: #ccc"></div>
-        <br>
-        <button class="timeline btn play">timeline play</button>
-        <button class="timeline btn pause">timeline pause</button>
-        <button class="timeline btn stop">timeline stop</button>
       </section>
 	
 	    <h2>lottie</h2>
       <section>
         <div id="lottie" style="width: 100%; height: 500px"></div>
-        <button class="btn btn-tertiary lottie-start">start</button>
-        <button class="btn btn-tertiary lottie-pause">pause</button>
-        <button class="btn btn-tertiary lottie-stop">stop</button>
+        <button class="btn btn-tertiary lottie start">start</button>
+        <button class="btn btn-tertiary lottie pause">pause</button>
+        <button class="btn btn-tertiary lottie stop">stop</button>
       </section>
     </div>
     <!--: End #contents -->
@@ -426,11 +414,9 @@
 			},
 			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
-					window.Loading(true)
-					console.log('loading: start')
+					window.loading(true)
 					setTimeout(() => {
-						window.Loading(false)
-						console.log('loading: end', )
+						window.loading(false)
 					}, 1000)
 				})
 			},
@@ -451,7 +437,7 @@
 					},
 					on: {
 						init () {
-							console.log('swiper-init', this.realIndex)
+							// console.log('swiper-init', this.realIndex)
 						},
 						transitionEnd () {
 							// console.log('swiper-end', this.realIndex)
@@ -466,19 +452,25 @@
 				})
 			},
 			BlockBodyScroll () {
-				document.querySelector('.btn.block:not(.scroll)').addEventListener('click', e => {
-					window.BlockBodyScroll(true)
-				})
-				document.querySelector('.btn.block.scroll').addEventListener('click', e => {
-					window.BlockBodyScroll(false)
+				document.querySelectorAll('.btn.block').forEach($btn => {
+					$btn.addEventListener('click', e => {
+						if (e.target.className.indexOf('scroll') > -1) {
+							window.blockBodyScroll(false)
+						} else {
+							window.blockBodyScroll(true)
+						}
+					})
 				})
 			},
 			PreventScroll () {
-				document.querySelector('.btn.prevent:not(.scroll)').addEventListener('click', e => {
-					window.PreventScroll(true)
-				})
-				document.querySelector('.btn.prevent.scroll').addEventListener('click', e => {
-					window.PreventScroll(false)
+				document.querySelectorAll('.btn.prevent').forEach($btn => {
+					$btn.addEventListener('click', e => {
+						if (e.target.className.indexOf('scroll') > -1) {
+							window.preventScroll(false)
+						} else {
+							window.preventScroll(true)
+						}
+					})
 				})
 			},
 			Lottie () {
@@ -490,15 +482,35 @@
 					loop: true, // default: true
 					autoplay: false // default: true
 				})
-				
-				document.querySelector('.lottie-start').addEventListener('click', e => {
-					_lottie.play()
+				_lottie.play()
+				document.querySelectorAll('.btn.lottie').forEach($btn => {
+					$btn.addEventListener('click', e => {
+						if (e.target.className.indexOf('start') > -1) {
+							_lottie.play()
+						} else if (e.target.className.indexOf('pause') > -1) {
+							_lottie.pause()
+						} else if (e.target.className.indexOf('stop') > -1) {
+							_lottie.stop()
+						}
+					})
 				})
-				document.querySelector('.lottie-pause').addEventListener('click', e => {
-					_lottie.pause()
+			},
+			transform () {
+				document.querySelector('.transform.btn').addEventListener('click', e => {
+					console.log('transform')
 				})
-				document.querySelector('.lottie-stop').addEventListener('click', e => {
-					_lottie.stop()
+			},
+			gsap () {
+				// tween
+				let left = parseInt(window.innerWidth) / 1.1
+				document.querySelector('.gsap.btn').addEventListener('click', e => {
+					gsap.to('.gsap.obj', 1, {
+						transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
+						ease: Expo.easeInOut,
+						onComplete: () => {
+							console.log('onComplete')
+						}
+					})
 				})
 			}
 		}

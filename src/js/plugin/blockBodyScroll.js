@@ -2,7 +2,7 @@
 let _plugin = null
 
 Object.assign(window, {
-  BlockBodyScroll: function (isBlock) {
+  blockBodyScroll: function (isBlock) {
     _plugin = _plugin || new BlockBodyScroll()
     _plugin.block(isBlock)
 
