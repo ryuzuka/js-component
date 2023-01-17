@@ -28,5 +28,6 @@ window.addEventListener('DOMContentLoaded', e => {
 	window.Accordion(document.getElementsByClassName('js-accordion'))
 	window.Dropdown(document.getElementsByClassName('js-dropdown'))
 	window.Tab(document.getElementsByClassName('js-tab'))
+	window.Textarea(document.getElementsByClassName('js-textarea'))
 })
 /** ***************************************************************************************************************** */
