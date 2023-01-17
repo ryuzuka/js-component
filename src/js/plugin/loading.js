@@ -36,11 +36,11 @@ class Loading {
     </div>`
 
     document.body.insertAdjacentHTML('beforeend', _loadingHtml)
-    this.Loading = document.querySelector('.loading-wrap')
+    this.$loading = document.querySelector('.loading-wrap')
   }
 
   loading (isLoading) {
-    this.Loading.style.display = isLoading ? 'block' : 'none'
+    this.$loading.style.display = isLoading ? 'block' : 'none'
     window.PreventScroll(isLoading)
   }
 }

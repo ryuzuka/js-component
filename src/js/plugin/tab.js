@@ -21,21 +21,22 @@ Object.assign(window, {
 
 class Tab {
   constructor (el, options) {
-    let _this = this
-
     this.$tab = el
     this.$list = el.querySelector('.tab-list')
     this.$content = el.querySelectorAll('.content')
     this.$button = el.querySelectorAll('.tab-list > button')
 
+    let activeIdx = parseInt(options.activeIndex)
+    let disabledIdx = parseInt(options.disabledIndex)
+    this.activeIndex = activeIdx > -1 ? activeIdx : -1
+    this.disabledIndex = disabledIdx > -1 ? disabledIdx : -1
     this.options = options
-    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : 0
-    this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
+
     this.eventHandler = {
-      clickButton (e) {
-        let idx = [...e.target.parentNode.children].indexOf(e.target)
-        if (idx === _this.activeIndex) return
-        _this.active(idx)
+      clickTab: e => {
+        let idx = [...e.target.parentElement.children].indexOf(e.target)
+        if (idx === this.activeIndex) return
+        this.active(idx)
         e.preventDefault()
       }
     }
@@ -43,8 +44,10 @@ class Tab {
     this.$button.forEach(($btn, index) => {
       if (this.disabledIndex == index) {
         $btn.disabled = true
+        $btn.classList.add('disabled')
+
       }
-      $btn.addEventListener('click', this.eventHandler.clickButton)
+      $btn.addEventListener('click', this.eventHandler.clickTab)
     })
 
     this.active(this.activeIndex)
@@ -71,7 +74,8 @@ class Tab {
     this.active(-1)
     this.$button.forEach($btn => {
       $btn.disabled = false
-      $btn.removeEventListener('click', this.eventHandler.clickButton)
+      $btn.classList.remove('disabled')
+      $btn.removeEventListener('click', this.eventHandler.clickTab)
     })
 
     return window.Tab

@@ -21,27 +21,30 @@ Object.assign(window, {
 
 class Accordion {
   constructor (el, options) {
-    let _this = this
-
     this.$accordion = el
-    this.$content = el.querySelectorAll('.accordion-section')
+    this.$content = el.querySelectorAll('.accordion-content')
     this.$button = el.querySelectorAll('.accordion-section > button')
 
+    let activeIdx = parseInt(options.activeIndex)
+    let disabledIdx = parseInt(options.disabledIndex)
+    this.activeIndex = activeIdx > -1 ? activeIdx : -1
+    this.disabledIndex = disabledIdx > -1 ? disabledIdx : -1
     this.options = options
-    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
-    this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
+
     this.eventHandler = {
-      clickButton (e) {
-        let idx = [..._this.$accordion.children].indexOf(e.target.parentNode)
-        _this.active(idx === _this.activeIndex ? -1 : idx)
+      clickAccordion: e => {
+        let idx = [...this.$accordion.children].indexOf(e.target.parentElement)
+        this.active(idx === this.activeIndex ? -1 : idx)
         e.preventDefault()
       }
     }
+
     this.$button.forEach(($btn, index) => {
       if (this.disabledIndex == index) {
         $btn.disabled = true
+        $btn.classList.add('disabled')
       }
-      $btn.addEventListener('click', this.eventHandler.clickButton)
+      $btn.addEventListener('click', this.eventHandler.clickAccordion)
     })
 
     this.active(this.activeIndex)
@@ -50,8 +53,8 @@ class Accordion {
   active (idx) {
     this.activeIndex = idx
     this.$content.forEach(($content, index) => {
-      $content.classList[idx === index ? 'add' : 'remove']('active')
-      $content.lastElementChild.hidden = !(idx === index)
+      $content.parentElement.classList[idx === index ? 'add' : 'remove']('active')
+      $content.hidden = !(idx === index)
     })
     this.$button.forEach(($btn, index) => {
       $btn.setAttribute('aria-expanded', idx === index)
@@ -67,7 +70,8 @@ class Accordion {
     this.active(-1)
     this.$button.forEach($btn => {
       $btn.disabled = false
-      $btn.removeEventListener('click', this.eventHandler.clickButton)
+      $btn.classList.remove('disabled')
+      $btn.removeEventListener('click', this.eventHandler.clickAccordion)
     })
 
     return window.Accordion
