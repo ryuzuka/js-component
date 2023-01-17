@@ -26,12 +26,10 @@ class Dropdown {
     this.$list = el.querySelector('.dropdown-list')
     this.$option = el.querySelectorAll('.dropdown-list > li')
 
-    this.placeholder = (el.dataset.placeholder || '').toString() || null
-    let activeIdx = parseInt(options.activeIndex)
-    let disabledIdx = parseInt(options.disabledIndex)
-    this.activeIndex = activeIdx > -1 ? activeIdx : (this.placeholder === null ? 0 : -1)
-    this.disabledIndex = disabledIdx > -1 ? disabledIdx : -1
     this.options = options
+    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
+    this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
+    this.placeholder = el.dataset.placeholder || '선택하세요.'
 
     if (this.placeholder) {
       this.$button.innerText = this.placeholder
@@ -95,6 +93,7 @@ class Dropdown {
 
   clear () {
     this.active(-1)
+    this.$button.innerText = ''
     this.$dropdown.removeEventListener('focusout', this.eventHandler.focusOutDropdown)
     this.$button.removeEventListener('click', this.eventHandler.clickDropdown)
     this.$option.forEach(($option, index) => {
@@ -102,9 +101,6 @@ class Dropdown {
       $btn.disabled = false
       $btn.classList.remove('disabled')
       $btn.removeEventListener('click', this.eventHandler.clickOption)
-      if (index === 0) {
-        this.$button.innerText = this.placeholder ? this.placeholder : $btn.innerText
-      }
     })
 
     return window.Dropdown

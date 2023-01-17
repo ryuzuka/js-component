@@ -25,11 +25,9 @@ class Accordion {
     this.$content = el.querySelectorAll('.accordion-content')
     this.$button = el.querySelectorAll('.accordion-section > button')
 
-    let activeIdx = parseInt(options.activeIndex)
-    let disabledIdx = parseInt(options.disabledIndex)
-    this.activeIndex = activeIdx > -1 ? activeIdx : -1
-    this.disabledIndex = disabledIdx > -1 ? disabledIdx : -1
     this.options = options
+    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
+    this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
 
     this.eventHandler = {
       clickAccordion: e => {
