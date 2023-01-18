@@ -412,6 +412,18 @@
 					})
 				}
 			},
+			Paging () {
+				let $paging = document.querySelector('.js-paging')
+				window.Paging($paging, {
+					total: 201,
+					offset: 0,
+					// limit: 10,
+					// pagingLength: 10 // 화면에 보여지는 paging 갯수 (default: 10) | mobile (default: 5)
+				})
+				
+				// method - set
+				// $paging.paging('set', 4) // offset
+			},
 			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
 					window.loading(true)
