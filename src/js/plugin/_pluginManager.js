@@ -2,7 +2,7 @@
 let pluginPool = {}
 let pluginIndex = 0
 
-window['$plugin'] = {
+window.PLUGIN = {
 	add (element, plugin, pluginName) {
     let pluginId = pluginName + pluginIndex
 		element.setAttribute('applied-plugin', pluginId)

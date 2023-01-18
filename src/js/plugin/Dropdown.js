@@ -5,13 +5,13 @@ Object.assign(window, {
   Dropdown: function (element, options = {}, value) {
     if (typeof options === 'string') {
       let el = element.length > 0 ? element[0] : element
-      return $plugin.call(el, options, value)
+      return window.PLUGIN.call(el, options, value)
 
     } else {
       let plugin = null
       for (let el of element.length > 0 ? element : [element]) {
         if (!el.getAttribute('applied-plugin')) {
-          $plugin.add(el, plugin = new Dropdown(el, options), _pluginName)
+          window.PLUGIN.add(el, plugin = new Dropdown(el, options), _pluginName)
         }
       }
       return plugin

@@ -1,5 +1,5 @@
 /** App.js ******************************************************************************************************** */
-window.App = Object.assign(window.App || {}, {
+window.APP = Object.assign(window.APP || {}, {
   DATE_FORMAT: 'YYYY-MM-DD',
   DEVICE: window.navigator.userAgent,
   MOBILE_WIDTH: 1024,

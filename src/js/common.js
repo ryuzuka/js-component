@@ -13,8 +13,8 @@ let components = {}
 
 /** document ready */
 window.addEventListener('DOMContentLoaded', e => {
-  window['$Header'] = Header(App.depth1Index, App.depth2Index)
-  window['$Footer'] = Footer()
+  window.APP.Header = Header(APP.depth1Index, APP.depth2Index)
+  window.APP.Footer = Footer()
   for (let component in components) {
     window['$' + component] = components[component]()
   }

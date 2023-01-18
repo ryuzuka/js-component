@@ -353,8 +353,8 @@
 <script src="/app/libs/gsap.min.js"></script>
 <script src="/app/libs/wow.min.js"></script>
 
-<!-- App, utils, plugin -->
-<script src="/app/js/App.js"></script>
+<!-- index, utils, plugin -->
+<script src="/app/js/index.js"></script>
 <script src="/app/js/utils.js"></script>
 <script src="/app/js/plugin.js"></script>
 
@@ -362,7 +362,7 @@
 <script>
 	/** document ready */
 	window.addEventListener('DOMContentLoaded', e => {
-		let guide = App.Guide()
+		let guide = APP.Guide()
 		for (let plugin in guide) {
 			guide[plugin]()
 		}
@@ -379,7 +379,7 @@
 		})
 	})
 	
-	window.App.Guide = () => {
+	window.APP.Guide = () => {
 		return {
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
