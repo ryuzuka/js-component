@@ -25,63 +25,90 @@ class Paging {
     this.$pagingContainer = el.querySelector('.paging-list')
 
     this.options = options
-    this.offset = options.offset || 0                                           // 현재 페이지 번호
-    this.total = options.total                                                  // 전체 리스트 갯수
-    this.limit = options.limit || 10                                            // 화면에 보여지는 리스트 갯수
-    this.totalPage = Math.ceil(this.total / this.limit)                         // 전체 페이지 갯수
-    this.pagingLength = options.pagingLength || 10                              // 화면에 보여지는 paging button 갯수
+    this.total = options.total                                        // 전체 리스트 갯수
+    this.offset = options.offset || 0                                 // 현재 페이지 번호
+    this.limit = options.limit || 10                                  // 화면에 보여지는 리스트 갯수
+    this.pagingLength = options.pagingLength || 10                    // 화면에 보여지는 paging button 갯수
+    this.totalPage = Math.ceil(options.total / this.limit)            // 전체 페이지 갯수
     this.pagingGroup = []
-    this.pagingGroupLength = Math.ceil(this.totalPage / this.pagingLength)
     this.groupIndex = 0
 
     this.eventHandler = {
       clickPaging: e => {
         e.preventDefault()
+        let pageIndex = parseInt(e.target.dataset.pageIndex)
+        if (this.offset === pageIndex) return
+
+        this.offset = pageIndex
+        this.active(this.groupIndex, this.offset)
       },
       clickButton: e => {
-        let {className} = e.currentTarget
-        let currentIdx = 0
+        e.preventDefault()
 
+        let {className} = e.currentTarget
         if (className.indexOf('first') > 0) {
           this.groupIndex = 0
-          currentIdx = 0
+          this.offset = 0
         } else if (className.indexOf('prev') > 0) {
+          this.groupIndex--
+          this.offset = this.pagingGroup[this.groupIndex][this.pagingLength - 1].pageIndex
         } else if (className.indexOf('next') > 0) {
+          this.groupIndex++
+          this.offset = this.pagingGroup[this.groupIndex][0].pageIndex
         } else if (className.indexOf('last') > 0) {
           this.groupIndex = this.pagingGroup.length - 1
-          currentIdx = this.totalPage - 1
+          this.offset = this.totalPage - 1
         }
-        e.preventDefault()
+
+        this.draw(this.groupIndex, this.offset)
+        this.active(this.groupIndex, this.offset)
       }
     }
 
-    this.set(this.offset)
-    this.draw(this.offset, this.groupIndex)
-    this.active(this.offset)
+    this.setPaging(this.offset)
+    this.draw(this.groupIndex)
+    this.active(this.groupIndex, this.offset)
 
+    this.addEvent()
+  }
+
+  addEvent () {
     this.$paging.querySelectorAll('button').forEach($btn => {
       $btn.addEventListener('click', this.eventHandler.clickButton)
     })
-    this.$paging.querySelectorAll('a').forEach($btn => {
-      $btn.addEventListener('click', this.eventHandler.clickPaging)
+    this.$paging.querySelectorAll('a').forEach($a => {
+      $a.addEventListener('click', this.eventHandler.clickPaging)
     })
   }
 
-  set (offset) {
+  removeEvent () {
+    this.$paging.querySelectorAll('button').forEach($btn => {
+      $btn.disabled = false
+      $btn.removeEventListener('click', this.eventHandler.clickButton)
+    })
+    this.$paging.querySelectorAll('a').forEach($a => {
+      $a.removeAttribute('data-page-index')
+      $a.removeAttribute('class')
+      $a.removeAttribute('class')
+      $a.removeAttribute('aria-current')
+      $a.removeEventListener('click', this.eventHandler.clickPaging)
+    })
+  }
+
+  setPaging (offset) {
     let length = this.pagingLength
     let total = this.totalPage
 
     this.pagingGroup = []
-    for (let i = 0; i < this.pagingGroupLength; ++i) {
+    for (let i = 0; i < Math.ceil(this.totalPage / this.pagingLength); ++i) {           // pagingGroupLength
       this.pagingGroup.push([])
 
       let pagingLength = total - i * length > length ? length : total - i * length
       for (let j = 0; j < pagingLength; ++j) {
         this.pagingGroup[i][j] = {
           index: j,
-          pagingIndex: this.pagingLength * i + j,
-          text: this.pagingLength * i + j + 1,
-          current: false
+          pageIndex: this.pagingLength * i + j,
+          text: this.pagingLength * i + j + 1
         }
         if (offset === this.pagingLength * i + j) {
           this.groupIndex = i
@@ -90,43 +117,63 @@ class Paging {
     }
   }
 
-  draw (offset, groupIndex) {
-    this.$pagingContainer.innerHTML = this.pagingGroup[groupIndex].map(paging => `<a href="#" data-index="${paging.pagingIndex}">${paging.text}</a>`).join('')
-
-    let $first = this.$paging.querySelector('.paging-first')
-    let $prev = this.$paging.querySelector('.paging-prev')
-    let $next = this.$paging.querySelector('.paging-next')
-    let $last = this.$paging.querySelector('.paging-last')
-
-    let paging = this.pagingGroup[this.groupIndex]
-    let pagingLength = paging.length - 1
-    let lastPaging = this.pagingGroup[this.pagingGroupLength - 1]
-    let lastPagingLength = lastPaging.length - 1
-
-    this.$paging.querySelectorAll('button').forEach($btn => {
-      $btn.disabled = false
-    })
-
-    if (offset === this.pagingGroup[0][0].pagingIndex) {
-      $first.disabled = true
-    }
-    if (offset === paging[0].pagingIndex) {
-      $prev.disabled = true
-    }
-    if (offset === paging[pagingLength].pagingIndex) {
-      $next.disabled = true
-    }
-    if (offset === lastPaging[lastPagingLength].pagingIndex) {
-      $last.disabled = true
+  draw (groupIdx, noneHtml) {
+    this.removeEvent()
+    if (noneHtml !== '') {
+      this.$pagingContainer.innerHTML = this.pagingGroup[groupIdx].map(page => `<a href="#" data-page-index="${page.pageIndex}">${page.text}</a>`).join('')
+      this.addEvent()
     }
   }
 
+  active (groupIdx, offset) {
+    let curIdx = this.pagingGroup[this.groupIndex].find(page => offset === page.pageIndex).index
 
-  active (offset) {
+    this.$paging.querySelectorAll('a').forEach(($a, index) => {
+      $a.classList[index === curIdx ? 'add' : 'remove']('active')
+      $a.setAttribute('aria-current', index === curIdx ? true : false)
+      if ($a.classList.length < 1) {
+        $a.removeAttribute('class')
+      }
+    })
 
+    this.$paging.querySelectorAll('button').forEach($pagingBtn => {
+      $pagingBtn.disabled = false
+    })
+
+    if (offset === this.pagingGroup[0][0].pageIndex) {
+      this.$paging.querySelector('.paging-first').disabled = true
+    }
+    if (groupIdx === 0) {
+      this.$paging.querySelector('.paging-prev').disabled = true
+    }
+    if (groupIdx === this.pagingGroup.length - 1) {
+      this.$paging.querySelector('.paging-next').disabled = true
+    }
+    let lastGroup = this.pagingGroup[this.pagingGroup.length - 1]
+    if (offset === lastGroup[lastGroup.length - 1].pageIndex) {
+      this.$paging.querySelector('.paging-last').disabled = true
+    }
+
+    this.$paging.dispatchEvent(new CustomEvent('change', {
+      detail: {offset: this.offset, total: this.total}
+    }))
+
+    return window.Paging
+  }
+
+  set (offset) {
+    this.offset = offset
+    this.setPaging(this.offset)
+    this.draw(this.groupIndex)
+    this.active(this.groupIndex, this.offset)
+
+    return window.Paging
   }
 
   clear () {
+    this.draw(0, '')
+    this.removeEvent()
+
     return window.Paging
   }
 }

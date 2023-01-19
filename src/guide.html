@@ -114,6 +114,7 @@
 			    <button type="button" class="paging-first" disabled><span>처음</span></button>
 			    <button type="button" class="paging-prev" disabled><span>이전</span></button>
 			    <div class="paging-list">
+				    <!--
 				    <a href="#" aria-current="page">1</a>
 				    <a href="#">2</a>
 				    <a href="#">3</a>
@@ -124,13 +125,14 @@
 				    <a href="#">8</a>
 				    <a href="#">9</a>
 				    <a href="#">10</a>
+				    -->
 			    </div>
 			    <button type="button" class="paging-next"><span>다음</span></button>
 			    <button type="button" class="paging-last"><span>마지막</span></button>
 		    </div>
 		    <br>
-		    <button class="btn btn-tertiary apply plugin-btn" data-plugin="Paging">apply</button>
-		    <button class="btn btn-tertiary clear plugin-btn" data-plugin="Paging">clear</button>
+		    <button class="btn btn-tertiary apply paging-btn" data-plugin="Paging">apply</button>
+		    <button class="btn btn-tertiary clear paging-btn" data-plugin="Paging">clear</button>
 	    </section>
 	    <br>
 	
@@ -414,15 +416,30 @@
 			},
 			Paging () {
 				let $paging = document.querySelector('.js-paging')
-				window.Paging($paging, {
-					total: 201,
-					offset: 0,
-					// limit: 10,
-					// pagingLength: 10 // 화면에 보여지는 paging 갯수 (default: 10) | mobile (default: 5)
+				let paging = window.Paging($paging, {
+					total: 221,         // 전체 리스트 갯수
+					offset: 5,          // 현재 페이지 번호
+					// limit: 5,        // 화면에 보여지는 리스트 갯수
+					// pagingLength: 5  // 화면에 보여지는 paging 갯수 (default: 10)
 				})
+				// window.Paging($paging, 'set', 11)
+				paging.set(0)
+				for (let plugin of $paging.length > -1 ? $paging : [$paging]) {
+					plugin.addEventListener('change', e => {
+						console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
+					})
+				}
 				
-				// method - set
-				// $paging.paging('set', 4) // offset
+				document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
+					window.Paging($paging, {
+						total: 36,        // 전체 리스트 갯수
+						limit: 5,         // 화면에 보여지는 리스트 갯수
+						pagingLength: 5   // 화면에 보여지는 paging 갯수 (default: 10)
+					})
+				})
+				document.querySelector('.btn.paging-btn.clear').addEventListener('click', e => {
+					window.Paging($paging, 'clear')
+				})
 			},
 			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
