@@ -127,12 +127,24 @@
 
 // paging
 .paging {
-  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  > button, > a {
+    &[disabled] {
+      opacity:.3;
+    }
+  }
+  &-list {
+    .active,
+    [aria-current="page"] {
+      text-decoration:underline;
+    }
+  }
   button, strong, a {
     display:inline-block;
     padding:4px;
   }
-  [aria-current="page"] {border-bottom:2px solid #000;}
 }
 
 // loading
