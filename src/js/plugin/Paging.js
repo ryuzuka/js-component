@@ -52,7 +52,7 @@ class Paging {
 
           } else if (className.indexOf('prev') > 0) {
             this.groupIndex--
-            this.offset = this.pagingGroup[this.groupIndex][this.pagingLength - 1].pageIndex
+            this.offset = this.pagingGroup[this.groupIndex][0].pageIndex
 
           } else if (className.indexOf('next') > 0) {
             this.groupIndex++
@@ -86,14 +86,9 @@ class Paging {
 
   removeEvent () {
     this.$paging.querySelectorAll('button').forEach($btn => {
-      $btn.disabled = false
       $btn.removeEventListener('click', this.eventHandler.clickPaging)
     })
     this.$paging.querySelectorAll('a').forEach($a => {
-      $a.removeAttribute('data-page-index')
-      $a.removeAttribute('class')
-      $a.removeAttribute('class')
-      $a.removeAttribute('aria-current')
       $a.removeEventListener('click', this.eventHandler.clickPaging)
     })
   }
@@ -124,7 +119,7 @@ class Paging {
     this.removeEvent()
 
     this.$pagingContainer.innerHTML = this.pagingGroup[groupIdx].map(page => {
-      return `<a href="#" data-page-index="${page.pageIndex}">${page.text}</a>`
+      return `<a href="#" aria-current="false" data-page-index="${page.pageIndex}">${page.text}</a>`
     }).join('')
     this.addEvent()
   }
@@ -173,17 +168,7 @@ class Paging {
   }
 
   clear () {
-    this.$paging.querySelectorAll('button').forEach($btn => {
-      $btn.disabled = false
-      $btn.removeEventListener('click', this.eventHandler.clickPaging)
-    })
-    this.$paging.querySelectorAll('a').forEach($a => {
-      $a.removeAttribute('data-page-index')
-      $a.removeAttribute('class')
-      $a.removeAttribute('aria-current')
-      $a.removeEventListener('click', this.eventHandler.clickPaging)
-    })
-
+    this.removeEvent()
     this.$pagingContainer.innerHTML = ''
 
     return window.Paging
