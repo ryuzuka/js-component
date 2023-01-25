@@ -2,7 +2,7 @@
 let _plugin = null
 
 Object.assign(window, {
-  loading: function (isLoading) {
+  Loading: function (isLoading) {
     _plugin = _plugin || new Loading()
     _plugin.loading(isLoading)
 
@@ -41,7 +41,7 @@ class Loading {
 
   loading (isLoading) {
     this.$loading.style.display = isLoading ? 'block' : 'none'
-    window.preventScroll(isLoading)
+    window.PreventScroll(isLoading)
 
     return this.$loading
   }

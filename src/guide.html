@@ -410,7 +410,7 @@
 					total: 221,         // 전체 리스트 갯수
 					offset: 5,          // 현재 페이지 번호
 					limit: 5,           // 화면에 보여지는 리스트 갯수
-					pagingLength: 5     // 화면에 보여지는 paging 갯수 (default: 10)
+					// pagingLength: 5     // 화면에 보여지는 paging 갯수 (default: 10)
 				})
 				paging.set(11).addEventListener('change', e => {
 					console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
@@ -429,9 +429,9 @@
 			},
 			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
-					window.loading(true)
+					window.Loading(true)
 					setTimeout(() => {
-						window.loading(false)
+						window.Loading(false)
 					}, 1000)
 				})
 			},
@@ -468,12 +468,12 @@
 			},
 			BlockBodyScroll () {
 				document.querySelectorAll('.btn.block').forEach($btn => {
-					$btn.addEventListener('click', e => window.blockBodyScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
+					$btn.addEventListener('click', e => window.BlockBodyScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
 				})
 			},
 			PreventScroll () {
 				document.querySelectorAll('.btn.prevent').forEach($btn => {
-					$btn.addEventListener('click', e => window.preventScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
+					$btn.addEventListener('click', e => window.PreventScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
 				})
 			},
 			Lottie () {
