@@ -44,6 +44,8 @@ class Textarea {
   clear () {
     this.$textarea.removeEventListener('keydown', this.eventHandler.typingTextarea)
     this.$textarea.removeEventListener('keyup', this.eventHandler.typingTextarea)
+
+    return window.Textarea
   }
 }
 /** ****************************************************************************************************************** */

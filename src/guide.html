@@ -364,7 +364,7 @@
 <script>
 	/** document ready */
 	window.addEventListener('DOMContentLoaded', e => {
-		let guide = APP.Guide()
+		let guide = window.Guide()
 		for (let plugin in guide) {
 			guide[plugin]()
 		}
@@ -381,54 +381,40 @@
 		})
 	})
 	
-	window.APP.Guide = () => {
+	window.Guide = () => {
 		return {
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
 				let accordion = window.Accordion($accordion, 'clear')($accordion, {activeIndex: 1, disabledIndex: 0})
-				accordion.active(2)
-				for (let plugin of $accordion.length > -1 ? $accordion : [$accordion]) {
-					plugin.addEventListener('change', e => {
-						console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
-					})
-				}
+				accordion.active(2).addEventListener('change', e => {
+					console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+				})
 			},
 			Dropdown () {
 				let $dropdown = document.querySelector('.js-dropdown')
-				window.Dropdown($dropdown, 'clear')
-				let dropdown = window.Dropdown($dropdown, {activeIndex: 1, disabledIndex: 0})
-				dropdown.active(2)
-				for (let plugin of $dropdown.length > -1 ? $dropdown : [$dropdown]) {
-					plugin.addEventListener('change', e => {
-						console.log('dropdown, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
-					})
-				}
+				let dropdown = window.Dropdown($dropdown, 'clear')($dropdown, {activeIndex: 1, disabledIndex: 0})
+				dropdown.active(2).addEventListener('change', e => {
+					console.log('dropdown, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+				})
 			},
 			Tab () {
 				let $tab = document.querySelector('.js-tab')
 				let tab = window.Tab($tab, 'clear')($tab, {activeIndex: 1, disabledIndex: 0})
-				tab.active(2)
-				for (let plugin of $tab.length > -1 ? $tab : [$tab]) {
-					plugin.addEventListener('change', e => {
-						console.log('tab, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
-					})
-				}
+				tab.active(2).addEventListener('change', e => {
+					console.log('tab, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+				})
 			},
 			Paging () {
 				let $paging = document.querySelector('.js-paging')
 				let paging = window.Paging($paging, {
 					total: 221,         // 전체 리스트 갯수
 					offset: 5,          // 현재 페이지 번호
-					// limit: 5,        // 화면에 보여지는 리스트 갯수
-					// pagingLength: 5  // 화면에 보여지는 paging 갯수 (default: 10)
+					limit: 5,           // 화면에 보여지는 리스트 갯수
+					pagingLength: 5     // 화면에 보여지는 paging 갯수 (default: 10)
 				})
-				// window.Paging($paging, 'set', 11)
-				paging.set(0)
-				for (let plugin of $paging.length > -1 ? $paging : [$paging]) {
-					plugin.addEventListener('change', e => {
-						console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
-					})
-				}
+				paging.set(11).addEventListener('change', e => {
+					console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
+				})
 				
 				document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
 					window.Paging($paging, {
@@ -482,24 +468,12 @@
 			},
 			BlockBodyScroll () {
 				document.querySelectorAll('.btn.block').forEach($btn => {
-					$btn.addEventListener('click', e => {
-						if (e.target.className.indexOf('scroll') > -1) {
-							window.blockBodyScroll(false)
-						} else {
-							window.blockBodyScroll(true)
-						}
-					})
+					$btn.addEventListener('click', e => window.blockBodyScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
 				})
 			},
 			PreventScroll () {
 				document.querySelectorAll('.btn.prevent').forEach($btn => {
-					$btn.addEventListener('click', e => {
-						if (e.target.className.indexOf('scroll') > -1) {
-							window.preventScroll(false)
-						} else {
-							window.preventScroll(true)
-						}
-					})
+					$btn.addEventListener('click', e => window.preventScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
 				})
 			},
 			Lottie () {

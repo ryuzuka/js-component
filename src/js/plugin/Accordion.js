@@ -61,7 +61,7 @@ class Accordion {
       detail: {activeIndex: idx}
     }))
 
-    return window.Accordion
+    return this.$accordion
   }
 
   clear () {

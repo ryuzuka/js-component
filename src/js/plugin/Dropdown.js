@@ -70,14 +70,16 @@ class Dropdown {
   toggle (isOpen) {
     this.$button.setAttribute('aria-expanded', isOpen)
     this.$list.style.display = isOpen ? 'block' : 'none'
+
+    return this.$dropdown
   }
 
   active (idx) {
     this.activeIndex = idx
     this.$option.forEach(($option, index) => {
       let $btn = $option.firstElementChild
-      $option.classList[idx === index ? 'add' : 'remove']('active')
       $option.setAttribute('aria-selected', index === idx)
+      $option.classList[idx === index ? 'add' : 'remove']('active')
       $btn.classList[idx === index ? 'add' : 'remove']('active')
       if (idx === index) {
         this.$button.innerText = $btn.innerText
@@ -88,7 +90,7 @@ class Dropdown {
       detail: {activeIndex: idx}
     }))
 
-    return window.Dropdown
+    return this.$dropdown
   }
 
   clear () {

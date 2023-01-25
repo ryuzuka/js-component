@@ -22,6 +22,8 @@ class PreventScroll {
     document.body[(isPrevent ? 'add' : 'remove') + 'EventListener']('wheel', this.preventEventHandler, {passive: false})
     document.body[(isPrevent ? 'add' : 'remove') + 'EventListener']('touchmove', this.preventEventHandler, {passive: false})
     document.body.classList[isPrevent ? 'add' : 'remove']('prevent-scroll')
+
+    return window
   }
 
   preventEventHandler (e) {

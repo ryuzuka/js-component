@@ -65,7 +65,7 @@ class Tab {
       detail: {activeIndex: idx}
     }))
 
-    return window.Tab
+    return this.$tab
   }
 
   clear () {

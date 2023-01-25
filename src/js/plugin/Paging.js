@@ -36,32 +36,35 @@ class Paging {
     this.eventHandler = {
       clickPaging: e => {
         e.preventDefault()
-        let pageIndex = parseInt(e.target.dataset.pageIndex)
-        if (this.offset === pageIndex) return
+        let {tagName, className} = e.currentTarget
 
-        this.offset = pageIndex
-        this.active(this.groupIndex, this.offset)
-      },
-      clickButton: e => {
-        e.preventDefault()
+        if (tagName === 'A') {
+          let pageIndex = parseInt(e.target.dataset.pageIndex)
+          if (this.offset === pageIndex) return
 
-        let {className} = e.currentTarget
-        if (className.indexOf('first') > 0) {
-          this.groupIndex = 0
-          this.offset = 0
-        } else if (className.indexOf('prev') > 0) {
-          this.groupIndex--
-          this.offset = this.pagingGroup[this.groupIndex][this.pagingLength - 1].pageIndex
-        } else if (className.indexOf('next') > 0) {
-          this.groupIndex++
-          this.offset = this.pagingGroup[this.groupIndex][0].pageIndex
-        } else if (className.indexOf('last') > 0) {
-          this.groupIndex = this.pagingGroup.length - 1
-          this.offset = this.totalPage - 1
+          this.offset = pageIndex
+          this.active(this.groupIndex, this.offset)
+
+        } else if (tagName === 'BUTTON') {
+          if (className.indexOf('first') > 0) {
+            this.groupIndex = 0
+            this.offset = 0
+
+          } else if (className.indexOf('prev') > 0) {
+            this.groupIndex--
+            this.offset = this.pagingGroup[this.groupIndex][this.pagingLength - 1].pageIndex
+
+          } else if (className.indexOf('next') > 0) {
+            this.groupIndex++
+            this.offset = this.pagingGroup[this.groupIndex][0].pageIndex
+
+          } else if (className.indexOf('last') > 0) {
+            this.groupIndex = this.pagingGroup.length - 1
+            this.offset = this.totalPage - 1
+          }
+          this.draw(this.groupIndex, this.offset)
+          this.active(this.groupIndex, this.offset)
         }
-
-        this.draw(this.groupIndex, this.offset)
-        this.active(this.groupIndex, this.offset)
       }
     }
 
@@ -74,7 +77,7 @@ class Paging {
 
   addEvent () {
     this.$paging.querySelectorAll('button').forEach($btn => {
-      $btn.addEventListener('click', this.eventHandler.clickButton)
+      $btn.addEventListener('click', this.eventHandler.clickPaging)
     })
     this.$paging.querySelectorAll('a').forEach($a => {
       $a.addEventListener('click', this.eventHandler.clickPaging)
@@ -84,7 +87,7 @@ class Paging {
   removeEvent () {
     this.$paging.querySelectorAll('button').forEach($btn => {
       $btn.disabled = false
-      $btn.removeEventListener('click', this.eventHandler.clickButton)
+      $btn.removeEventListener('click', this.eventHandler.clickPaging)
     })
     this.$paging.querySelectorAll('a').forEach($a => {
       $a.removeAttribute('data-page-index')
@@ -100,7 +103,7 @@ class Paging {
     let total = this.totalPage
 
     this.pagingGroup = []
-    for (let i = 0; i < Math.ceil(this.totalPage / this.pagingLength); ++i) {           // pagingGroupLength
+    for (let i = 0; i < Math.ceil(total / length); ++i) {           // pagingGroupLength
       this.pagingGroup.push([])
 
       let pagingLength = total - i * length > length ? length : total - i * length
@@ -117,12 +120,13 @@ class Paging {
     }
   }
 
-  draw (groupIdx, noneHtml) {
+  draw (groupIdx) {
     this.removeEvent()
-    if (noneHtml !== '') {
-      this.$pagingContainer.innerHTML = this.pagingGroup[groupIdx].map(page => `<a href="#" data-page-index="${page.pageIndex}">${page.text}</a>`).join('')
-      this.addEvent()
-    }
+
+    this.$pagingContainer.innerHTML = this.pagingGroup[groupIdx].map(page => {
+      return `<a href="#" data-page-index="${page.pageIndex}">${page.text}</a>`
+    }).join('')
+    this.addEvent()
   }
 
   active (groupIdx, offset) {
@@ -157,8 +161,6 @@ class Paging {
     this.$paging.dispatchEvent(new CustomEvent('change', {
       detail: {offset: this.offset, total: this.total}
     }))
-
-    return window.Paging
   }
 
   set (offset) {
@@ -167,12 +169,22 @@ class Paging {
     this.draw(this.groupIndex)
     this.active(this.groupIndex, this.offset)
 
-    return window.Paging
+    return this.$paging
   }
 
   clear () {
-    this.draw(0, '')
-    this.removeEvent()
+    this.$paging.querySelectorAll('button').forEach($btn => {
+      $btn.disabled = false
+      $btn.removeEventListener('click', this.eventHandler.clickPaging)
+    })
+    this.$paging.querySelectorAll('a').forEach($a => {
+      $a.removeAttribute('data-page-index')
+      $a.removeAttribute('class')
+      $a.removeAttribute('aria-current')
+      $a.removeEventListener('click', this.eventHandler.clickPaging)
+    })
+
+    this.$pagingContainer.innerHTML = ''
 
     return window.Paging
   }
