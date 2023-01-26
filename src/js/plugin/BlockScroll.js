@@ -1,6 +1,5 @@
 /** BlockScroll.js ****************************************************************************************************** */
 let _plugin = null
-let _isBlock = null
 
 Object.assign(window, {
   BlockScroll: function (isBlock) {
@@ -12,14 +11,14 @@ Object.assign(window, {
 
 class BlockScroll {
   constructor () {
-    _isBlock = false
+    this.isBlock = false
   }
 
-  block (isBlock = _isBlock) {
-    if (_isBlock === isBlock) return _isBlock
-    document.body.classList[isBlock ? 'add' : 'remove']('block-body-scroll')
+  block (isBlock = this.isBlock) {
+    if (this.isBlock === isBlock) return this.isBlock
+    document.body.classList[isBlock ? 'add' : 'remove']('block-scroll')
 
-    return _isBlock = isBlock
+    return this.isBlock = isBlock
   }
 }
 /** ***************************************************************************************************************** */
