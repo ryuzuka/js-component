@@ -284,16 +284,14 @@
         <button class="btn btn-tertiary increase-start">start</button>
       </section>
 	
-	    <h2>block body scroll</h2>
+	    <h2>block scroll</h2>
       <section>
-        <button class="btn btn-tertiary block">block</button>
-        <button class="btn btn-tertiary block scroll">scroll</button>
-      </section>
-	
-	    <h2>prevent scroll event</h2>
-	    <section>
-        <button class="btn btn-tertiary prevent">prevent</button>
-        <button class="btn btn-tertiary prevent scroll">scroll</button>
+        <button class="btn btn-tertiary block documentBody">document block</button>
+        <button class="btn btn-tertiary block documentBody scroll">document scroll</button>
+	      <br>
+	      <br>
+	      <button class="btn btn-tertiary block window">window block</button>
+	      <button class="btn btn-tertiary block window scroll">window scroll</button>
       </section>
 	
 	    <h2>loading</h2>
@@ -468,12 +466,26 @@
 			},
 			BlockScroll () {
 				document.querySelectorAll('.btn.block').forEach($btn => {
-					$btn.addEventListener('click', e => window.BlockScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
-				})
-			},
-			PreventScroll () {
-				document.querySelectorAll('.btn.prevent').forEach($btn => {
-					$btn.addEventListener('click', e => window.PreventScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
+					$btn.addEventListener('click', e => {
+						
+						if (e.target.className.indexOf('scroll') < 0) {
+							// block
+							if (e.target.classList[3] === 'documentBody') {
+								document.body.BlockScroll(true)
+							} else {
+								// prevent
+								window.BlockScroll(true)
+							}
+						} else {
+							// scroll
+							if (e.target.classList[3] === 'documentBody') {
+								document.body.BlockScroll(false)
+							} else {
+								// prevent
+								window.BlockScroll(false)
+							}
+						}
+					})
 				})
 			},
 			Lottie () {
