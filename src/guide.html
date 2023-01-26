@@ -466,9 +466,9 @@
 					}
 				})
 			},
-			BlockBodyScroll () {
+			BlockScroll () {
 				document.querySelectorAll('.btn.block').forEach($btn => {
-					$btn.addEventListener('click', e => window.BlockBodyScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
+					$btn.addEventListener('click', e => window.BlockScroll(e.target.className.indexOf('scroll') > -1 ? false : true))
 				})
 			},
 			PreventScroll () {
