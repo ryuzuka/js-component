@@ -5,16 +5,11 @@ let blockScrollEvent = null
 Object.assign(Window.prototype, {
   BlockScroll(method = 'block') {
     if (!method) method = 'scroll'
-
     blockScroll = blockScroll || new BlockScroll('block-scroll')
     return blockScroll[method]()
-  }
-})
-
-Object.assign(Window.prototype, {
+  },
   BlockScrollEvent (method = 'block') {
     if (!method) method = 'scroll'
-
     blockScrollEvent = blockScrollEvent || new BlockScroll('block-scroll-event')
     return blockScrollEvent[method]()
   }

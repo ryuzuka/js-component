@@ -4,10 +4,10 @@ const PLUGIN_NAME = 'tab'
 Object.assign(Object.prototype, {
   Tab (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this, options, value)
+      return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
     } else {
       let plugin = null
-      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
+      for (let $el of this.length > 0 ? Array.from(this) : [this]) {
         if (!$el.getAttribute('applied-plugin')) {
           window.PLUGIN.add($el, plugin = new Tab($el, options), PLUGIN_NAME)
         }

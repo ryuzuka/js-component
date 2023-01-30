@@ -2,7 +2,7 @@
 let _plugin = null
 
 Object.assign(Window.prototype, {
-  Loading: function (isLoading = true) {
+  Loading (isLoading = true) {
     _plugin = _plugin || new Loading()
     _plugin.loading(isLoading)
 
