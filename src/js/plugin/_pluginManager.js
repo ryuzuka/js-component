@@ -25,9 +25,9 @@ window.PLUGIN = {
 
 /** document ready - plugin execution */
 window.addEventListener('DOMContentLoaded', e => {
-	window.Accordion(document.getElementsByClassName('js-accordion'))
-	window.Dropdown(document.getElementsByClassName('js-dropdown'))
-	window.Tab(document.getElementsByClassName('js-tab'))
-	window.Textarea(document.getElementsByClassName('js-textarea'))
+	document.getElementsByClassName('js-tab').Tab()
+	// document.getElementsByClassName('js-accordion').Accordion()
+	// document.getElementsByClassName('js-dropdown').Dropdown()
+	// document.getElementsByClassName('js-textarea').Textarea()
 })
 /** ***************************************************************************************************************** */

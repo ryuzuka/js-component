@@ -364,16 +364,19 @@
 	window.addEventListener('DOMContentLoaded', e => {
 		let guide = window.Guide()
 		for (let plugin in guide) {
-			guide[plugin]()
+			// guide[plugin]()
 		}
+		guide.Tab()
+		guide.BlockScroll()
+		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
 				let plugin = e.target.dataset.plugin
-				let $pluginElement = document.querySelector(`.js-${plugin.toLowerCase()}`)
+				let $plugin = document.querySelector(`.js-${plugin.toLowerCase()}`)
 				if (e.target.className.indexOf('apply') > 0) {
-					window[plugin]($pluginElement)
+					$plugin[plugin]({})
 				} else if (e.target.className.indexOf('clear') > 0) {
-					window[plugin]($pluginElement, 'clear')
+					$plugin[plugin]('clear')
 				}
 			})
 		})
@@ -397,9 +400,9 @@
 			},
 			Tab () {
 				let $tab = document.querySelector('.js-tab')
-				let tab = window.Tab($tab, 'clear')($tab, {activeIndex: 1, disabledIndex: 0})
-				tab.active(2).addEventListener('change', e => {
-					console.log('tab, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+				$tab.Tab('clear').Tab({activeIndex: 1, disabledIndex: 0})
+				$tab.addEventListener('change', e => {
+					console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 			},
 			Paging () {
@@ -469,20 +472,19 @@
 					$btn.addEventListener('click', e => {
 						
 						if (e.target.className.indexOf('scroll') < 0) {
-							// block
-							if (e.target.classList[3] === 'documentBody') {
-								document.body.BlockScroll(true)
+							// block-scroll
+							if (e.target.className.indexOf('documentBody') > -1) {
+								document.body.BlockScroll('block')
 							} else {
-								// prevent
-								window.BlockScroll(true)
+								// block-scroll-event
+								window.BlockScrollEvent('block')
 							}
 						} else {
-							// scroll
-							if (e.target.classList[3] === 'documentBody') {
-								document.body.BlockScroll(false)
+							// block-scroll
+							if (e.target.className.indexOf('documentBody') > -1) {
+								document.body.BlockScroll('scroll')
 							} else {
-								// prevent
-								window.BlockScroll(false)
+								// window.BlockScrollEvent('scroll')
 							}
 						}
 					})
