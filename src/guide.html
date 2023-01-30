@@ -364,16 +364,8 @@
 	window.addEventListener('DOMContentLoaded', e => {
 		let guide = window.Guide()
 		for (let plugin in guide) {
-			// guide[plugin]()
+			guide[plugin]()
 		}
-		
-		guide.Tab()
-		guide.Accordion()
-		guide.Dropdown()
-		guide.Textarea()
-		guide.Paging()
-		guide.Loading()
-		guide.BlockScroll()
 		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
@@ -533,16 +525,8 @@
 				})
 			},
 			gsap () {
-				// tween
-				let left = parseInt(window.innerWidth) / 1.1
 				document.querySelector('.gsap.btn').addEventListener('click', e => {
-					gsap.to('.gsap.obj', 1, {
-						transform: `translate3d(${left}px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
-						ease: Expo.easeInOut,
-						onComplete: () => {
-							console.log('onComplete')
-						}
-					})
+					console.log('tween')
 				})
 			}
 		}
