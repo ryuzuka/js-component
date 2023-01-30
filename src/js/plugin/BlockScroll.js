@@ -7,9 +7,7 @@ Object.assign(document, {
     if (!method) method = 'scroll'
 
     blockScroll = blockScroll || new BlockScroll('block-scroll')
-    blockScroll[method]()
-
-    return blockScroll
+    return blockScroll[method]()
   }
 })
 
@@ -18,9 +16,7 @@ Object.assign(document, {
     if (!method) method = 'scroll'
 
     blockScrollEvent = blockScrollEvent || new BlockScroll('block-scroll-event')
-    blockScrollEvent[method]()
-
-    return blockScrollEvent
+    return blockScrollEvent[method]()
   }
 })
 
@@ -31,6 +27,8 @@ class BlockScroll {
   }
 
   block () {
+    if (this.isBlock) return this.isBlock
+
     this.isBlock = true
     document.body.classList.add(this.eventType)
     if (this.eventType === 'block-scroll-event') {
@@ -42,6 +40,8 @@ class BlockScroll {
   }
 
   scroll () {
+    if (!this.isBlock) return this.isBlock
+
     this.isBlock = false
     document.body.classList.remove(this.eventType)
     if (this.eventType === 'block-scroll-event') {
