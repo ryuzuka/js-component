@@ -7,6 +7,23 @@ body.block-scroll {
 
 .header {
 }
+.skip-nav {
+  a {
+    position:absolute;
+    left:0;
+    right:0;
+    top:-30px;
+    display:block;
+    background:#000;
+    color:#fff;
+    line-height:30px;
+    text-align:center;
+
+    &:focus {
+      top:0;
+    }
+  }
+}
 .contents {
   max-width:1200px;
   margin:0 auto;
