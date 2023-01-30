@@ -1,17 +1,15 @@
 /** Accordion.js ********************************************************************************************************** */
-let _pluginName = 'Accordion'
+const PLUGIN_NAME = 'Accordion'
 
-Object.assign(window, {
-  Accordion: function (element, options = {}, value) {
+Object.assign(Object.prototype, {
+  Accordion (options = {}, value) {
     if (typeof options === 'string') {
-      let el = element.length > 0 ? element[0] : element
-      return window.PLUGIN.call(el, options, value)
-
+      return window.PLUGIN.call(this, options, value)
     } else {
       let plugin = null
-      for (let el of element.length > 0 ? element : [element]) {
-        if (!el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add(el, plugin = new Accordion(el, options), _pluginName)
+      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
+        if (!$el.getAttribute('applied-plugin')) {
+          window.PLUGIN.add($el, plugin = new Accordion($el, options), PLUGIN_NAME)
         }
       }
       return plugin
@@ -33,7 +31,6 @@ class Accordion {
       clickAccordion: e => {
         let idx = [...this.$accordion.children].indexOf(e.target.parentElement)
         this.active(idx === this.activeIndex ? -1 : idx)
-        e.preventDefault()
       }
     }
 
@@ -41,8 +38,9 @@ class Accordion {
       if (this.disabledIndex == index) {
         $btn.disabled = true
         $btn.classList.add('disabled')
+      } else {
+        $btn.addEventListener('click', this.eventHandler.clickAccordion)
       }
-      $btn.addEventListener('click', this.eventHandler.clickAccordion)
     })
 
     this.active(this.activeIndex)
@@ -57,22 +55,17 @@ class Accordion {
     this.$button.forEach(($btn, index) => {
       $btn.setAttribute('aria-expanded', idx === index)
     })
-    this.$accordion.dispatchEvent(new CustomEvent('change', {
-      detail: {activeIndex: idx}
-    }))
-
-    return this.$accordion
+    this.$accordion.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
   }
 
   clear () {
     this.active(-1)
+    this.$content.forEach($content => $content.removeAttribute('hidden'))
     this.$button.forEach($btn => {
       $btn.disabled = false
       $btn.classList.remove('disabled')
       $btn.removeEventListener('click', this.eventHandler.clickAccordion)
     })
-
-    return window.Accordion
   }
 }
 /** ****************************************************************************************************************** */

@@ -1,17 +1,15 @@
 /** Textarea.js ********************************************************************************************************** */
-let _pluginName = 'textarea'
+let PLUGIN_NAME = 'textarea'
 
-Object.assign(window, {
-  Textarea: function (element, options = {}, value) {
+Object.assign(Object.prototype, {
+  Textarea (options = {}, value) {
     if (typeof options === 'string') {
-      let el = element.length > 0 ? element[0] : element
-      return window.PLUGIN.call(el, options, value)
-
+      return window.PLUGIN.call(this, options, value)
     } else {
       let plugin = null
-      for (let el of element.length > 0 ? element : [element]) {
-        if (!el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add(el, plugin = new Textarea(el, options), _pluginName)
+      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
+        if (!$el.getAttribute('applied-plugin')) {
+          window.PLUGIN.add($el, plugin = new Textarea($el, options), PLUGIN_NAME)
         }
       }
       return plugin
@@ -24,8 +22,13 @@ class Textarea {
     this.$textarea = el.querySelector('textarea')
     this.$current = el.querySelector('.current-length')
     this.$total = el.querySelector('.total-length')
+
+    this.options = options
     this.maxlength = parseInt(this.$textarea.getAttribute('maxlength'))
     this.value = this.$textarea.value
+
+    this.$current.innerText = this.value.length
+    this.$total.innerText = UTILS.numberFormat.comma(this.maxlength)
 
     this.eventHandler = {
       typingTextarea: e => {
@@ -35,17 +38,12 @@ class Textarea {
       }
     }
 
-    this.$current.innerText = this.value.length
-    this.$total.innerText = UTILS.numberFormat.comma(this.maxlength)
     this.$textarea.addEventListener('keydown', this.eventHandler.typingTextarea)
     this.$textarea.addEventListener('keyup', this.eventHandler.typingTextarea)
   }
 
-  clear () {
-    this.$textarea.removeEventListener('keydown', this.eventHandler.typingTextarea)
-    this.$textarea.removeEventListener('keyup', this.eventHandler.typingTextarea)
-
-    return window.Textarea
+  get () {
+    return parseInt(this.$current.innerText)
   }
 }
 /** ****************************************************************************************************************** */

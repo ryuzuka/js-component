@@ -14,20 +14,21 @@ window.PLUGIN = {
 		if (!pluginId) {
 			return
 		}
+
 		let _return = pluginPool[pluginId][method](value)
 		if (method === 'clear') {
 			element.removeAttribute('applied-plugin')
 			delete pluginPool[element.getAttribute('applied-plugin')]
 		}
-		return _return
+		return _return ? _return : element
 	}
 }
 
 /** document ready - plugin execution */
 window.addEventListener('DOMContentLoaded', e => {
 	document.getElementsByClassName('js-tab').Tab()
-	// document.getElementsByClassName('js-accordion').Accordion()
-	// document.getElementsByClassName('js-dropdown').Dropdown()
-	// document.getElementsByClassName('js-textarea').Textarea()
+	document.getElementsByClassName('js-accordion').Accordion()
+	document.getElementsByClassName('js-dropdown').Dropdown()
+	document.getElementsByClassName('js-textarea').Textarea()
 })
 /** ***************************************************************************************************************** */

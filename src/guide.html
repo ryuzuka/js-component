@@ -66,14 +66,14 @@
 		    <div class="dropdown js-dropdown" data-placeholder="선택하세요.">
 			    <button type="button" id="dropdown" class="dropdown-btn" aria-haspopup="listbox" aria-expanded="false">SKT</button>
 			    <ul class="dropdown-list" role="listbox" aria-labelledby="dropdown" tabindex="-1">
-				    <li role="option" aria-selected="false"><button type="button" data-value="">0_SKT</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">1_KT</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">2_LG U+</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">3_알뜰폰</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">4_SKT</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">5_KT</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">6_LG U+</button></li>
-				    <li role="option" aria-selected="false"><button type="button" data-value="">7_알뜰폰</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="0_SKT">0_SKT</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="1_KT">1_KT</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="2_LG">2_LG U+</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="3_알뜰폰">3_알뜰폰</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="4_SKT">4_SKT</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="5_KT">5_KT</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="6_LG U+">6_LG U+</button></li>
+				    <li role="option" aria-selected="false"><button type="button" data-value="7_알뜰폰">7_알뜰폰</button></li>
 			    </ul>
 		    </div>
 		    <br>
@@ -366,8 +366,11 @@
 		for (let plugin in guide) {
 			// guide[plugin]()
 		}
+		
 		guide.Tab()
-		guide.BlockScroll()
+		guide.Accordion()
+		guide.Dropdown()
+		guide.Textarea()
 		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
@@ -386,24 +389,32 @@
 		return {
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
-				let accordion = window.Accordion($accordion, 'clear')($accordion, {activeIndex: 1, disabledIndex: 0})
-				accordion.active(2).addEventListener('change', e => {
+				let accordion = $accordion.Accordion('clear').Accordion({activeIndex: 1, disabledIndex: 0})
+				accordion.active(2)
+				$accordion.addEventListener('change', e => {
 					console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 			},
 			Dropdown () {
 				let $dropdown = document.querySelector('.js-dropdown')
-				let dropdown = window.Dropdown($dropdown, 'clear')($dropdown, {activeIndex: 1, disabledIndex: 0})
-				dropdown.active(2).addEventListener('change', e => {
-					console.log('dropdown, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+				window.dropdown = $dropdown.Dropdown('clear').Dropdown({activeIndex: 1, disabledIndex: 0})
+				dropdown.active(2)
+				
+				$dropdown.addEventListener('change', e => {
+					console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
 				})
 			},
 			Tab () {
 				let $tab = document.querySelector('.js-tab')
-				$tab.Tab('clear').Tab({activeIndex: 1, disabledIndex: 0})
+				let tab = $tab.Tab('clear').Tab({activeIndex: 1, disabledIndex: 0})
+				tab.active(2)
 				$tab.addEventListener('change', e => {
 					console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
+			},
+			Textarea () {
+				let $textarea = document.querySelector('.js-textarea')
+				// $textarea.Textarea('get')
 			},
 			Paging () {
 				let $paging = document.querySelector('.js-paging')

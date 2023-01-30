@@ -1,17 +1,15 @@
 /** Dropdown.js ********************************************************************************************************** */
-let _pluginName = 'Dropdown'
+let PLUGIN_NAME = 'Dropdown'
 
-Object.assign(window, {
-  Dropdown: function (element, options = {}, value) {
+Object.assign(Object.prototype, {
+  Dropdown (options = {}, value) {
     if (typeof options === 'string') {
-      let el = element.length > 0 ? element[0] : element
-      return window.PLUGIN.call(el, options, value)
-
+      return window.PLUGIN.call(this, options, value)
     } else {
       let plugin = null
-      for (let el of element.length > 0 ? element : [element]) {
-        if (!el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add(el, plugin = new Dropdown(el, options), _pluginName)
+      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
+        if (!$el.getAttribute('applied-plugin')) {
+          window.PLUGIN.add($el, plugin = new Dropdown($el, options), PLUGIN_NAME)
         }
       }
       return plugin
@@ -27,29 +25,27 @@ class Dropdown {
     this.$option = el.querySelectorAll('.dropdown-list > li')
 
     this.options = options
+    this.placeholder = el.dataset.placeholder || '선택하세요.'
     this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
     this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
-    this.placeholder = el.dataset.placeholder || '선택하세요.'
+    this.val = ''
 
     if (this.placeholder) {
       this.$button.innerText = this.placeholder
     }
 
     this.eventHandler = {
+      clickDropdown: e => this.toggle(true),
       focusOutDropdown: e => {
         if (e.relatedTarget === null || e.relatedTarget.closest('.js-dropdown') === null) {
           this.toggle(false)
         }
       },
-      clickDropdown: e => {
-        this.toggle(true)
-        e.preventDefault()
-      },
       clickOption: e => {
         let idx = [...this.$list.children].indexOf(e.target.parentElement)
+
         this.active(idx)
         this.toggle(false)
-        e.preventDefault()
       }
     }
 
@@ -79,33 +75,32 @@ class Dropdown {
     this.$option.forEach(($option, index) => {
       let $btn = $option.firstElementChild
       $option.setAttribute('aria-selected', index === idx)
-      $option.classList[idx === index ? 'add' : 'remove']('active')
-      $btn.classList[idx === index ? 'add' : 'remove']('active')
-      if (idx === index) {
+      $option.classList[index === idx ? 'add' : 'remove']('active')
+      $btn.classList[index === idx ? 'add' : 'remove']('active')
+      if (index === idx) {
+        this.val = $btn.dataset.value
         this.$button.innerText = $btn.innerText
       }
     })
+    this.$dropdown.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx, value: this.val}}))
+  }
 
-    this.$dropdown.dispatchEvent(new CustomEvent('change', {
-      detail: {activeIndex: idx}
-    }))
-
-    return this.$dropdown
+  get () {
+    return this.val
   }
 
   clear () {
     this.active(-1)
-    this.$button.innerText = ''
-    this.$dropdown.removeEventListener('focusout', this.eventHandler.focusOutDropdown)
-    this.$button.removeEventListener('click', this.eventHandler.clickDropdown)
-    this.$option.forEach(($option, index) => {
+    this.$button.innerText = this.placeholder
+    this.$option.forEach($option => {
       let $btn = $option.firstElementChild
       $btn.disabled = false
       $btn.classList.remove('disabled')
       $btn.removeEventListener('click', this.eventHandler.clickOption)
+      $option.setAttribute('aria-selected', false)
     })
-
-    return window.Dropdown
+    this.$dropdown.removeEventListener('focusout', this.eventHandler.focusOutDropdown)
+    this.$button.removeEventListener('click', this.eventHandler.clickDropdown)
   }
 }
 /** ****************************************************************************************************************** */

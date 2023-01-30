@@ -4,15 +4,16 @@ const PLUGIN_NAME = 'tab'
 Object.assign(Object.prototype, {
   Tab (options = {}, value) {
     if (typeof options === 'string') {
-      window.PLUGIN.call(this, options, value)
+      return window.PLUGIN.call(this, options, value)
     } else {
-      for (let $el of this.length > 0 ? this : [this]) {
+      let plugin = null
+      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
         if (!$el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add($el, new Tab($el, options), PLUGIN_NAME)
+          window.PLUGIN.add($el, plugin = new Tab($el, options), PLUGIN_NAME)
         }
       }
+      return plugin
     }
-    return this
   }
 })
 
@@ -30,8 +31,8 @@ class Tab {
       clickTab: e => {
         let idx = [...e.target.parentElement.children].indexOf(e.target)
         if (idx === this.activeIndex) return
+
         this.active(idx)
-        this.$tab.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
       }
     }
 
@@ -43,6 +44,7 @@ class Tab {
         $btn.addEventListener('click', this.eventHandler.clickTab)
       }
     })
+
     this.active(this.activeIndex)
   }
 
@@ -56,6 +58,7 @@ class Tab {
       $btn.classList[idx === index ? 'add' : 'remove']('active')
       $btn.setAttribute('aria-selected', idx === index)
     })
+    this.$tab.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
   }
 
   clear () {
