@@ -372,6 +372,8 @@
 		guide.Dropdown()
 		guide.Textarea()
 		guide.Paging()
+		guide.Loading()
+		guide.BlockScroll()
 		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
@@ -443,9 +445,9 @@
 			},
 			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
-					window.Loading(true)
+					Loading(true)
 					setTimeout(() => {
-						window.Loading(false)
+						Loading(false)
 					}, 1000)
 				})
 			},
@@ -487,17 +489,17 @@
 						if (e.target.className.indexOf('scroll') < 0) {
 							// block-scroll
 							if (e.target.className.indexOf('documentBody') > -1) {
-								document.body.BlockScroll('block')
+								BlockScroll('block')
 							} else {
 								// block-scroll-event
-								window.BlockScrollEvent('block')
+								BlockScrollEvent('block')
 							}
 						} else {
 							// block-scroll
 							if (e.target.className.indexOf('documentBody') > -1) {
-								document.body.BlockScroll('scroll')
+								BlockScroll('scroll')
 							} else {
-								// window.BlockScrollEvent('scroll')
+								BlockScrollEvent('scroll')
 							}
 						}
 					})

@@ -1,8 +1,8 @@
 /** Loading.js ****************************************************************************************************** */
 let _plugin = null
 
-Object.assign(window, {
-  Loading: function (isLoading) {
+Object.assign(Window.prototype, {
+  Loading: function (isLoading = true) {
     _plugin = _plugin || new Loading()
     _plugin.loading(isLoading)
 
@@ -41,7 +41,7 @@ class Loading {
 
   loading (isLoading) {
     this.$loading.style.display = isLoading ? 'block' : 'none'
-    window.BlockScroll(isLoading)
+    BlockScroll(isLoading ? 'block' : 'scroll')
 
     return this.$loading
   }

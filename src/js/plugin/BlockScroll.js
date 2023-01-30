@@ -2,7 +2,7 @@
 let blockScroll = null
 let blockScrollEvent = null
 
-Object.assign(document, {
+Object.assign(Window.prototype, {
   BlockScroll(method = 'block') {
     if (!method) method = 'scroll'
 
@@ -11,7 +11,7 @@ Object.assign(document, {
   }
 })
 
-Object.assign(document, {
+Object.assign(Window.prototype, {
   BlockScrollEvent (method = 'block') {
     if (!method) method = 'scroll'
 
