@@ -371,6 +371,7 @@
 		guide.Accordion()
 		guide.Dropdown()
 		guide.Textarea()
+		guide.Paging()
 		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
@@ -418,25 +419,26 @@
 			},
 			Paging () {
 				let $paging = document.querySelector('.js-paging')
-				let paging = window.Paging($paging, {
+				let paging = $paging.Paging({
 					total: 221,         // 전체 리스트 갯수
 					offset: 5,          // 현재 페이지 번호
 					limit: 5,           // 화면에 보여지는 리스트 갯수
 					// pagingLength: 5     // 화면에 보여지는 paging 갯수 (default: 10)
 				})
-				paging.set(11).addEventListener('change', e => {
+				paging.set(11)
+				$paging.addEventListener('change', e => {
 					console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
 				})
 				
 				document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
-					window.Paging($paging, {
+					$paging.Paging({
 						total: 36,        // 전체 리스트 갯수
 						limit: 5,         // 화면에 보여지는 리스트 갯수
 						pagingLength: 5   // 화면에 보여지는 paging 갯수 (default: 10)
 					})
 				})
 				document.querySelector('.btn.paging-btn.clear').addEventListener('click', e => {
-					window.Paging($paging, 'clear')
+					$paging.Paging('clear')
 				})
 			},
 			Loading () {

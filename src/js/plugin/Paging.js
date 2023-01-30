@@ -1,17 +1,16 @@
 /** Paging.js ********************************************************************************************************** */
-let _pluginName = 'paging'
+let PLUGIN_NAME = 'paging'
 
-Object.assign(window, {
-  Paging: function (element, options = {}, value) {
+Object.assign(Object.prototype, {
+  Paging (options = {}, value) {
     if (typeof options === 'string') {
-      let el = element.length > 0 ? element[0] : element
-      return window.PLUGIN.call(el, options, value)
+      return window.PLUGIN.call(this, options, value)
 
     } else {
       let plugin = null
-      for (let el of element.length > 0 ? element : [element]) {
-        if (!el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add(el, plugin = new Paging(el, options), _pluginName)
+      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
+        if (!$el.getAttribute('applied-plugin')) {
+          window.PLUGIN.add($el, plugin = new Paging($el, options), PLUGIN_NAME)
         }
       }
       return plugin
@@ -163,15 +162,15 @@ class Paging {
     this.setPaging(this.offset)
     this.draw(this.groupIndex)
     this.active(this.groupIndex, this.offset)
+  }
 
-    return this.$paging
+  get () {
+    return parseInt(this.offset)
   }
 
   clear () {
     this.removeEvent()
     this.$pagingContainer.innerHTML = ''
-
-    return window.Paging
   }
 }
 /** ****************************************************************************************************************** */
