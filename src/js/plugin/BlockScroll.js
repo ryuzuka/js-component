@@ -1,42 +1,55 @@
 /** BlockScroll.js ****************************************************************************************************** */
-let _windowPlugin = null
-let _bodyPlugin = null
+let blockScroll = null
+let blockScrollEvent = null
 
-Object.assign(window, {
-  BlockScroll: function (isBlock) {
-    _windowPlugin = _windowPlugin || new BlockScroll(this)
+Object.assign(document, {
+  BlockScroll(method = 'block') {
+    if (!method) method = 'scroll'
 
-    return _windowPlugin.block(isBlock)
+    blockScroll = blockScroll || new BlockScroll('block-scroll')
+    blockScroll[method]()
+
+    return blockScroll
   }
 })
 
-Object.assign(document.body, {
-  BlockScroll: function (isBlock) {
-    _bodyPlugin = _bodyPlugin || new BlockScroll(this)
+Object.assign(document, {
+  BlockScrollEvent (method = 'block') {
+    if (!method) method = 'scroll'
 
-    return _bodyPlugin.block(isBlock)
+    blockScrollEvent = blockScrollEvent || new BlockScroll('block-scroll-event')
+    blockScrollEvent[method]()
+
+    return blockScrollEvent
   }
 })
 
 class BlockScroll {
-  constructor ($target) {
-    this.$target = $target
+  constructor (event) {
+    this.eventType = event
     this.isBlock = false
   }
 
-  block (isBlock = this.isBlock) {
-    if (isBlock === this.isBlock) return this.isBlock
-
-    if (this.$target === document.body) {
-      this.$target.classList[isBlock ? 'add' : 'remove']('block-scroll')
-
-    } else if (this.$target === window) {
-      this.$target[(isBlock ? 'add' : 'remove') + 'EventListener']('wheel', this.blockEventHandler, {passive: false})
-      this.$target[(isBlock ? 'add' : 'remove') + 'EventListener']('touchmove', this.blockEventHandler, {passive: false})
-      document.body.classList[isBlock ? 'add' : 'remove']('block-scroll-event')
+  block () {
+    this.isBlock = true
+    document.body.classList.add(this.eventType)
+    if (this.eventType === 'block-scroll-event') {
+      document.body.addEventListener('wheel', this.blockEventHandler, {passive: false})
+      document.body.addEventListener('touchmove', this.blockEventHandler, {passive: false})
     }
 
-    return this.isBlock = isBlock
+    return this.isBlock
+  }
+
+  scroll () {
+    this.isBlock = false
+    document.body.classList.remove(this.eventType)
+    if (this.eventType === 'block-scroll-event') {
+      document.body.removeEventListener('wheel', this.blockEventHandler)
+      document.body.removeEventListener('touchmove', this.blockEventHandler)
+    }
+
+    return this.isBlock
   }
 
   blockEventHandler (e) {
