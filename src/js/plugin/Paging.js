@@ -7,7 +7,7 @@ Object.assign(Object.prototype, {
       return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
     } else {
       let plugin = null
-      for (let $el of this.length > 0 ? Array.from(this) : new Array(this)) {
+      for (let $el of this.length > 0 ? Array.from(this) : [this]) {
         if (!$el.getAttribute('applied-plugin')) {
           window.PLUGIN.add($el, plugin = new Paging($el, options), PLUGIN_NAME)
         }
