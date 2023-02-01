@@ -383,7 +383,30 @@
 	window.Guide = () => {
 		return {
 			Modal () {
-			
+				let $modalAlert = document.querySelector('#pop-alert')
+				let $modalConfirrm = document.querySelector('#pop-confirm')
+				let $modal = document.querySelector('#pop-modal')
+				let $modalFull = document.querySelector('#pop-full')
+				
+				$modalAlert.Modal({}, e => {
+					console.log(e.type)
+				})
+				document.querySelectorAll('.modalBtn').forEach($btn => {
+					$btn.addEventListener('click', e => {
+						let {className} = e.target
+						let $modal = document.querySelector('#pop-' + e.target.classList[2])
+						
+						if (className.indexOf('alert') > -1) {
+						
+						} else if (className.indexOf('confirm') > -1) {
+						} else if (className.indexOf('modal') > -1) {
+						} else if (className.indexOf('full') > -1) {
+						}
+					})
+					
+					
+					
+				})
 			},
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
