@@ -41,7 +41,7 @@ class Loading {
 
   loading (isLoading) {
     this.$loading.style.display = isLoading ? 'block' : 'none'
-    BlockScroll(isLoading ? 'block' : 'scroll')
+    window.BlockScroll(isLoading ? 'block' : 'scroll')
 
     return this.$loading
   }

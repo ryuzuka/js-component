@@ -23,7 +23,7 @@ class Accordion {
     this.$content = el.querySelectorAll('.accordion-content')
     this.$button = el.querySelectorAll('.accordion-section > button')
 
-    this.options = options
+    this.options = Object.assign({}, options)
     this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
     this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
 

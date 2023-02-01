@@ -24,7 +24,7 @@ class Dropdown {
     this.$list = el.querySelector('.dropdown-list')
     this.$option = el.querySelectorAll('.dropdown-list > li')
 
-    this.options = options
+    this.options = Object.assign({}, options)
     this.placeholder = el.dataset.placeholder || '선택하세요.'
     this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
     this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1

@@ -23,7 +23,7 @@ class Tab {
     this.$content = el.querySelectorAll('.content')
     this.$button = el.querySelectorAll('.tab-list > button')
 
-    this.options = options
+    this.options = Object.assign({}, options)
     this.activeIndex = parseInt(options.activeIndex) > 0 ? parseInt(options.activeIndex) : 0
     this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
 

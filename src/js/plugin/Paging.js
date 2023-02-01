@@ -22,7 +22,7 @@ class Paging {
     this.$paging = el
     this.$pagingContainer = el.querySelector('.paging-list')
 
-    this.options = options
+    this.options = Object.assign({}, options)
     this.total = options.total                                        // 전체 리스트 갯수
     this.offset = options.offset || 0                                 // 현재 페이지 번호
     this.limit = options.limit || 10                                  // 화면에 보여지는 리스트 갯수

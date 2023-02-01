@@ -382,6 +382,9 @@
 	
 	window.Guide = () => {
 		return {
+			Modal () {
+			
+			},
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
 				let accordion = $accordion.Accordion('clear').Accordion({activeIndex: 1, disabledIndex: 0})
@@ -481,18 +484,18 @@
 						if (e.target.className.indexOf('scroll') < 0) {
 							// block-scroll
 							if (e.target.className.indexOf('documentBody') > -1) {
-								BlockScroll('block')
+								window.BlockScroll('block')
 							} else {
 								// block-scroll-event
-								BlockScrollEvent('block')
+								window.BlockScrollEvent('block')
 							}
 						} else {
 							// block-scroll
 							if (e.target.className.indexOf('documentBody') > -1) {
-								BlockScroll('scroll')
+								window.BlockScroll('scroll')
 							} else {
 								// block-scroll-event
-								BlockScrollEvent('scroll')
+								window.BlockScrollEvent('scroll')
 							}
 						}
 					})

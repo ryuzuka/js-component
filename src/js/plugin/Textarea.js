@@ -23,7 +23,7 @@ class Textarea {
     this.$current = el.querySelector('.current-length')
     this.$total = el.querySelector('.total-length')
 
-    this.options = options
+    this.options = Object.assign({}, options)
     this.maxlength = parseInt(this.$textarea.getAttribute('maxlength'))
     this.value = this.$textarea.value
 
