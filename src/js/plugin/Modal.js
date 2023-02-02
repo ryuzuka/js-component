@@ -1,4 +1,4 @@
-/** Modal.js ********************************************************************************************************** */
+/** Modal.js ******************************************************************************************************** */
 const PLUGIN_NAME = 'Modal'
 
 Object.assign(Object.prototype, {
@@ -19,7 +19,7 @@ class Modal {
   constructor (el, options, callback) {
     this.$modal = el
     this.$close = el.querySelector('.close')
-    this.$button = el.querySelectorAll('.button-wrap button.btn')
+    this.$button = el.querySelectorAll('.button-wrap > button.btn')
 
     this.callback = callback
     this.options = Object.assign({
@@ -32,6 +32,13 @@ class Modal {
     this.eventHandler = {
       clickClose: e => {
         this.close()
+      },
+      clickDimmedClose: e => {
+        if (!this.options.clickToClose) return
+
+        if (e.target.id === this.$modal.id && e.target.className.indexOf('layer') > -1) {
+          this.close()
+        }
       }
     }
 
@@ -45,9 +52,13 @@ class Modal {
       })
     }
 
+    this.$modal.addEventListener('click', this.eventHandler.clickDimmedClose)
     this.$close.addEventListener('click', this.eventHandler.clickClose)
     this.$button.forEach($btn => {
-      $btn.addEventListener('click', this.eventHandler.clickClose)
+      $btn.addEventListener('click', e => {
+        let idx = [...e.target.parentElement.children].indexOf(e.target)
+        this.close(idx)
+      })
     })
   }
 
@@ -57,17 +68,18 @@ class Modal {
     this.callback({type: 'open', $modal: this.$modal})
   }
 
-  close () {
-    this.callback({type: 'before-close', $modal: this.$modal})
+  close (idx) {
+    let params = idx === undefined ? {} : {closedIndex: idx}
 
+    this.callback(Object.assign({type: 'before-close', $modal: this.$modal}, params))
     this.$modal.style.display = 'none'
     window.BlockScroll('scroll')
-
-    this.callback({type: 'close', $modal: this.$modal})
+    this.callback(Object.assign({type: 'close', $modal: this.$modal}, params))
   }
 
   clear () {
+    this.$modal.classList.remove('dimmed')
     this.$close.removeEventListener('click', this.eventHandler.clickClose)
   }
 }
-/** ****************************************************************************************************************** */
+/** ***************************************************************************************************************** */

@@ -364,8 +364,10 @@
 	window.addEventListener('DOMContentLoaded', e => {
 		let guide = window.Guide()
 		for (let plugin in guide) {
-			guide[plugin]()
+			// guide[plugin]()
 		}
+		
+		guide.Modal()
 		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
@@ -384,28 +386,30 @@
 		return {
 			Modal () {
 				let $modalAlert = document.querySelector('#pop-alert')
-				let $modalConfirrm = document.querySelector('#pop-confirm')
+				let $modalConfirm = document.querySelector('#pop-confirm')
 				let $modal = document.querySelector('#pop-modal')
 				let $modalFull = document.querySelector('#pop-full')
 				
-				$modalAlert.Modal({}, e => {
-					console.log(e.type)
+				window.modalAlert = $modalAlert.Modal({classes: ['alert'], dimmed: false, clickToClose: true}, e => console.log(e.type, e))
+				let modalConfirm = $modalConfirm.Modal({}, e => {
+					console.log(e.type + ',' ,'closedIndex: ', e.closedIndex) // closedIndex - 0 : cancel, 1: confirm
 				})
+				let modal = $modal.Modal({}, e => console.log(e.type, e))
+				let modalFull = $modalFull.Modal({}, e => console.log(e.type, e))
+				
 				document.querySelectorAll('.modalBtn').forEach($btn => {
 					$btn.addEventListener('click', e => {
 						let {className} = e.target
-						let $modal = document.querySelector('#pop-' + e.target.classList[2])
-						
 						if (className.indexOf('alert') > -1) {
-						
+							modalAlert.open()
 						} else if (className.indexOf('confirm') > -1) {
-						} else if (className.indexOf('modal') > -1) {
+							modalConfirm.open()
+						} else if (className.indexOf('modalBtn btn modal') > -1) {
+							modal.open()
 						} else if (className.indexOf('full') > -1) {
+							modalFull.open()
 						}
 					})
-					
-					
-					
 				})
 			},
 			Accordion () {
