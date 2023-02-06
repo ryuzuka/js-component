@@ -149,7 +149,7 @@
 		    <div id="pop-alert" class="layer" role="dialog" aria-modal="true">
 			    <div class="layer-wrap">
 				    <div class="title">alert title</div>
-				    <button class="close">close</button>
+				    <!--button class="close">close</button-->
 				    <div class="layer-content">
 					    alert contents
 				    </div>
@@ -161,7 +161,7 @@
 		    <div id="pop-confirm" class="layer" role="dialog" aria-modal="true">
 			    <div class="layer-wrap">
 				    <div class="title">confirm title</div>
-				    <button class="close">close</button>
+				    <!--button class="close">close</button-->
 				    <div class="layer-content">
 					    confirm contents
 				    </div>
@@ -176,7 +176,7 @@
 				    <div class="title">modal title</div>
 				    <button class="close">close</button>
 				    <div class="layer-content" style="overflow: auto; height: 200px">
-					    <button class="btn modalBtn">alert</button><br>
+					    modal contents
 					    <br>scroll
 					    <br>scroll
 					    <br>scroll
@@ -184,7 +184,7 @@
 					    <br>scroll
 					    <br>scroll
 					    <br>scroll
-					    scroll
+					    <br>scroll
 				    </div>
 			    </div>
 		    </div>
@@ -195,10 +195,24 @@
 				    <button class="close">close</button>
 				    <div class="layer-content">
 					    full contents
-					    <button class="modalBtn">alert</button>
 				    </div>
 			    </div>
 		    </div>
+	    </section>
+	
+	    <h2>block scroll</h2>
+	    <section>
+		    <button class="btn btn-tertiary block documentBody">document block</button>
+		    <button class="btn btn-tertiary block documentBody scroll">document scroll</button>
+		    <br>
+		    <br>
+		    <button class="btn btn-tertiary block window">window block</button>
+		    <button class="btn btn-tertiary block window scroll">window scroll</button>
+	    </section>
+	
+	    <h2>loading</h2>
+	    <section>
+		    <button class="btn loadingBtn">loading start</button>
 	    </section>
 	
 	    <h2>swiper</h2>
@@ -284,21 +298,6 @@
         <button class="btn btn-tertiary increase-start">start</button>
       </section>
 	
-	    <h2>block scroll</h2>
-      <section>
-        <button class="btn btn-tertiary block documentBody">document block</button>
-        <button class="btn btn-tertiary block documentBody scroll">document scroll</button>
-	      <br>
-	      <br>
-	      <button class="btn btn-tertiary block window">window block</button>
-	      <button class="btn btn-tertiary block window scroll">window scroll</button>
-      </section>
-	
-	    <h2>loading</h2>
-      <section>
-        <button class="btn loadingBtn">loading start</button>
-      </section>
-	
 	    <h2>swipe</h2>
       <section>
         <button class="btn btn-tertiary body swipe-on">body swipe - on</button>
@@ -364,10 +363,8 @@
 	window.addEventListener('DOMContentLoaded', e => {
 		let guide = window.Guide()
 		for (let plugin in guide) {
-			// guide[plugin]()
+			guide[plugin]()
 		}
-		
-		guide.Modal()
 		
 		document.querySelectorAll('.plugin-btn').forEach($apply => {
 			$apply.addEventListener('click', e => {
@@ -385,45 +382,39 @@
 	window.Guide = () => {
 		return {
 			Modal () {
-				let $modalAlert = document.querySelector('#pop-alert')
-				let $modalConfirm = document.querySelector('#pop-confirm')
-				let $modal = document.querySelector('#pop-modal')
-				let $modalFull = document.querySelector('#pop-full')
-				
-				window.modalAlert = $modalAlert.Modal({classes: ['alert'], dimmed: false, clickToClose: true}, e => console.log(e.type, e))
-				let modalConfirm = $modalConfirm.Modal({}, e => {
-					console.log(e.type + ',' ,'closedIndex: ', e.closedIndex) // closedIndex - 0 : cancel, 1: confirm
-				})
-				let modal = $modal.Modal({}, e => console.log(e.type, e))
-				let modalFull = $modalFull.Modal({}, e => console.log(e.type, e))
-				
 				document.querySelectorAll('.modalBtn').forEach($btn => {
 					$btn.addEventListener('click', e => {
 						let {className} = e.target
+						let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
+						
 						if (className.indexOf('alert') > -1) {
-							modalAlert.open()
+							$modal.Modal('clear').Modal({clickToClose: true}).Modal('open')
+							
 						} else if (className.indexOf('confirm') > -1) {
-							modalConfirm.open()
+							$modal.Modal('clear').Modal({clickToClose: true}, e => console.log(e.type + ',' ,'closedIndex: ', e.closedIndex)).Modal('open')
+						
 						} else if (className.indexOf('modalBtn btn modal') > -1) {
-							modal.open()
+							$modal.Modal('clear').Modal({clickToClose: true, classes: 'alert test1 test2'}, e => console.log(e.type, e)).Modal('open')
+						
 						} else if (className.indexOf('full') > -1) {
-							modalFull.open()
+							$modal.Modal('clear').Modal({classes: 'alert test1 test2'}, e => console.log(e.type, e)).Modal('open')
+						
 						}
 					})
 				})
 			},
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
-				let accordion = $accordion.Accordion('clear').Accordion({activeIndex: 1, disabledIndex: 0})
-				accordion.active(2)
+				$accordion.Accordion('clear').Accordion({activeIndex: 1, disabledIndex: 0})
+				$accordion.Accordion('active', 2)
 				$accordion.addEventListener('change', e => {
 					console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 			},
 			Dropdown () {
 				let $dropdown = document.querySelector('.js-dropdown')
-				window.dropdown = $dropdown.Dropdown('clear').Dropdown({activeIndex: 1, disabledIndex: 0})
-				dropdown.active(2)
+				$dropdown.Dropdown('clear').Dropdown({activeIndex: 1, disabledIndex: 0})
+				$dropdown.Dropdown('active', 2)
 				
 				$dropdown.addEventListener('change', e => {
 					console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
@@ -431,15 +422,15 @@
 			},
 			Tab () {
 				let $tab = document.querySelector('.js-tab')
-				let tab = $tab.Tab('clear').Tab({activeIndex: 1, disabledIndex: 0})
-				tab.active(2)
+				$tab.Tab('clear').Tab({activeIndex: 1, disabledIndex: 0})
+				$tab.Tab('active', 2)
 				$tab.addEventListener('change', e => {
 					console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 			},
 			Textarea () {
 				let $textarea = document.querySelector('.js-textarea')
-				// $textarea.Textarea('get')
+				console.log($textarea.Textarea('get'))
 			},
 			Paging () {
 				let $paging = document.querySelector('.js-paging')
@@ -449,7 +440,7 @@
 					limit: 5,           // 화면에 보여지는 리스트 갯수
 					// pagingLength: 5     // 화면에 보여지는 paging 갯수 (default: 10)
 				})
-				paging.set(11)
+				$paging.Paging('set', 11)
 				$paging.addEventListener('change', e => {
 					console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
 				})
@@ -467,9 +458,9 @@
 			},
 			Loading () {
 				document.querySelector('.loadingBtn').addEventListener('click', e => {
-					Loading(true)
+					window.Loading(true)
 					setTimeout(() => {
-						Loading(false)
+						window.Loading(false)
 					}, 1000)
 				})
 			},
