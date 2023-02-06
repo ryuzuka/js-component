@@ -8,19 +8,20 @@ window.PLUGIN = {
 		element.setAttribute('applied-plugin', pluginId)
     pluginPool[pluginId] = plugin
     pluginIndex++
+
+		return plugin
 	},
 	call (element, method, value) {
 		let pluginId = element.getAttribute('applied-plugin')
-		if (!pluginId) {
-			return
+		if (!pluginId) return element
+
+		let returnValue = pluginPool[pluginId][method](value)
+		if (method === 'clear') {
+			delete pluginPool[element.getAttribute('applied-plugin')]
+			element.removeAttribute('applied-plugin')
 		}
 
-		let _return = pluginPool[pluginId][method](value)
-		if (method === 'clear') {
-			element.removeAttribute('applied-plugin')
-			delete pluginPool[element.getAttribute('applied-plugin')]
-		}
-		return _return ? _return : element
+		return returnValue !== undefined ? returnValue : element
 	}
 }
 
