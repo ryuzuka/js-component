@@ -261,10 +261,10 @@
 			    </div>
 			    <br>
 			    <div class="detail">
-				    <input type="text" title="상세 주소 입력" placeholder="상세주소를 입력해주세요.">
+				    <input type="text" name="" title="상세 주소 입력" placeholder="상세주소를 입력해주세요.">
 			    </div>
 			    <br>
-			    <button type="button" class="btn btn-search">주소 검색</button>
+			    <button type="button" name="" class="btn btn-search">주소 검색</button>
 		    </div>
 	    </section>
 	    <br>
@@ -486,6 +486,20 @@
 					setTimeout(() => {
 						window.Loading(false)
 					}, 1000)
+				})
+			},
+			Postcode () {
+				let $postcode = document.querySelector('.js-postcode')
+				$postcode.Postcode() // 초기화
+				
+				// $postcode.Postcode('open')
+				$postcode.addEventListener('complete-close', e => {
+					// complete-close
+					console.log(e.detail.address)
+				})
+				$postcode.addEventListener('force-close', e => {
+					// force-close
+					console.log(e)
 				})
 			},
 			Textarea () {
