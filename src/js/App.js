@@ -1,10 +1,8 @@
 /** App.js ******************************************************************************************************** */
-window.APP = Object.assign(window.APP || {}, {
+window.App = Object.assign(window.App || {}, {
   DATE_FORMAT: 'YYYY-MM-DD',
   DEVICE: window.navigator.userAgent,
-  MOBILE_WIDTH: 1024,
-  depth1Index: -1,
-  depth2Index: -1
+  MOBILE_WIDTH: 1024
 })
 
 // before unload
