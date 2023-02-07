@@ -24,12 +24,4 @@ window.PLUGIN = {
 		return returnValue !== undefined ? returnValue : element
 	}
 }
-
-/** document ready - plugin execution */
-window.addEventListener('DOMContentLoaded', e => {
-	document.getElementsByClassName('js-tab').Tab()
-	document.getElementsByClassName('js-accordion').Accordion()
-	document.getElementsByClassName('js-dropdown').Dropdown()
-	document.getElementsByClassName('js-textarea').Textarea()
-})
 /** ***************************************************************************************************************** */

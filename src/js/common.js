@@ -1,22 +1,28 @@
 /** common.js ******************************************************************************************************** */
-let Header = (_depth1Index, _depth2Index) => {
+const Header = () => {
   let _this = {}
   return _this
 }
 
-let Footer = () => {
+const Footer = () => {
   let _this = {}
   return _this
 }
 
-let components = {}
+const Components = {}
 
-/** document ready */
+/** document ready, plugin execution */
 window.addEventListener('DOMContentLoaded', e => {
-  window.APP.Header = Header(APP.depth1Index, APP.depth2Index)
-  window.APP.Footer = Footer()
-  for (let component in components) {
-    window['$' + component] = components[component]()
+  Array.from(document.getElementsByClassName('js-accordion')).forEach($Accordion => $Accordion.Accordion())
+  Array.from(document.getElementsByClassName('js-dropdown')).forEach($dropdown => $dropdown.Dropdown())
+  Array.from(document.getElementsByClassName('js-tab')).forEach($tab => $tab.Tab())
+  Array.from(document.getElementsByClassName('js-textarea')).forEach($textarea => $textarea.Textarea())
+
+  window.App.Header = new Header()
+  window.App.Footer = new Footer()
+
+  for (let component in Components) {
+    window.App[component] = Components[component]()
   }
 })
 /** ***************************************************************************************************************** */
