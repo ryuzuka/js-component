@@ -382,23 +382,37 @@
 	window.Guide = () => {
 		return {
 			Modal () {
+				let modalEventHandler = e => {
+					if (e.detail.type === 'open') {
+					} else if (e.detail.type === 'before-close') {
+					} else if (e.detail.type === 'close') {
+					}
+					
+					console.log(e.detail.type, e.detail)
+				}
+				
+				// ex - confirm modal
+				document.querySelector('#pop-alert').addEventListener('change', modalEventHandler)
+				document.querySelector('#pop-confirm').addEventListener('change', modalEventHandler)
+				document.querySelector('#pop-modal').addEventListener('change', modalEventHandler)
+				document.querySelector('#pop-full').addEventListener('change', modalEventHandler)
+				
 				document.querySelectorAll('.modalBtn').forEach($btn => {
 					$btn.addEventListener('click', e => {
 						let {className} = e.target
 						let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
 						
 						if (className.indexOf('alert') > -1) {
-							$modal.Modal('clear').Modal({clickToClose: true}).Modal('open')
+							$modal.Modal('clear').Modal({classes: 'alert', clickToClose: true}).Modal('open')
 							
 						} else if (className.indexOf('confirm') > -1) {
-							$modal.Modal('clear').Modal({clickToClose: true}, e => console.log(e.type + ',' ,'closedIndex: ', e.closedIndex)).Modal('open')
+							$modal.Modal('clear').Modal({html: '신청하시겠습니까?', buttonText: ['취소', '확인'], classes: 'confirm'}).Modal('open')
 						
 						} else if (className.indexOf('modalBtn btn modal') > -1) {
-							$modal.Modal('clear').Modal({clickToClose: true, classes: 'alert test1 test2'}, e => console.log(e.type, e)).Modal('open')
+							$modal.Modal('clear').Modal({classes: 'modal'}).Modal('open')
 						
 						} else if (className.indexOf('full') > -1) {
-							$modal.Modal('clear').Modal({classes: 'alert test1 test2'}, e => console.log(e.type, e)).Modal('open')
-						
+							$modal.Modal('clear').Modal({classes: 'full'}).Modal('open')
 						}
 					})
 				})

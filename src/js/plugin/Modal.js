@@ -2,12 +2,12 @@
 const PLUGIN_NAME = 'Modal'
 
 Object.assign(Object.prototype, {
-  Modal (options = {}, callback = () => {}) {
+  Modal (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this, options, callback)
+      return window.PLUGIN.call(this, options, value)
     } else {
       if (!this.getAttribute('applied-plugin')) {
-        window.PLUGIN.add(this, new Modal(this, options, callback), PLUGIN_NAME)
+        window.PLUGIN.add(this, new Modal(this, options, value), PLUGIN_NAME)
       }
       return this
     }
@@ -15,23 +15,17 @@ Object.assign(Object.prototype, {
 })
 
 class Modal {
-  constructor (el, options, callback) {
+  constructor (el, options) {
     this.$modal = el
     this.$close = el.querySelector('.close')
     this.$button = el.querySelectorAll('.button-wrap > button.btn')
 
-    this.callback = callback
     this.options = Object.assign({
       classes: '',
+      html: '',
+      buttonText: [],
       clickToClose: false
     }, options)
-
-    this.options.classes = this.options.classes.split(' ').filter(className => {
-      if (className !== '' ) {
-        this.$modal.classList.add(className)
-        return className
-      }
-    })
 
     this.eventHandler = {
       close: e => this.close(),
@@ -52,11 +46,28 @@ class Modal {
       }
     }
 
-    this.$modal.addEventListener('keydown', this.eventHandler.keydownClose)
-    this.$modal.addEventListener('click', this.eventHandler.clickToClose)
-    this.$button.forEach($btn => {
+    if (this.options.classes !== '') {
+      this.options.classes = this.options.classes.split(' ').filter(className => {
+        if (className !== '' ) {
+          this.$modal.classList.add(className)
+          return className
+        }
+      })
+    }
+
+    if (this.options.html !== '') {
+      this.$modal.querySelector('.layer-content').innerHTML = this.options.html
+    }
+
+    this.$button.forEach(($btn, index) => {
+      if (this.options.buttonText.length > 0) {
+        $btn.innerText = this.options.buttonText[index]
+      }
       $btn.addEventListener('click', this.eventHandler.clickButtonClose)
     })
+
+    this.$modal.addEventListener('keydown', this.eventHandler.keydownClose)
+    this.$modal.addEventListener('click', this.eventHandler.clickToClose)
     if (this.$close) {
       this.$close.addEventListener('click', this.eventHandler.close)
     }
@@ -67,18 +78,20 @@ class Modal {
     window.BlockScroll('block')
     this.$modal.style.display = 'block'
 
-    this.callback({type: 'open', $modal: this.$modal})
+    this.$modal.dispatchEvent(new CustomEvent('change', {detail: {type: 'open', $modal: this.$modal}}))
   }
 
   close (idx) {
-    let params = idx === undefined ? {} : {closedIndex: idx}
-    this.callback(Object.assign({type: 'before-close', $modal: this.$modal}, params))
+    let params = {$modal: this.$modal}
+    params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
+    this.$modal.dispatchEvent(new CustomEvent('change', {detail: Object.assign({type: 'before-close'}, params)}))
 
     window.BlockScroll('scroll')
     this.$modal.style.display = 'none'
-    this.callback(Object.assign({type: 'close', $modal: this.$modal}, params))
-
-    document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
+    setTimeout(() => {
+      this.$modal.dispatchEvent(new CustomEvent('change', {detail: Object.assign({type: 'close'}, params)}))
+      document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
+    }, 1)
   }
 
   clear () {
@@ -91,9 +104,10 @@ class Modal {
       this.$close.removeEventListener('click', this.eventHandler.close)
     }
 
-    this.callback = () => {}
     this.options = {
       classes: '',
+      html: '',
+      buttonText: [],
       clickToClose: false
     }
   }
