@@ -6,13 +6,12 @@ Object.assign(Object.prototype, {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
     } else {
-      let plugin = null
       for (let $el of this.length > 0 ? Array.from(this) : [this]) {
         if (!$el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add($el, plugin = new Accordion($el, options), PLUGIN_NAME)
+          window.PLUGIN.add($el, new Accordion($el, options), PLUGIN_NAME)
         }
       }
-      return plugin
+      return this
     }
   }
 })
@@ -56,6 +55,10 @@ class Accordion {
       $btn.setAttribute('aria-expanded', idx === index)
     })
     this.$accordion.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
+  }
+
+  get () {
+    return {index: this.activeIndex}
   }
 
   clear () {

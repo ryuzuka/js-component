@@ -6,13 +6,12 @@ Object.assign(Object.prototype, {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
     } else {
-      let plugin = null
       for (let $el of this.length > 0 ? Array.from(this) : [this]) {
         if (!$el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add($el, plugin = new Paging($el, options), PLUGIN_NAME)
+          window.PLUGIN.add($el, new Paging($el, options), PLUGIN_NAME)
         }
       }
-      return plugin
+      return this
     }
   }
 })
@@ -164,7 +163,7 @@ class Paging {
   }
 
   get () {
-    return parseInt(this.offset)
+    return {page: parseInt(this.offset)}
   }
 
   clear () {

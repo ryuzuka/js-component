@@ -428,10 +428,6 @@
 					console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 			},
-			Textarea () {
-				let $textarea = document.querySelector('.js-textarea')
-				console.log($textarea.Textarea('get'))
-			},
 			Paging () {
 				let $paging = document.querySelector('.js-paging')
 				let paging = $paging.Paging({
@@ -464,6 +460,34 @@
 					}, 1000)
 				})
 			},
+			BlockScroll () {
+				document.querySelectorAll('.btn.block').forEach($btn => {
+					$btn.addEventListener('click', e => {
+						
+						if (e.target.className.indexOf('scroll') < 0) {
+							// block-scroll
+							if (e.target.className.indexOf('documentBody') > -1) {
+								window.BlockScroll('block')
+							} else {
+								// block-scroll-event
+								window.BlockScrollEvent('block')
+							}
+						} else {
+							// block-scroll
+							if (e.target.className.indexOf('documentBody') > -1) {
+								window.BlockScroll('scroll')
+							} else {
+								// block-scroll-event
+								window.BlockScrollEvent('scroll')
+							}
+						}
+					})
+				})
+			},
+			Textarea () {
+				let $textarea = document.querySelector('.js-textarea')
+				console.log($textarea.Textarea('get'))
+			},
 			Swiper () {
 				const swiper = new Swiper('.swiper', {
 					// direction: 'vertical',
@@ -493,30 +517,6 @@
 							// console.log('swiper-resize')
 						}
 					}
-				})
-			},
-			BlockScroll () {
-				document.querySelectorAll('.btn.block').forEach($btn => {
-					$btn.addEventListener('click', e => {
-						
-						if (e.target.className.indexOf('scroll') < 0) {
-							// block-scroll
-							if (e.target.className.indexOf('documentBody') > -1) {
-								window.BlockScroll('block')
-							} else {
-								// block-scroll-event
-								window.BlockScrollEvent('block')
-							}
-						} else {
-							// block-scroll
-							if (e.target.className.indexOf('documentBody') > -1) {
-								window.BlockScroll('scroll')
-							} else {
-								// block-scroll-event
-								window.BlockScrollEvent('scroll')
-							}
-						}
-					})
 				})
 			},
 			Lottie () {
