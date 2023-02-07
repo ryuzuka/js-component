@@ -1,15 +1,13 @@
 /** Accordion.js ********************************************************************************************************** */
 const PLUGIN_NAME = 'Accordion'
 
-Object.assign(Object.prototype, {
+Object.assign(HTMLElement.prototype, {
   Accordion (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
+      return window.PLUGIN.call(this, options, value)
     } else {
-      for (let $el of this.length > 0 ? Array.from(this) : [this]) {
-        if (!$el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add($el, new Accordion($el, options), PLUGIN_NAME)
-        }
+      if (!this.getAttribute('applied-plugin')) {
+        window.PLUGIN.add(this, new Accordion(this, options), PLUGIN_NAME)
       }
       return this
     }

@@ -1,15 +1,13 @@
 /** Dropdown.js ********************************************************************************************************** */
-let PLUGIN_NAME = 'Dropdown'
+const PLUGIN_NAME = 'Dropdown'
 
-Object.assign(Object.prototype, {
+Object.assign(HTMLElement.prototype, {
   Dropdown (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
+      return window.PLUGIN.call(this, options, value)
     } else {
-      for (let $el of this.length > 0 ? Array.from(this) : [this]) {
-        if (!$el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add($el, new Dropdown($el, options), PLUGIN_NAME)
-        }
+      if (!this.getAttribute('applied-plugin')) {
+        window.PLUGIN.add(this, new Dropdown(this, options), PLUGIN_NAME)
       }
       return this
     }

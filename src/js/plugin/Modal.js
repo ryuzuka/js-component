@@ -1,7 +1,7 @@
 /** Modal.js ******************************************************************************************************** */
 const PLUGIN_NAME = 'Modal'
 
-Object.assign(Object.prototype, {
+Object.assign(HTMLElement.prototype, {
   Modal (options = {}, value) {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this, options, value)

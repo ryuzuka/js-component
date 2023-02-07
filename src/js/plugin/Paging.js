@@ -1,15 +1,13 @@
 /** Paging.js ********************************************************************************************************** */
-let PLUGIN_NAME = 'paging'
+const PLUGIN_NAME = 'paging'
 
-Object.assign(Object.prototype, {
+Object.assign(HTMLElement.prototype, {
   Paging (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this.length > 0 ? this[0] : this, options, value)
+      return window.PLUGIN.call(this, options, value)
     } else {
-      for (let $el of this.length > 0 ? Array.from(this) : [this]) {
-        if (!$el.getAttribute('applied-plugin')) {
-          window.PLUGIN.add($el, new Paging($el, options), PLUGIN_NAME)
-        }
+      if (!this.getAttribute('applied-plugin')) {
+        window.PLUGIN.add(this, new Paging(this, options), PLUGIN_NAME)
       }
       return this
     }
@@ -22,9 +20,9 @@ class Paging {
     this.$pagingContainer = el.querySelector('.paging-list')
 
     this.options = Object.assign({}, options)
-    this.total = options.total                                        // 전체 리스트 갯수
     this.offset = options.offset || 0                                 // 현재 페이지 번호
     this.limit = options.limit || 10                                  // 화면에 보여지는 리스트 갯수
+    this.total = options.total                                        // * required, 전체 리스트 갯수
     this.pagingLength = options.pagingLength || 10                    // 화면에 보여지는 paging button 갯수
     this.totalPage = Math.ceil(options.total / this.limit)            // 전체 페이지 갯수
     this.pagingGroup = []
