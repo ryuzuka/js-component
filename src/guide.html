@@ -351,6 +351,16 @@
 <script src="/app/libs/lottie.min.js"></script>
 <script src="/app/libs/gsap.min.js"></script>
 <script src="/app/libs/wow.min.js"></script>
+	<!-- datepicker -->
+<script src="/app/libs/jquery.min.js"></script>
+<script src="/app/libs/datepicker.min.js"></script>
+<link rel="stylesheet" href="/app/libs/datepicker.min.css">
+	<!-- swiper -->
+<script src="/app/libs/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
+	<!-- Daum 주소검색 -->
+<script src="/app/libs/postcode.v2.js"></script>
+
 
 <!-- App, utils, plugin, common -->
 <script src="/app/js/App.js"></script>
@@ -535,6 +545,16 @@
 							// console.log('swiper-resize')
 						}
 					}
+				})
+			},
+			Calendar () {
+				let $calendar = document.querySelector('.js-calendar')
+				
+				// init, event
+				$calendar.Calendar('clear').Calendar({
+					// datepicker options
+				}).Calendar('set', new Date()).addEventListener('change', e => {
+					console.log(e.type, e.detail.date, e.detail.datepicker)
 				})
 			},
 			transform () {
