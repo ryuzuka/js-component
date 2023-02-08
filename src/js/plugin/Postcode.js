@@ -62,6 +62,7 @@ class Postcode {
     })
 
     this.$searchBtn.addEventListener('click', this.eventHandler.search)
+    this.$address.addEventListener('click', this.eventHandler.search)
   }
 
   open () {
