@@ -1,12 +1,12 @@
 /** Loading.js ****************************************************************************************************** */
-let _plugin = null
+let loading = null
 
 Object.assign(Window.prototype, {
   Loading (isLoading = true) {
-    _plugin = _plugin || new Loading()
-    _plugin.loading(isLoading)
+    loading = loading || new Loading()
+    loading.loading(isLoading)
 
-    return _plugin
+    return loading
   }
 })
 

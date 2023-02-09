@@ -275,6 +275,9 @@
 			    <textarea id="txt-field" name="txt-field" maxlength="10" cols="30" rows="10"></textarea>
 			    <span class="current-length">0</span>/<span class="total-length">100</span>
 		    </div>
+		    <br>
+		    <button class="btn btn-tertiary apply plugin-btn" data-plugin="Textarea">apply</button>
+		    <button class="btn btn-tertiary clear plugin-btn" data-plugin="Textarea">clear</button>
 	    </section>
       <br>
 	
@@ -352,20 +355,15 @@
 <script src="/app/libs/jquery.min.js"></script>
 <script src="/app/libs/datepicker.min.js"></script>
 <link rel="stylesheet" href="/app/libs/datepicker.min.css">
-
 <!-- swiper -->
 <script src="/app/libs/swiper-bundle.min.js"></script>
 <link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
-
 <!-- Daum 주소검색 -->
 <script src="/app/libs/postcode.v2.js"></script>
-
-<!-- lottie -->
-<script src="/app/libs/lottie.min.js"></script>
-
 <!-- gsap -->
 <script src="/app/libs/gsap.min.js"></script>
-
+<!-- lottie -->
+<script src="/app/libs/lottie.min.js"></script>
 <!-- wow - scroll -->
 <script src="/app/libs/wow.min.js"></script>
 
@@ -575,11 +573,18 @@
 				})
 			},
 			transform () {
+				let $transform = document.querySelector('.transform.obj')
 				document.querySelector('.transform.btn').addEventListener('click', e => {
-					console.log('transform')
+					$transform.transform({
+						transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
+						transition: `1s ${window.UTILS.easing.Expo.easeInOut} 0s`
+					}, () => {
+						console.log('transition complete')
+					})
 				})
 			},
 			gsap () {
+				let $gsap = document.querySelector('.gsap.obj')
 				document.querySelector('.gsap.btn').addEventListener('click', e => {
 					console.log('tween')
 				})
