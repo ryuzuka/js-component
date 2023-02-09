@@ -1,7 +1,4 @@
 /** Calendar.js ********************************************************************************************************** */
-const _$ = window.jQuery
-const _moment = window.moment
-
 const PLUGIN_NAME = 'calendar'
 
 Object.assign(HTMLElement.prototype, {
@@ -41,15 +38,15 @@ class Calendar {
     this.eventHandler = {
     }
 
-    _$(this.$datepicker).datepicker(this.options)
+    window.jQuery(this.$datepicker).datepicker(this.options)
   }
 
   show () {
-    _$(this.$calendar).datepicker('show')
+    window.jQuery(this.$datepicker).datepicker('show')
   }
 
   hide () {
-    _$(this.$calendar).datepicker('hide')
+    window.jQuery(this.$datepicker).datepicker('hide')
   }
 
   get () {
@@ -57,13 +54,13 @@ class Calendar {
   }
 
   set (date) {
-    this.selectedDate = _moment(date).format(window.App.DATE_FORMAT)
-    _$(this.$datepicker).datepicker('setDate', this.selectedDate)
+    this.selectedDate = window.moment(date).format(window.App.DATE_FORMAT)
+    window.jQuery(this.$datepicker).datepicker('setDate', this.selectedDate)
     this.$datepicker.setAttribute('value', this.selectedDate)
   }
 
   clear () {
-    _$(this.$datepicker).datepicker('destroy')
+    window.jQuery(this.$datepicker).datepicker('destroy')
     this.$datepicker.value = ''
     this.$datepicker.removeAttribute('value')
     this.selectedDate = ''

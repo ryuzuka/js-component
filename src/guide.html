@@ -347,20 +347,27 @@
     @@include('./html/inc/footer.html')
   </div>
 
-<!-- libs -->
-<script src="/app/libs/lottie.min.js"></script>
-<script src="/app/libs/gsap.min.js"></script>
-<script src="/app/libs/wow.min.js"></script>
-	<!-- datepicker -->
+<!-- libs ---------------------------------------------------------------->
+<!-- datepicker -->
 <script src="/app/libs/jquery.min.js"></script>
 <script src="/app/libs/datepicker.min.js"></script>
 <link rel="stylesheet" href="/app/libs/datepicker.min.css">
-	<!-- swiper -->
+
+<!-- swiper -->
 <script src="/app/libs/swiper-bundle.min.js"></script>
 <link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
-	<!-- Daum 주소검색 -->
+
+<!-- Daum 주소검색 -->
 <script src="/app/libs/postcode.v2.js"></script>
 
+<!-- lottie -->
+<script src="/app/libs/lottie.min.js"></script>
+
+<!-- gsap -->
+<script src="/app/libs/gsap.min.js"></script>
+
+<!-- wow - scroll -->
+<script src="/app/libs/wow.min.js"></script>
 
 <!-- App, utils, plugin, common -->
 <script src="/app/js/App.js"></script>
@@ -394,21 +401,30 @@
 		return {
 			Accordion () {
 				let $accordion = document.querySelector('.js-accordion')
-				$accordion.Accordion('clear').Accordion({activeIndex: 1, disabledIndex: 0}).addEventListener('change', e => {
+				$accordion.Accordion('clear').Accordion({
+					activeIndex: 1,       // default: -1
+					disabledIndex: 0      // default: -1
+				}).addEventListener('change', e => {
 					console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 				$accordion.Accordion('active', 2)
 			},
 			Dropdown () {
 				let $dropdown = document.querySelector('.js-dropdown')
-				$dropdown.Dropdown('clear').Dropdown({activeIndex: 1, disabledIndex: 0}).addEventListener('change', e => {
+				$dropdown.Dropdown('clear').Dropdown({
+					activeIndex: 1,       // default: -1
+					disabledIndex: 0      // default: -1
+				}).addEventListener('change', e => {
 					console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
 				})
 				$dropdown.Dropdown('active', 2)
 			},
 			Tab () {
 				let $tab = document.querySelector('.js-tab')
-				$tab.Tab('clear').Tab({activeIndex: 1, disabledIndex: 0}).addEventListener('change', e => {
+				$tab.Tab('clear').Tab({
+					activeIndex: 1,       // default: 0
+					disabledIndex: 0      // default: -1
+				}).addEventListener('change', e => {
 					console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 				})
 				$tab.Tab('active', 2)
@@ -416,10 +432,10 @@
 			Paging () {
 				let $paging = document.querySelector('.js-paging')
 				let paging = $paging.Paging({
-					offset: 5,             // 현재 페이지 번호
-					limit: 5,              // 화면에 보여지는 리스트 갯수
-					total: 221,               // * required, 전체 리스트 갯수
-					pagingLength: 5           // 화면에 보여지는 paging 갯수 (default: 10)
+					offset: 5,            // 현재 페이지 번호
+					limit: 5,             // 화면에 보여지는 리스트 갯수
+					total: 221,           // * required, 전체 리스트 갯수
+					pagingLength: 5       // 화면에 보여지는 paging 갯수 (default: 10)
 				}).addEventListener('change', e => {
 					console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
 				})
@@ -427,7 +443,7 @@
 				
 				document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
 					$paging.Paging({
-						total: 136,        // * required, 전체 리스트 갯수
+						total: 136,         // * required, 전체 리스트 갯수
 					})
 				})
 				document.querySelector('.btn.paging-btn.clear').addEventListener('click', e => {
@@ -514,6 +530,7 @@
 			},
 			Textarea () {
 				let $textarea = document.querySelector('.js-textarea')
+				$textarea.Textarea('clear').Textarea()
 				console.log($textarea.Textarea('get'))
 			},
 			Swiper () {

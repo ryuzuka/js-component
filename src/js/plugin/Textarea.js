@@ -42,5 +42,13 @@ class Textarea {
   get () {
     return {length: parseInt(this.$current.innerText)}
   }
+
+  clear () {
+    this.maxlength = 0
+    this.$current.innerText = 0
+    this.$total.innerText = 0
+    this.$textarea.removeEventListener('keydown', this.eventHandler.typingTextarea)
+    this.$textarea.removeEventListener('keyup', this.eventHandler.typingTextarea)
+  }
 }
 /** ****************************************************************************************************************** */
