@@ -19,11 +19,15 @@ class Paging {
     this.$paging = el
     this.$pagingContainer = el.querySelector('.paging-list')
 
-    this.options = Object.assign({}, options)
-    this.offset = options.offset || 0                                 // 현재 페이지 번호
-    this.limit = options.limit || 10                                  // 화면에 보여지는 리스트 갯수
+    this.options = Object.assign({
+      offset: 0,          // 현재 페이지 번호
+      limit: 10,          // 화면에 보여지는 리스트 갯수
+      pagingLength: 10    // 화면에 보여지는 paging button 갯수
+    }, options)
+    this.offset = options.offset
+    this.limit = options.limit
+    this.pagingLength = options.pagingLength
     this.total = options.total                                        // * required, 전체 리스트 갯수
-    this.pagingLength = options.pagingLength || 10                    // 화면에 보여지는 paging button 갯수
     this.totalPage = Math.ceil(options.total / this.limit)            // 전체 페이지 갯수
     this.pagingGroup = []
     this.groupIndex = 0

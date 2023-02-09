@@ -30,7 +30,7 @@ class Modal {
     this.eventHandler = {
       close: e => this.close(),
       keydownClose: e => {
-        if (e.keyCode === 27) {
+        if (e.keyCode === 27) {   // esc
           this.close()
         }
       },

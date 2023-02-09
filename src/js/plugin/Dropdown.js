@@ -21,11 +21,15 @@ class Dropdown {
     this.$list = el.querySelector('.dropdown-list')
     this.$option = el.querySelectorAll('.dropdown-list > li')
 
-    this.options = Object.assign({}, options)
-    this.placeholder = el.dataset.placeholder || '선택하세요.'
-    this.activeIndex = parseInt(options.activeIndex) > -1 ? parseInt(options.activeIndex) : -1
-    this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
-    this.val = ''
+    this.options = Object.assign({
+      placeholder: '선택하세요.',
+      activeIndex: -1,
+      disabledIndex: -1
+    }, options)
+    this.placeholder = el.dataset.placeholder
+    this.activeIndex = parseInt(options.activeIndex)
+    this.disabledIndex = parseInt(options.disabledIndex)
+    this.value = ''
 
     if (this.placeholder) {
       this.$button.innerText = this.placeholder
@@ -75,15 +79,15 @@ class Dropdown {
       $option.classList[index === idx ? 'add' : 'remove']('active')
       $btn.classList[index === idx ? 'add' : 'remove']('active')
       if (index === idx) {
-        this.val = $btn.dataset.value
+        this.value = $btn.dataset.value
         this.$button.innerText = $btn.innerText
       }
     })
-    this.$dropdown.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx, value: this.val}}))
+    this.$dropdown.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx, value: this.value}}))
   }
 
   get () {
-    return {value: this.val, index: this.activeIndex}
+    return {value: this.value, index: this.activeIndex}
   }
 
   clear () {

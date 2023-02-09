@@ -1,6 +1,7 @@
 /** App.js ******************************************************************************************************** */
 window.App = Object.assign(window.App || {}, {
   DATE_FORMAT: 'YYYY-MM-DD',
+  TIME_FORMAT: 'HH:mm:ss',
   DEVICE: window.navigator.userAgent,
   MOBILE_WIDTH: 1024
 })

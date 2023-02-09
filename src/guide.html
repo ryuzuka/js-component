@@ -287,10 +287,10 @@
           <span class="time">00:00</span>
         </div>
         <br>
-        <button class="btn btn-tertiary countdown-apply">apply</button>
-        <button class="btn btn-tertiary countdown-start">start</button>
-        <button class="btn btn-tertiary countdown-stop">stop</button>
-        <button class="btn btn-tertiary countdown-clear">clear</button>
+        <button class="btn btn-tertiary apply plugin-btn" data-plugin="Countdown">apply</button>
+        <button class="btn btn-tertiary clear plugin-btn" data-plugin="Countdown">clear</button>
+        <button class="btn btn-tertiary countdown start">start</button>
+        <button class="btn btn-tertiary countdown stop">stop</button>
       </section>
 	
 	    <h2>Increase Number</h2>
@@ -350,268 +350,292 @@
     @@include('./html/inc/footer.html')
   </div>
 
-<!-- libs ---------------------------------------------------------------->
-<!-- datepicker -->
-<script src="/app/libs/jquery.min.js"></script>
-<script src="/app/libs/datepicker.min.js"></script>
-<link rel="stylesheet" href="/app/libs/datepicker.min.css">
-<!-- swiper -->
-<script src="/app/libs/swiper-bundle.min.js"></script>
-<link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
-<!-- Daum 주소검색 -->
-<script src="/app/libs/postcode.v2.js"></script>
-<!-- gsap -->
-<script src="/app/libs/gsap.min.js"></script>
-<!-- lottie -->
-<script src="/app/libs/lottie.min.js"></script>
-<!-- wow - scroll -->
-<script src="/app/libs/wow.min.js"></script>
+	<!-- libs ---------------------------------------------------------------->
+	<!-- datepicker -->
+	<script src="/app/libs/jquery.min.js"></script>
+	<script src="/app/libs/datepicker.min.js"></script>
+	<link rel="stylesheet" href="/app/libs/datepicker.min.css">
+	<!-- swiper -->
+	<script src="/app/libs/swiper-bundle.min.js"></script>
+	<link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
+	<!-- Daum 주소검색 -->
+	<script src="/app/libs/postcode.v2.js"></script>
+	<!-- gsap -->
+	<script src="/app/libs/gsap.min.js"></script>
+	<!-- lottie -->
+	<script src="/app/libs/lottie.min.js"></script>
+	<!-- wow - scroll -->
+	<script src="/app/libs/wow.min.js"></script>
 
-<!-- App, utils, plugin, common -->
-<script src="/app/js/App.js"></script>
-<script src="/app/js/utils.js"></script>
-<script src="/app/js/plugin.js"></script>
-<script src="/app/js/common.js"></script>
-
-</body>
-<script>
-	/** document ready */
-	window.addEventListener('DOMContentLoaded', e => {
-		let guide = window.Guide()
-		for (let plugin in guide) {
-			guide[plugin]()
-		}
-		
-		document.querySelectorAll('.plugin-btn').forEach($apply => {
-			$apply.addEventListener('click', e => {
-				let plugin = e.target.dataset.plugin
-				let $plugin = document.querySelector(`.js-${plugin.toLowerCase()}`)
-				if (e.target.className.indexOf('apply') > 0) {
-					$plugin[plugin]({})
-				} else if (e.target.className.indexOf('clear') > 0) {
-					$plugin[plugin]('clear')
-				}
+  <!-- App, utils, plugin -->
+	<script src="/app/js/App.js"></script>
+	<script src="/app/js/utils.js"></script>
+	<script src="/app/js/plugin.js"></script>
+  <!-- components -->
+	<script src="/app/js/common.js"></script>
+	
+	<script>
+		/** document ready */
+		window.addEventListener('DOMContentLoaded', e => {
+			let guide = window.Guide()
+			for (let plugin in guide) {
+				guide[plugin]()
+			}
+			
+			document.querySelectorAll('.plugin-btn').forEach($apply => {
+				$apply.addEventListener('click', e => {
+					let plugin = e.target.dataset.plugin
+					let $plugin = document.querySelector(`.js-${plugin.toLowerCase()}`)
+					if (e.target.className.indexOf('apply') > 0) {
+						$plugin[plugin]({})
+					} else if (e.target.className.indexOf('clear') > 0) {
+						$plugin[plugin]('clear')
+					}
+				})
 			})
 		})
-	})
-	
-	window.Guide = () => {
-		return {
-			Accordion () {
-				let $accordion = document.querySelector('.js-accordion')
-				$accordion.Accordion('clear').Accordion({
-					activeIndex: 1,       // default: -1
-					disabledIndex: 0      // default: -1
-				}).addEventListener('change', e => {
-					console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
-				})
-				$accordion.Accordion('active', 2)
-			},
-			Dropdown () {
-				let $dropdown = document.querySelector('.js-dropdown')
-				$dropdown.Dropdown('clear').Dropdown({
-					activeIndex: 1,       // default: -1
-					disabledIndex: 0      // default: -1
-				}).addEventListener('change', e => {
-					console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
-				})
-				$dropdown.Dropdown('active', 2)
-			},
-			Tab () {
-				let $tab = document.querySelector('.js-tab')
-				$tab.Tab('clear').Tab({
-					activeIndex: 1,       // default: 0
-					disabledIndex: 0      // default: -1
-				}).addEventListener('change', e => {
-					console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
-				})
-				$tab.Tab('active', 2)
-			},
-			Paging () {
-				let $paging = document.querySelector('.js-paging')
-				let paging = $paging.Paging({
-					offset: 5,            // 현재 페이지 번호
-					limit: 5,             // 화면에 보여지는 리스트 갯수
-					total: 221,           // * required, 전체 리스트 갯수
-					pagingLength: 5       // 화면에 보여지는 paging 갯수 (default: 10)
-				}).addEventListener('change', e => {
-					console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
-				})
-				$paging.Paging('set', 3)
-				
-				document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
-					$paging.Paging({
-						total: 136,         // * required, 전체 리스트 갯수
+		
+		window.Guide = () => {
+			return {
+				Accordion () {
+					let $accordion = document.querySelector('.js-accordion')
+					$accordion.Accordion('clear').Accordion({
+						activeIndex: 1,       // default: -1
+						disabledIndex: 0      // default: -1
+					}).addEventListener('change', e => {
+						console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 					})
-				})
-				document.querySelector('.btn.paging-btn.clear').addEventListener('click', e => {
-					$paging.Paging('clear')
-				})
-			},
-			Modal () {
-				let modalEventHandler = e => {
-					if (e.detail.type === 'open') {
-					} else if (e.detail.type === 'before-close') {
-					} else if (e.detail.type === 'close') {
-					}
+					$accordion.Accordion('active', 2)
+				},
+				Dropdown () {
+					let $dropdown = document.querySelector('.js-dropdown')
+					$dropdown.Dropdown('clear').Dropdown({
+						activeIndex: 1,       // default: -1
+						disabledIndex: 0      // default: -1
+					}).addEventListener('change', e => {
+						console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
+					})
+					$dropdown.Dropdown('active', 2)
+				},
+				Tab () {
+					let $tab = document.querySelector('.js-tab')
+					$tab.Tab('clear').Tab({
+						activeIndex: 1,       // default: 0
+						disabledIndex: 0      // default: -1
+					}).addEventListener('change', e => {
+						console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
+					})
+					$tab.Tab('active', 2)
+				},
+				Paging () {
+					let $paging = document.querySelector('.js-paging')
+					let paging = $paging.Paging({
+						offset: 5,            // 현재 페이지 번호
+						limit: 5,             // 화면에 보여지는 리스트 갯수
+						total: 221,           // * required, 전체 리스트 갯수
+						pagingLength: 5       // 화면에 보여지는 paging 갯수 (default: 10)
+					}).addEventListener('change', e => {
+						console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
+					})
+					$paging.Paging('set', 3)
 					
-					console.log(e.detail.type, e.detail)
-				}
-				
-				// ex - confirm modal
-				document.querySelector('#pop-alert').addEventListener('change', modalEventHandler)
-				document.querySelector('#pop-confirm').addEventListener('change', modalEventHandler)
-				document.querySelector('#pop-modal').addEventListener('change', modalEventHandler)
-				document.querySelector('#pop-full').addEventListener('change', modalEventHandler)
-				
-				document.querySelectorAll('.modalBtn').forEach($btn => {
-					$btn.addEventListener('click', e => {
-						let {className} = e.target
-						let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
+					document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
+						$paging.Paging({
+							total: 136,         // * required, 전체 리스트 갯수
+						})
+					})
+					document.querySelector('.btn.paging-btn.clear').addEventListener('click', e => {
+						$paging.Paging('clear')
+					})
+				},
+				Modal () {
+					let modalEventHandler = e => {
+						if (e.detail.type === 'open') {
+						} else if (e.detail.type === 'before-close') {
+						} else if (e.detail.type === 'close') {
+						}
 						
-						if (className.indexOf('alert') > -1) {
-							$modal.Modal('clear').Modal({classes: 'alert', clickToClose: true}).Modal('open')
-							
-						} else if (className.indexOf('confirm') > -1) {
-							$modal.Modal('clear').Modal({html: '신청하시겠습니까?', buttonText: ['취소', '확인'], classes: 'confirm'}).Modal('open')
-							
-						} else if (className.indexOf('modalBtn btn modal') > -1) {
-							$modal.Modal('clear').Modal({classes: 'modal'}).Modal('open')
-							
-						} else if (className.indexOf('full') > -1) {
-							$modal.Modal('clear').Modal({classes: 'full'}).Modal('open')
-						}
-					})
-				})
-			},
-			BlockScroll () {
-				document.querySelectorAll('.btn.block').forEach($btn => {
-					$btn.addEventListener('click', e => {
-						if (e.target.className.indexOf('documentBody') > -1) {
-							if (e.target.className.indexOf('scroll') < 0) {
-								window.BlockScroll('block')
-							} else{
-								window.BlockScroll('scroll')
-							}
-						} else {
-							if (e.target.className.indexOf('scroll') < 0) {
-								window.BlockScrollEvent('block')
-							} else {
-								window.BlockScrollEvent('scroll')
-							}
-						}
-					})
-				})
-			},
-			Loading () {
-				document.querySelector('.loadingBtn').addEventListener('click', e => {
-					window.Loading(true)
-					
-					setTimeout(() => {
-						window.Loading(false)
-					}, 1000)
-				})
-			},
-			Postcode () {
-				let $postcode = document.querySelector('.js-postcode')
-				$postcode.Postcode() // 초기화
-				
-				// $postcode.Postcode('open')
-				$postcode.addEventListener('complete-close', e => {
-					// complete-close
-					console.log(e.detail.address)
-				})
-				$postcode.addEventListener('force-close', e => {
-					// force-close
-					console.log(e)
-				})
-			},
-			Textarea () {
-				let $textarea = document.querySelector('.js-textarea')
-				$textarea.Textarea('clear').Textarea()
-				console.log($textarea.Textarea('get'))
-			},
-			Swiper () {
-				const swiper = new Swiper('.swiper', {
-					// direction: 'vertical',
-					loop: false,
-					pagination: {
-						el: '.swiper-pagination',
-						clickable: true
-					},
-					navigation: {
-						nextEl: '.swiper-button-next',
-						prevEl: '.swiper-button-prev',
-					},
-					scrollbar: {
-						el: '.swiper-scrollbar',
-					},
-					on: {
-						init () {
-							// console.log('swiper-init', this.realIndex)
-						},
-						transitionEnd () {
-							// console.log('swiper-end', this.realIndex)
-						},
-						slideChange () {
-							// console.log('swiper-change', this.realIndex)
-						},
-						resize () {
-							// console.log('swiper-resize')
-						}
+						console.log(e.detail.type, e.detail)
 					}
-				})
-			},
-			Calendar () {
-				let $calendar = document.querySelector('.js-calendar')
-				
-				// init, event
-				$calendar.Calendar('clear').Calendar({
-					// datepicker options
-				}).Calendar('set', new Date()).addEventListener('change', e => {
-					console.log(e.type, e.detail.date, e.detail.datepicker)
-				})
-			},
-			transform () {
-				let $transform = document.querySelector('.transform.obj')
-				document.querySelector('.transform.btn').addEventListener('click', e => {
-					$transform.transform({
-						transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
-						transition: `1s ${window.UTILS.easing.Expo.easeInOut} 0s`
-					}, () => {
-						console.log('transition complete')
+					
+					// ex - confirm modal
+					document.querySelector('#pop-alert').addEventListener('change', modalEventHandler)
+					document.querySelector('#pop-confirm').addEventListener('change', modalEventHandler)
+					document.querySelector('#pop-modal').addEventListener('change', modalEventHandler)
+					document.querySelector('#pop-full').addEventListener('change', modalEventHandler)
+					
+					document.querySelectorAll('.modalBtn').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							let {className} = e.target
+							let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
+							
+							if (className.indexOf('alert') > -1) {
+								$modal.Modal('clear').Modal({classes: 'alert', clickToClose: true}).Modal('open')
+								
+							} else if (className.indexOf('confirm') > -1) {
+								$modal.Modal('clear').Modal({html: '신청하시겠습니까?', buttonText: ['취소', '확인'], classes: 'confirm'}).Modal('open')
+								
+							} else if (className.indexOf('modalBtn btn modal') > -1) {
+								$modal.Modal('clear').Modal({classes: 'modal'}).Modal('open')
+								
+							} else if (className.indexOf('full') > -1) {
+								$modal.Modal('clear').Modal({classes: 'full'}).Modal('open')
+							}
+						})
 					})
-				})
-			},
-			gsap () {
-				let $gsap = document.querySelector('.gsap.obj')
-				document.querySelector('.gsap.btn').addEventListener('click', e => {
-					console.log('tween')
-				})
-			},
-			Lottie () {
-				let _lottie = window['lottie'].loadAnimation({
-					container: document.getElementById('lottie'),
-					renderer: 'svg',
-					// animationData: '', async
-					path: '/App/data/lottie.json',
-					loop: true, // default: true
-					autoplay: false // default: true
-				})
-				_lottie.play()
-				document.querySelectorAll('.btn.lottie').forEach($btn => {
-					$btn.addEventListener('click', e => {
-						if (e.target.className.indexOf('start') > -1) {
-							_lottie.play()
-						} else if (e.target.className.indexOf('pause') > -1) {
-							_lottie.pause()
-						} else if (e.target.className.indexOf('stop') > -1) {
-							_lottie.stop()
+				},
+				BlockScroll () {
+					document.querySelectorAll('.btn.block').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							if (e.target.className.indexOf('documentBody') > -1) {
+								if (e.target.className.indexOf('scroll') < 0) {
+									window.BlockScroll('block')
+								} else{
+									window.BlockScroll('scroll')
+								}
+							} else {
+								if (e.target.className.indexOf('scroll') < 0) {
+									window.BlockScrollEvent('block')
+								} else {
+									window.BlockScrollEvent('scroll')
+								}
+							}
+						})
+					})
+				},
+				Loading () {
+					document.querySelector('.loadingBtn').addEventListener('click', e => {
+						window.Loading(true)
+						
+						setTimeout(() => {
+							window.Loading(false)
+						}, 1000)
+					})
+				},
+				Postcode () {
+					let $postcode = document.querySelector('.js-postcode')
+					$postcode.Postcode() // 초기화
+					
+					// $postcode.Postcode('open')
+					$postcode.addEventListener('complete-close', e => {
+						// complete-close
+						console.log(e.detail.address)
+					})
+					$postcode.addEventListener('force-close', e => {
+						// force-close
+						console.log(e)
+					})
+				},
+				Textarea () {
+					let $textarea = document.querySelector('.js-textarea')
+					$textarea.Textarea('clear').Textarea()
+					console.log($textarea.Textarea('get'))
+				},
+				Countdown () {
+					let $countdown = document.querySelector('.js-countdown')
+					$countdown.Countdown('clear').Countdown({
+						format: window.App.TIME_FORMAT,         // default: mm:ss
+						count: 1200
+					}).addEventListener('complete', e => {
+						console.log('countdown complete')
+					})
+					
+					document.querySelectorAll('.btn.countdown').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							let {className} = e.target
+							
+							if (className.indexOf('start') > -1) {
+								// start
+								$countdown.Countdown('start')
+							} else if (className.indexOf('stop') > -1) {
+								// stop
+								$countdown.Countdown('stop')
+							}
+						})
+					})
+				},
+				Calendar () {
+					let $calendar = document.querySelector('.js-calendar')
+					
+					// init, event
+					$calendar.Calendar('clear').Calendar({
+						// datepicker options
+					}).Calendar('set', new Date()).addEventListener('change', e => {
+						console.log(e.type, e.detail.date, e.detail.datepicker)
+					})
+				},
+				Swiper () {
+					const swiper = new Swiper('.swiper', {
+						// direction: 'vertical',
+						loop: false,
+						pagination: {
+							el: '.swiper-pagination',
+							clickable: true
+						},
+						navigation: {
+							nextEl: '.swiper-button-next',
+							prevEl: '.swiper-button-prev',
+						},
+						scrollbar: {
+							el: '.swiper-scrollbar',
+						},
+						on: {
+							init () {
+								// console.log('swiper-init', this.realIndex)
+							},
+							transitionEnd () {
+								// console.log('swiper-end', this.realIndex)
+							},
+							slideChange () {
+								// console.log('swiper-change', this.realIndex)
+							},
+							resize () {
+								// console.log('swiper-resize')
+							}
 						}
 					})
-				})
+				},
+				transform () {
+					let $transform = document.querySelector('.transform.obj')
+					document.querySelector('.transform.btn').addEventListener('click', e => {
+						$transform.transform({
+							transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
+							transition: `1s ${window.UTILS.easing.Expo.easeInOut} 0s`
+						}, () => {
+							console.log('transition complete')
+						})
+					})
+				},
+				gsap () {
+					let $gsap = document.querySelector('.gsap.obj')
+					document.querySelector('.gsap.btn').addEventListener('click', e => {
+						console.log('tween')
+					})
+				},
+				Lottie () {
+					let _lottie = window['lottie'].loadAnimation({
+						container: document.getElementById('lottie'),
+						renderer: 'svg',
+						// animationData: '', async
+						path: '/App/data/lottie.json',
+						loop: true, // default: true
+						autoplay: false // default: true
+					})
+					_lottie.play()
+					document.querySelectorAll('.btn.lottie').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							if (e.target.className.indexOf('start') > -1) {
+								_lottie.play()
+							} else if (e.target.className.indexOf('pause') > -1) {
+								_lottie.pause()
+							} else if (e.target.className.indexOf('stop') > -1) {
+								_lottie.stop()
+							}
+						})
+					})
+				}
 			}
 		}
-	}
-</script>
+	</script>
+</body>
 </html>

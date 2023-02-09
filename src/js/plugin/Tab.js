@@ -20,9 +20,12 @@ class Tab {
     this.$content = el.querySelectorAll('.content')
     this.$button = el.querySelectorAll('.tab-list > button')
 
-    this.options = Object.assign({}, options)
-    this.activeIndex = parseInt(options.activeIndex) > 0 ? parseInt(options.activeIndex) : 0
-    this.disabledIndex = parseInt(options.disabledIndex) > -1 ? parseInt(options.disabledIndex) : -1
+    this.options = Object.assign({
+      activeIndex: 0,
+      disabledIndex: -1
+    }, options)
+    this.activeIndex = parseInt(options.activeIndex)
+    this.disabledIndex = parseInt(options.disabledIndex)
 
     this.eventHandler = {
       clickTab: e => {
