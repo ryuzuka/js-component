@@ -21,14 +21,14 @@ class Countdown {
     this.$count = el.querySelector('.time')
 
     this.options = Object.assign({
-      format: TIME_FORMAT,
-      count: 60
+      format: TIME_FORMAT,    //  'mm:ss'
+      count: 60               //  Number
     }, options)
 
     this.eventHandler = {}
 
-    let minute = String(parseInt(this.options.count / 60)).padStart(2, '0')
-    let seconds = String(parseInt(this.options.count % 60)).padStart(2, '0')
+    let minute = String(Math.floor(this.options.count / 60)).padStart(2, '0')
+    let seconds = String(Math.floor(this.options.count % 60)).padStart(2, '0')
 
     this.interval = null
     this.time = window.moment(minute + ':' + seconds,  TIME_FORMAT)

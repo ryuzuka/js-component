@@ -535,7 +535,7 @@
 					let $countdown = document.querySelector('.js-countdown')
 					$countdown.Countdown('clear').Countdown({
 						format: window.App.TIME_FORMAT,         // default: mm:ss
-						count: 1200
+						count: 1200                             // seconds
 					}).addEventListener('complete', e => {
 						console.log('countdown complete')
 					})
