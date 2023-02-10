@@ -329,14 +329,6 @@
         <button class="transform btn">transform start</button>
       </section>
 	
-	    <h2>gsap</h2>
-      <section>
-        <h4>Tween</h4>
-        <div class="gsap obj" style="position: relative; width: 30px; height: 30px; background: #ddd"></div>
-        <br>
-        <button class="gsap btn">gsap start</button>
-      </section>
-	
 	    <h2>lottie</h2>
       <section>
         <div id="lottie" style="width: 100%; height: 500px"></div>
@@ -360,8 +352,6 @@
 	<link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
 	<!-- Daum 주소검색 -->
 	<script src="/app/libs/postcode.v2.js"></script>
-	<!-- gsap -->
-	<script src="/app/libs/gsap.min.js"></script>
 	<!-- lottie -->
 	<script src="/app/libs/lottie.min.js"></script>
 	<!-- wow - scroll -->
@@ -604,12 +594,6 @@
 						}, () => {
 							console.log('transition complete')
 						})
-					})
-				},
-				gsap () {
-					let $gsap = document.querySelector('.gsap.obj')
-					document.querySelector('.gsap.btn').addEventListener('click', e => {
-						console.log('tween')
 					})
 				},
 				Lottie () {
