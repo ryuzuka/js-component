@@ -22,18 +22,14 @@ class Dropdown {
     this.$option = el.querySelectorAll('.dropdown-list > li')
 
     this.options = Object.assign({
-      placeholder: '선택하세요.',
       activeIndex: -1,
       disabledIndex: -1
     }, options)
-    this.placeholder = el.dataset.placeholder
+
     this.activeIndex = parseInt(options.activeIndex)
     this.disabledIndex = parseInt(options.disabledIndex)
+    this.placeholder = el.dataset.placeholder
     this.value = ''
-
-    if (this.placeholder) {
-      this.$button.innerText = this.placeholder
-    }
 
     this.eventHandler = {
       clickDropdown: e => this.toggle(true),
@@ -61,6 +57,9 @@ class Dropdown {
       $btn.addEventListener('click', this.eventHandler.clickOption)
     })
 
+    if (this.placeholder) {
+      this.$button.innerText = this.placeholder
+    }
     this.active(this.activeIndex)
   }
 

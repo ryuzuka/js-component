@@ -24,6 +24,7 @@ class Tab {
       activeIndex: 0,
       disabledIndex: -1
     }, options)
+
     this.activeIndex = parseInt(options.activeIndex)
     this.disabledIndex = parseInt(options.disabledIndex)
 

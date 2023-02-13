@@ -24,6 +24,7 @@ class Paging {
       limit: 10,          // 화면에 보여지는 리스트 갯수
       pagingLength: 10    // 화면에 보여지는 paging button 갯수
     }, options)
+
     this.offset = options.offset
     this.limit = options.limit
     this.pagingLength = options.pagingLength
@@ -67,11 +68,11 @@ class Paging {
       }
     }
 
+    this.addEvent()
     this.setPaging(this.offset)
     this.draw(this.groupIndex)
-    this.active(this.groupIndex, this.offset)
 
-    this.addEvent()
+    this.active(this.groupIndex, this.offset)
   }
 
   addEvent () {

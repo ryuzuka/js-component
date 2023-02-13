@@ -21,11 +21,9 @@ class Textarea {
     this.$total = el.querySelector('.total-length')
 
     this.options = Object.assign({}, options)
+
     this.maxlength = parseInt(this.$textarea.getAttribute('maxlength'))
     this.value = this.$textarea.value
-
-    this.$current.innerText = this.value.length
-    this.$total.innerText = UTILS.numberFormat.comma(this.maxlength)
 
     this.eventHandler = {
       typingTextarea: e => {
@@ -37,6 +35,9 @@ class Textarea {
 
     this.$textarea.addEventListener('keydown', this.eventHandler.typingTextarea)
     this.$textarea.addEventListener('keyup', this.eventHandler.typingTextarea)
+
+    this.$total.innerText = UTILS.numberFormat.comma(this.maxlength)
+    this.$current.innerText = this.value.length
   }
 
   get () {

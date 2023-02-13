@@ -24,6 +24,7 @@ class Accordion {
       activeIndex: -1,
       disabledIndex: -1
     }, options)
+
     this.activeIndex = parseInt(options.activeIndex)
     this.disabledIndex = parseInt(options.disabledIndex)
 

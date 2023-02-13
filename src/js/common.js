@@ -11,8 +11,9 @@ const Footer = () => {
 
 const Components = {}
 
-/** document ready, plugin execution */
+/** document ready */
 window.addEventListener('DOMContentLoaded', e => {
+  // plugin execution
   Array.from(document.getElementsByClassName('js-accordion')).forEach($Accordion => $Accordion.Accordion())
   Array.from(document.getElementsByClassName('js-dropdown')).forEach($dropdown => $dropdown.Dropdown())
   Array.from(document.getElementsByClassName('js-tab')).forEach($tab => $tab.Tab())

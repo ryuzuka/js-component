@@ -21,38 +21,40 @@ class Countdown {
     this.$count = el.querySelector('.time')
 
     this.options = Object.assign({
-      format: TIME_FORMAT,    //  'mm:ss'
-      count: 60               //  Number
+      format: TIME_FORMAT,    //  mm:ss
+      count: 60
     }, options)
+
+    this.format = this.options.format
+    this.count = this.options.count
+    this.interval = null
+    this.time = null
 
     this.eventHandler = {}
 
-    let minute = String(Math.floor(this.options.count / 60)).padStart(2, '0')
-    let seconds = String(Math.floor(this.options.count % 60)).padStart(2, '0')
+    let hour = Math.floor(this.options.count / 3600).toString().padStart(2, '0')
+    let minute = Math.floor(this.options.count / 60 >= 60 ? this.options.count % 60 : this.options.count / 60).toString().padStart(2, '0')
+    let seconds = Math.floor(this.options.count % 60).toString().padStart(2, '0')
+    let time = (this.format === 'HH:mm:ss' ? hour + ':' : '') + minute + ':' + seconds
 
-    this.interval = null
-    this.time = window.moment(minute + ':' + seconds,  TIME_FORMAT)
-    this.count = this.options.count || 0
-
-    this.write()
+    this.write(window.moment(time,  this.format))
   }
 
-  write () {
-    this.$count.innerText = this.time.format(this.options.format)
+  write (time) {
+    this.time = time
+    this.$count.innerText = time.format(this.format)
   }
 
   start () {
     if (this.interval) return
 
     this.interval = setInterval(() => {
-      this.time.subtract(1, 'seconds').format(this.options.format)
-        this.count--
-      if (this.count < 0) {
-        this.stop()
+      this.count--
+      if (this.count === 0) {
         this.$countdown.dispatchEvent(new Event('complete'))
-      } else {
-        this.write()
+        this.stop()
       }
+      this.write(this.time.subtract(1, 'seconds'))
     }, 1000)
   }
 
@@ -66,7 +68,7 @@ class Countdown {
 
   clear () {
     this.stop()
-    this.time = window.moment(0, TIME_FORMAT)
+    this.time = window.moment(0, this.format)
     this.write()
   }
 }

@@ -34,9 +34,9 @@ class Calendar {
         this.$calendar.dispatchEvent(new CustomEvent('change', {detail: {date, datepicker}}))
       }
     }, options)
+
     this.selectedDate = ''
-    this.eventHandler = {
-    }
+    this.eventHandler = {}
 
     window.jQuery(this.$datepicker).datepicker(this.options)
   }
@@ -55,15 +55,15 @@ class Calendar {
 
   set (date) {
     this.selectedDate = window.moment(date).format(window.App.DATE_FORMAT)
-    window.jQuery(this.$datepicker).datepicker('setDate', this.selectedDate)
     this.$datepicker.setAttribute('value', this.selectedDate)
+    window.jQuery(this.$datepicker).datepicker('setDate', this.selectedDate)
   }
 
   clear () {
     window.jQuery(this.$datepicker).datepicker('destroy')
+    this.selectedDate = ''
     this.$datepicker.value = ''
     this.$datepicker.removeAttribute('value')
-    this.selectedDate = ''
   }
 }
 /** ****************************************************************************************************************** */

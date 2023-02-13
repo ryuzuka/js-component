@@ -16,6 +16,8 @@ Object.assign(HTMLElement.prototype, {
     this.addEventListener('transitionend', e => {
       callback()
     })
+
+    return this
   }
 })
 /** ****************************************************************************************************************** */

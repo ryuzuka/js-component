@@ -25,7 +25,6 @@ class Postcode {
       width: 400,
       height: 500
     }, options)
-    this.postcode = null
 
     this.eventHandler = {
       search: e => {
@@ -33,8 +32,10 @@ class Postcode {
       }
     }
 
-    let _this = this
+    this.$searchBtn.addEventListener('click', this.eventHandler.search)
+    this.$address.addEventListener('click', this.eventHandler.search)
 
+    let _this = this
     this.postcode = new daum.Postcode({
       oncomplete (data) {
         let address = ''
@@ -60,9 +61,6 @@ class Postcode {
       width: _this.options.width,
       height: _this.options.height
     })
-
-    this.$searchBtn.addEventListener('click', this.eventHandler.search)
-    this.$address.addEventListener('click', this.eventHandler.search)
   }
 
   open () {
