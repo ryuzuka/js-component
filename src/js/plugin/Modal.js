@@ -23,9 +23,23 @@ class Modal {
     this.options = Object.assign({
       classes: '',
       html: '',
+      text: '',
       buttonText: [],
       clickToClose: false
     }, options)
+
+    this.options.classes = this.options.classes.split(' ').filter(className => {
+      if (className !== '' ) {
+        this.$modal.classList.add(className)
+        return className
+      }
+    })
+    if (this.options.html !== '') {
+      this.$modal.querySelector('.layer-content').innerHTML = this.options.html
+    }
+    if (this.options.text !== '') {
+      this.$modal.querySelector('.layer-content').innerText = this.options.text
+    }
 
     this.eventHandler = {
       close: e => this.close(),
@@ -46,26 +60,12 @@ class Modal {
       }
     }
 
-    if (this.options.classes !== '') {
-      this.options.classes = this.options.classes.split(' ').filter(className => {
-        if (className !== '' ) {
-          this.$modal.classList.add(className)
-          return className
-        }
-      })
-    }
-
-    if (this.options.html !== '') {
-      this.$modal.querySelector('.layer-content').innerHTML = this.options.html
-    }
-
     this.$button.forEach(($btn, index) => {
       if (this.options.buttonText.length > 0) {
         $btn.innerText = this.options.buttonText[index]
       }
       $btn.addEventListener('click', this.eventHandler.clickButtonClose)
     })
-
     this.$modal.addEventListener('keydown', this.eventHandler.keydownClose)
     this.$modal.addEventListener('click', this.eventHandler.clickToClose)
     if (this.$close) {
@@ -89,8 +89,8 @@ class Modal {
     window.BlockScroll('scroll')
     this.$modal.style.display = 'none'
     setTimeout(() => {
-      this.$modal.dispatchEvent(new CustomEvent('change', {detail: Object.assign({type: 'close'}, params)}))
       document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
+      this.$modal.dispatchEvent(new CustomEvent('change', {detail: Object.assign({type: 'close'}, params)}))
     }, 1)
   }
 
@@ -102,13 +102,6 @@ class Modal {
     })
     if (this.$close) {
       this.$close.removeEventListener('click', this.eventHandler.close)
-    }
-
-    this.options = {
-      classes: '',
-      html: '',
-      buttonText: [],
-      clickToClose: false
     }
   }
 }
