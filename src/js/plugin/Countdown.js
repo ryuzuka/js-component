@@ -69,7 +69,7 @@ class Countdown {
   clear () {
     this.stop()
     this.time = window.moment(0, this.format)
-    this.write()
+    this.write(this.time)
   }
 }
 /** ****************************************************************************************************************** */
