@@ -80,8 +80,12 @@ class Dropdown {
       if (index === idx) {
         this.value = $btn.dataset.value
         this.$button.innerText = $btn.innerText
+        this.toggle(true)
+        this.$list.scrollTop = $btn.offsetTop
+        this.toggle(false)
       }
     })
+
     this.$dropdown.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx, value: this.value}}))
   }
 

@@ -189,7 +189,6 @@
 			    </div>
 		    </div>
 		    <div id="pop-full" class="layer" role="dialog" aria-modal="true">
-			    debugger
 			    <div class="layer-wrap full">
 				    <div class="title">full modal title</div>
 				    <button class="close">close</button>
@@ -392,12 +391,12 @@
 				Dropdown () {
 					let $dropdown = document.querySelector('.js-dropdown')
 					$dropdown.Dropdown('clear').Dropdown({
-						activeIndex: 1,       // default: -1
+						activeIndex: 0,       // default: -1
 						disabledIndex: 0      // default: -1
 					}).addEventListener('change', e => {
 						console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$dropdown.Dropdown('active', 2)
+					$dropdown.Dropdown('active', 3)
 				},
 				Tab () {
 					let $tab = document.querySelector('.js-tab')
