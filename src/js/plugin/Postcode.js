@@ -49,6 +49,7 @@ class Postcode {
         }
         _this.$address.value = address
         _this.$address.setAttribute('value', address)
+        _this.$detail.value = ''
       },
       onclose (state) {
         if (state === 'COMPLETE_CLOSE') {

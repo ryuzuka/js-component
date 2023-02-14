@@ -293,14 +293,6 @@
         <button class="btn btn-tertiary countdown stop">stop</button>
       </section>
 	
-	    <h2>Increase Number</h2>
-      <section>
-        <input class="increase-number" type="text" value="0" disabled>
-        <br>
-        <br>
-        <button class="btn btn-tertiary increase-start">start</button>
-      </section>
-	
 	    <h2>swipe</h2>
       <section>
         <button class="btn btn-tertiary body swipe-on">body swipe - on</button>
@@ -460,10 +452,10 @@
 							let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
 							
 							if (className.indexOf('alert') > -1) {
-								$modal.Modal('clear').Modal({classes: 'alert', clickToClose: true}).Modal('open')
+								$modal.Modal('clear').Modal({classes: 'alert', text: '완료되었습니다.', clickToClose: true}).Modal('open')
 								
 							} else if (className.indexOf('confirm') > -1) {
-								$modal.Modal('clear').Modal({html: '신청하시겠습니까?', buttonText: ['취소', '확인'], classes: 'confirm'}).Modal('open')
+								$modal.Modal('clear').Modal({classes: 'confirm', html: `<span>신청하시겠습니까?</span>`, buttonText: ['취소', '확인']}).Modal('open')
 								
 							} else if (className.indexOf('modalBtn btn modal') > -1) {
 								$modal.Modal('clear').Modal({classes: 'modal'}).Modal('open')
@@ -524,8 +516,8 @@
 				Countdown () {
 					let $countdown = document.querySelector('.js-countdown')
 					$countdown.Countdown('clear').Countdown({
-						format: window.App.TIME_FORMAT,         // default: mm:ss
-						count: 1200                             // seconds
+						format: window.App.TIME_FORMAT,     // default: mm:ss
+						count: 300                          // seconds
 					}).addEventListener('complete', e => {
 						console.log('countdown complete')
 					})
@@ -535,11 +527,11 @@
 							let {className} = e.target
 							
 							if (className.indexOf('start') > -1) {
-								// start
 								$countdown.Countdown('start')
+								// start
 							} else if (className.indexOf('stop') > -1) {
-								// stop
 								$countdown.Countdown('stop')
+								// stop
 							}
 						})
 					})
@@ -587,6 +579,10 @@
 				},
 				transform () {
 					let $transform = document.querySelector('.transform.obj')
+					
+					$transform.addEventListener('transitionend', e => {
+						console.log(e.type)
+					})
 					document.querySelector('.transform.btn').addEventListener('click', e => {
 						$transform.transform({
 							transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
