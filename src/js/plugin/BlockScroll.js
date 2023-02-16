@@ -1,4 +1,5 @@
 /** BlockScroll.js ****************************************************************************************************** */
+const PLUGIN_NAME = 'blockScroll'
 let blockScroll = null
 let blockScrollEvent = null
 

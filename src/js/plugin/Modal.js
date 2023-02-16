@@ -1,12 +1,13 @@
 /** Modal.js ******************************************************************************************************** */
-const PLUGIN_NAME = 'Modal'
+const PLUGIN_NAME = 'modal'
 
 Object.assign(HTMLElement.prototype, {
   Modal (options = {}, value) {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this, options, value)
     } else {
-      if (!this.getAttribute('applied-plugin')) {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf('modal') < 0) {
         window.PLUGIN.add(this, new Modal(this, options, value), PLUGIN_NAME)
       }
       return this

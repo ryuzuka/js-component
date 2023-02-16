@@ -1,4 +1,5 @@
 /** Loading.js ****************************************************************************************************** */
+const PLUGIN_NAME = 'loading'
 let loading = null
 
 Object.assign(Window.prototype, {

@@ -6,7 +6,8 @@ Object.assign(HTMLElement.prototype, {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this, options, value)
     } else {
-      if (!this.getAttribute('applied-plugin')) {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf('tab') < 0) {
         window.PLUGIN.add(this, new Tab(this, options), PLUGIN_NAME)
       }
       return this

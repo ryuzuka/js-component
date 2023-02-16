@@ -1,12 +1,13 @@
 /** Accordion.js ********************************************************************************************************** */
-const PLUGIN_NAME = 'Accordion'
+const PLUGIN_NAME = 'accordion'
 
 Object.assign(HTMLElement.prototype, {
   Accordion (options = {}, value) {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this, options, value)
     } else {
-      if (!this.getAttribute('applied-plugin')) {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf('accordion') < 0) {
         window.PLUGIN.add(this, new Accordion(this, options), PLUGIN_NAME)
       }
       return this

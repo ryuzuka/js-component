@@ -1,12 +1,13 @@
 /** Dropdown.js ********************************************************************************************************** */
-const PLUGIN_NAME = 'Dropdown'
+const PLUGIN_NAME = 'dropdown'
 
 Object.assign(HTMLElement.prototype, {
   Dropdown (options = {}, value) {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this, options, value)
     } else {
-      if (!this.getAttribute('applied-plugin')) {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf('dropdown') < 0) {
         window.PLUGIN.add(this, new Dropdown(this, options), PLUGIN_NAME)
       }
       return this

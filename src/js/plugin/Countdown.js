@@ -7,7 +7,8 @@ Object.assign(HTMLElement.prototype, {
     if (typeof options === 'string') {
       return window.PLUGIN.call(this, options, value)
     } else {
-      if (!this.getAttribute('applied-plugin')) {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf('countdown') < 0) {
         window.PLUGIN.add(this, new Countdown(this, options), PLUGIN_NAME)
       }
       return this
