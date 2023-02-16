@@ -431,19 +431,24 @@
 				},
 				Modal () {
 					let modalEventHandler = e => {
-						if (e.detail.type === 'open') {
-						} else if (e.detail.type === 'before-close') {
-						} else if (e.detail.type === 'close') {
+						if (e.type === 'open') {
+							console.log('open')
+							e.target.addEventListener('before-close', modalEventHandler)
+							e.target.addEventListener('close', modalEventHandler)
+						} else if (e.type === 'before-close') {
+							console.log('before-close')
+						} else if (e.type === 'close') {
+							console.log('close')
+							e.target.removeEventListener('before-close', modalEventHandler)
+							e.target.removeEventListener('close', modalEventHandler)
 						}
-						
-						console.log(e.detail.type, e.detail)
 					}
 					
 					// ex - confirm modal
-					document.querySelector('#pop-alert').addEventListener('change', modalEventHandler)
-					document.querySelector('#pop-confirm').addEventListener('change', modalEventHandler)
-					document.querySelector('#pop-modal').addEventListener('change', modalEventHandler)
-					document.querySelector('#pop-full').addEventListener('change', modalEventHandler)
+					document.querySelector('#pop-alert').addEventListener('open', modalEventHandler)
+					document.querySelector('#pop-confirm').addEventListener('open', modalEventHandler)
+					document.querySelector('#pop-modal').addEventListener('open', modalEventHandler)
+					document.querySelector('#pop-full').addEventListener('open', modalEventHandler)
 					
 					document.querySelectorAll('.modalBtn').forEach($btn => {
 						$btn.addEventListener('click', e => {

@@ -78,20 +78,20 @@ class Modal {
     window.BlockScroll('block')
     this.$modal.style.display = 'block'
 
-    this.$modal.dispatchEvent(new CustomEvent('change', {detail: {type: 'open', $modal: this.$modal}}))
+    this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
   }
 
   close (idx) {
     let params = {$modal: this.$modal}
     params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
-    this.$modal.dispatchEvent(new CustomEvent('change', {detail: Object.assign({type: 'before-close'}, params)}))
+    this.$modal.dispatchEvent(new CustomEvent('before-close', {detail: Object.assign({type: 'before-close'}, params)}))
 
     window.BlockScroll('scroll')
     this.$modal.style.display = 'none'
     setTimeout(() => {
       document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
-      this.$modal.dispatchEvent(new CustomEvent('change', {detail: Object.assign({type: 'close'}, params)}))
-    }, 1)
+      this.$modal.dispatchEvent(new CustomEvent('close', {detail: Object.assign({type: 'close'}, params)}))
+    }, 0)
   }
 
   clear () {
