@@ -7,7 +7,7 @@ Object.assign(HTMLElement.prototype, {
       return window.PLUGIN.call(this, options, value)
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
-      if (!appliedPlugin || appliedPlugin.indexOf('calendar') < 0) {
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
         window.PLUGIN.add(this, new Calendar(this, options), PLUGIN_NAME)
       }
       return this
