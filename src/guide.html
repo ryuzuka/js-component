@@ -199,6 +199,30 @@
 		    </div>
 	    </section>
 	
+	    <h2>input</h2>
+	    <section>
+		    <div>text</div>
+		    <div class="js-input">
+			    <input type="text" id="input-text" class="" maxlength="5" placeholder="">
+		    </div>
+		    <div>number, comma</div>
+		    <div class="js-input">
+			    <input type="text" id="input-number" class="number comma" placeholder="">
+		    </div>
+		    <div>tel</div>
+		    <div class="js-input">
+			    <input type="text" id="input-tel" class="tel" maxlength="13" placeholder="">
+		    </div>
+		    <div>checkbox</div>
+		    <div class="js-input">
+			    <input type="checkbox" id="input-checkbox">
+		    </div>
+		    <div>radio</div>
+		    <div class="js-input">
+			    <input type="radio" id="input-radio">
+		    </div>
+	    </section>
+	    
 	    <h2>block scroll</h2>
 	    <section>
 		    <button class="btn btn-tertiary block documentBody">block-scroll : block</button>
@@ -248,7 +272,8 @@
 			    <input type="text" id="datepicker" readonly>
 		    </div>
 		    <br>
-	      <button type="button" class="calendar-btn btn btn-tertiary">get</button>
+	      <button type="button" class="calendar-btn btn btn-tertiary set">set (2023-12-31)</button>
+	      <button type="button" class="calendar-btn btn btn-tertiary get">get</button>
 	    </section>
 	    <br>
 	    
@@ -548,6 +573,17 @@
 						// datepicker options
 					}).Calendar('set', new Date()).addEventListener('change', e => {
 						console.log(e.type, e.detail.date, e.detail.datepicker)
+					})
+					
+					document.querySelectorAll('.calendar-btn').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							let {className} = e.target
+							if (className.indexOf('get') > -1) {
+								console.log($calendar.Calendar('get'))
+							} else {
+								$calendar.Calendar('set', '2023-12-31')
+							}
+						})
 					})
 				},
 				Swiper () {

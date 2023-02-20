@@ -51,7 +51,7 @@ class Calendar {
   }
 
   get () {
-    return this.selectedDate
+    return {date: this.selectedDate}
   }
 
   set (date) {

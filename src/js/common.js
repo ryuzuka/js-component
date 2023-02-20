@@ -18,6 +18,7 @@ window.addEventListener('DOMContentLoaded', e => {
   Array.from(document.getElementsByClassName('js-dropdown')).forEach($dropdown => $dropdown.Dropdown())
   Array.from(document.getElementsByClassName('js-tab')).forEach($tab => $tab.Tab())
   Array.from(document.getElementsByClassName('js-textarea')).forEach($textarea => $textarea.Textarea())
+  Array.from(document.getElementsByClassName('js-input')).forEach($input => $input.Input())
 
   window.App.Header = new Header()
   window.App.Footer = new Footer()
