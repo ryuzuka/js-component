@@ -23,14 +23,15 @@ class Paging {
     this.options = Object.assign({
       offset: 0,          // 현재 페이지 번호
       limit: 10,          // 화면에 보여지는 리스트 갯수
-      pagingLength: 10    // 화면에 보여지는 paging button 갯수
+      pagingLength: 10,   // 화면에 보여지는 paging button 갯수
+      total: 0
     }, options)
 
-    this.offset = options.offset
-    this.limit = options.limit
-    this.pagingLength = options.pagingLength
-    this.total = options.total                                        // * required, 전체 리스트 갯수
-    this.totalPage = Math.ceil(options.total / this.limit)            // 전체 페이지 갯수
+    this.offset = this.options.offset
+    this.limit = this.options.limit
+    this.pagingLength = this.options.pagingLength
+    this.total = this.options.total                                        // * required, 전체 리스트 갯수
+    this.totalPage = Math.ceil(this.options.total / this.limit)            // 전체 페이지 갯수
     this.pagingGroup = []
     this.groupIndex = 0
 

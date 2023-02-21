@@ -27,8 +27,8 @@ class Dropdown {
       disabledIndex: -1
     }, options)
 
-    this.activeIndex = parseInt(options.activeIndex)
-    this.disabledIndex = parseInt(options.disabledIndex)
+    this.activeIndex = parseInt(this.options.activeIndex)
+    this.disabledIndex = parseInt(this.options.disabledIndex)
     this.placeholder = el.dataset.placeholder
     this.value = ''
 
