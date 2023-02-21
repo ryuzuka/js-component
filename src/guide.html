@@ -383,7 +383,7 @@
 	<script>
 		/** document ready */
 		window.addEventListener('DOMContentLoaded', e => {
-			let guide = window.Guide()
+			let guide = Guide()
 			for (let plugin in guide) {
 				guide[plugin]()
 			}
@@ -500,15 +500,15 @@
 						$btn.addEventListener('click', e => {
 							if (e.target.className.indexOf('documentBody') > -1) {
 								if (e.target.className.indexOf('scroll') < 0) {
-									window.BlockScroll('block')
+									BlockScroll()
 								} else{
-									window.BlockScroll('scroll')
+									BlockScroll('scroll')
 								}
 							} else {
 								if (e.target.className.indexOf('scroll') < 0) {
-									window.BlockScrollEvent('block')
+									BlockScrollEvent()
 								} else {
-									window.BlockScrollEvent('scroll')
+									BlockScrollEvent('scroll')
 								}
 							}
 						})
@@ -516,10 +516,10 @@
 				},
 				Loading () {
 					document.querySelector('.loadingBtn').addEventListener('click', e => {
-						window.Loading(true)
+						Loading(true)
 						
 						setTimeout(() => {
-							window.Loading(false)
+							Loading(false)
 						}, 1000)
 					})
 				},
@@ -545,7 +545,7 @@
 				Countdown () {
 					let $countdown = document.querySelector('.js-countdown')
 					$countdown.Countdown('clear').Countdown({
-						format: window.App.TIME_FORMAT,     // default: mm:ss
+						format: App.TIME_FORMAT,     // default: mm:ss
 						count: 300                          // seconds
 					}).addEventListener('complete', e => {
 						console.log('countdown complete')
@@ -626,7 +626,7 @@
 					document.querySelector('.transform.btn').addEventListener('click', e => {
 						$transform.transform({
 							transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
-							transition: `1s ${window.UTILS.easing.Expo.easeInOut} 0s`
+							transition: `1s ${UTILS.easing.Expo.easeInOut} 0s`
 						}, () => {
 							console.log('transition complete')
 						})

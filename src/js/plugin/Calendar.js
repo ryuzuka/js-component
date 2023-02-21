@@ -4,11 +4,11 @@ const PLUGIN_NAME = 'calendar'
 Object.assign(HTMLElement.prototype, {
   Calendar (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this, options, value)
+      return PLUGIN.call(this, options, value)
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
-        window.PLUGIN.add(this, new Calendar(this, options), PLUGIN_NAME)
+        PLUGIN.add(this, new Calendar(this, options), PLUGIN_NAME)
       }
       return this
     }
@@ -55,7 +55,7 @@ class Calendar {
   }
 
   set (date) {
-    this.selectedDate = window.moment(date).format(window.App.DATE_FORMAT)
+    this.selectedDate = window.moment(date).format(App.DATE_FORMAT)
     this.$datepicker.setAttribute('value', this.selectedDate)
     window.jQuery(this.$datepicker).datepicker('setDate', this.selectedDate)
   }

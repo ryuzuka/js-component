@@ -20,11 +20,11 @@ window.addEventListener('DOMContentLoaded', e => {
   Array.from(document.getElementsByClassName('js-textarea')).forEach($textarea => $textarea.Textarea())
   Array.from(document.getElementsByClassName('js-input')).forEach($input => $input.Input())
 
-  window.App.Header = new Header()
-  window.App.Footer = new Footer()
+  App.Header = new Header()
+  App.Footer = new Footer()
 
   for (let component in Components) {
-    window.App[component] = Components[component]()
+    App[component] = Components[component]()
   }
 })
 /** ***************************************************************************************************************** */

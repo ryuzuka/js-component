@@ -4,14 +4,14 @@ const PLUGIN_NAME = 'input'
 Object.assign(HTMLElement.prototype, {
   Input (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this, options, value)
+      return PLUGIN.call(this, options, value)
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
         let type = this.querySelector('input').type
-        if (type === 'text')            window.PLUGIN.add(this, new Text(this, options), PLUGIN_NAME)
-        else if (type === 'checkbox')   window.PLUGIN.add(this, new Checkbox(this, options), PLUGIN_NAME)
-        else if (type === 'radio')      window.PLUGIN.add(this, new Radio(this, options), PLUGIN_NAME)
+        if (type === 'text')            PLUGIN.add(this, new Text(this, options), PLUGIN_NAME)
+        else if (type === 'checkbox')   PLUGIN.add(this, new Checkbox(this, options), PLUGIN_NAME)
+        else if (type === 'radio')      PLUGIN.add(this, new Radio(this, options), PLUGIN_NAME)
       }
       return this
     }
@@ -37,10 +37,10 @@ class Text extends Input {
       },
       number: e => {
         let value = e.target.value.replace(/\D+/g, '').replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1')
-        e.target.value = this.isComma ? window.UTILS.numberFormat.comma(value) : value
+        e.target.value = this.isComma ? UTILS.numberFormat.comma(value) : value
       },
       tel: e => {
-        e.target.value = window.UTILS.numberFormat.tel(e.target.value)
+        e.target.value = UTILS.numberFormat.tel(e.target.value)
       }
     }
 

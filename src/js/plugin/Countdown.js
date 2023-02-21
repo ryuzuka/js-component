@@ -5,11 +5,11 @@ const TIME_FORMAT = 'mm:ss'
 Object.assign(HTMLElement.prototype, {
   Countdown (options = {}, value) {
     if (typeof options === 'string') {
-      return window.PLUGIN.call(this, options, value)
+      return PLUGIN.call(this, options, value)
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
-        window.PLUGIN.add(this, new Countdown(this, options), PLUGIN_NAME)
+        PLUGIN.add(this, new Countdown(this, options), PLUGIN_NAME)
       }
       return this
     }
