@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'textarea'
 
 Object.assign(HTMLElement.prototype, {
-  Textarea (options = {}, value) {
+  textarea (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

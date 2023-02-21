@@ -3,7 +3,7 @@ const PLUGIN_NAME = 'countdown'
 const TIME_FORMAT = 'mm:ss'
 
 Object.assign(HTMLElement.prototype, {
-  Countdown (options = {}, value) {
+  countdown (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

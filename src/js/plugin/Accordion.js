@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'accordion'
 
 Object.assign(HTMLElement.prototype, {
-  Accordion (options = {}, value) {
+  accordion (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

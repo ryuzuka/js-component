@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'paging'
 
 Object.assign(HTMLElement.prototype, {
-  Paging (options = {}, value) {
+  paging (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

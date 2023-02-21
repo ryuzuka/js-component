@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'postcode'
 
 Object.assign(HTMLElement.prototype, {
-  Postcode (options = {}, value) {
+  postcode (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

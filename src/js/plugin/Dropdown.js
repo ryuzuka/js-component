@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'dropdown'
 
 Object.assign(HTMLElement.prototype, {
-  Dropdown (options = {}, value) {
+  dropdown (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

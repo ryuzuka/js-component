@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'tab'
 
 Object.assign(HTMLElement.prototype, {
-  Tab (options = {}, value) {
+  tab (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

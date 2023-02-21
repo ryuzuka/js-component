@@ -4,12 +4,12 @@ let blockScroll = null
 let blockScrollEvent = null
 
 Object.assign(Window.prototype, {
-  BlockScroll(method = 'block') {
+  blockScroll(method = 'block') {
     if (!method) method = 'scroll'
     blockScroll = blockScroll || new BlockScroll('block-scroll')
     return blockScroll[method]()
   },
-  BlockScrollEvent (method = 'block') {
+  blockScrollEvent (method = 'block') {
     if (!method) method = 'scroll'
     blockScrollEvent = blockScrollEvent || new BlockScroll('block-scroll-event')
     return blockScrollEvent[method]()

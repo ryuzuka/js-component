@@ -403,39 +403,39 @@
 		
 		window.Guide = () => {
 			return {
-				Accordion () {
+				accordion () {
 					let $accordion = document.querySelector('.js-accordion')
-					$accordion.Accordion('clear').Accordion({
+					$accordion.accordion('clear').accordion({
 						activeIndex: 1,       // default: -1
 						disabledIndex: 0      // default: -1
 					}).addEventListener('change', e => {
 						console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$accordion.Accordion('active', 2)
+					$accordion.accordion('active', 2)
 				},
-				Dropdown () {
+				dropdown () {
 					let $dropdown = document.querySelector('.js-dropdown')
-					$dropdown.Dropdown('clear').Dropdown({
+					$dropdown.dropdown('clear').dropdown({
 						activeIndex: 0,       // default: -1
 						disabledIndex: 0      // default: -1
 					}).addEventListener('change', e => {
 						console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$dropdown.Dropdown('active', 3)
+					$dropdown.dropdown('active', 3)
 				},
-				Tab () {
+				tab () {
 					let $tab = document.querySelector('.js-tab')
-					$tab.Tab('clear').Tab({
+					$tab.tab('clear').tab({
 						activeIndex: 1,       // default: 0
 						disabledIndex: 0      // default: -1
 					}).addEventListener('change', e => {
 						console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$tab.Tab('active', 2)
+					$tab.tab('active', 2)
 				},
-				Paging () {
+				paging () {
 					let $paging = document.querySelector('.js-paging')
-					let paging = $paging.Paging({
+					let paging = $paging.paging({
 						offset: 5,            // 현재 페이지 번호
 						limit: 5,             // 화면에 보여지는 리스트 갯수
 						total: 221,           // * required, 전체 리스트 갯수
@@ -443,18 +443,18 @@
 					}).addEventListener('change', e => {
 						console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
 					})
-					$paging.Paging('set', 3)
+					$paging.paging('set', 3)
 					
 					document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
-						$paging.Paging({
+						$paging.paging({
 							total: 136,         // * required, 전체 리스트 갯수
 						})
 					})
 					document.querySelector('.btn.paging-btn.clear').addEventListener('click', e => {
-						$paging.Paging('clear')
+						$paging.paging('clear')
 					})
 				},
-				Modal () {
+				modal () {
 					let modalEventHandler = e => {
 						if (e.type === 'open') {
 							console.log('open')
@@ -481,55 +481,55 @@
 							let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
 							
 							if (className.indexOf('alert') > -1) {
-								$modal.Modal('clear').Modal({classes: 'alert', text: '완료되었습니다.', clickToClose: true}).Modal('open')
+								$modal.modal('clear').modal({classes: 'alert', text: '완료되었습니다.', clickToClose: true}).modal('open')
 								
 							} else if (className.indexOf('confirm') > -1) {
-								$modal.Modal('clear').Modal({classes: 'confirm', html: `<span>신청하시겠습니까?</span>`, buttonText: ['취소', '확인']}).Modal('open')
+								$modal.modal('clear').modal({classes: 'confirm', html: `<span>신청하시겠습니까?</span>`, buttonText: ['취소', '확인']}).modal('open')
 								
 							} else if (className.indexOf('modalBtn btn modal') > -1) {
-								$modal.Modal('clear').Modal({classes: 'modal'}).Modal('open')
+								$modal.modal('clear').modal({classes: 'modal'}).modal('open')
 								
 							} else if (className.indexOf('full') > -1) {
-								$modal.Modal('clear').Modal({classes: 'full'}).Modal('open')
+								$modal.modal('clear').modal({classes: 'full'}).modal('open')
 							}
 						})
 					})
 				},
-				BlockScroll () {
+				blockScroll () {
 					document.querySelectorAll('.btn.block').forEach($btn => {
 						$btn.addEventListener('click', e => {
 							if (e.target.className.indexOf('documentBody') > -1) {
 								if (e.target.className.indexOf('scroll') < 0) {
-									BlockScroll()
+									blockScroll()
 								} else{
-									BlockScroll('scroll')
+									blockScroll('scroll')
 								}
 							} else {
 								if (e.target.className.indexOf('scroll') < 0) {
-									BlockScrollEvent()
+									blockScrollEvent()
 								} else {
-									BlockScrollEvent('scroll')
+									blockScrollEvent('scroll')
 								}
 							}
 						})
 					})
 				},
-				Loading () {
+				loading () {
 					document.querySelector('.loadingBtn').addEventListener('click', e => {
-						Loading(true)
+						loading(true)
 						
 						setTimeout(() => {
-							Loading(false)
+							loading(false)
 						}, 1000)
 					})
 				},
-				Postcode () {
+				postcode () {
 					let $postcode = document.querySelector('.js-postcode')
-					$postcode.Postcode() // 초기화
+					$postcode.postcode() // 초기화
 					
-					// $postcode.Postcode('open')
+					// $postcode.postcode('open')
 					$postcode.addEventListener('complete-close', e => {
-						// complete-close
+						// comvplete-close
 						console.log(e.detail.address)
 					})
 					$postcode.addEventListener('force-close', e => {
@@ -537,14 +537,14 @@
 						console.log(e)
 					})
 				},
-				Textarea () {
+				textarea () {
 					let $textarea = document.querySelector('.js-textarea')
-					$textarea.Textarea('clear').Textarea()
-					console.log($textarea.Textarea('get'))
+					$textarea.textarea('clear').textarea()
+					console.log($textarea.textarea('get'))
 				},
-				Countdown () {
+				countdown () {
 					let $countdown = document.querySelector('.js-countdown')
-					$countdown.Countdown('clear').Countdown({
+					$countdown.countdown('clear').countdown({
 						format: App.TIME_FORMAT,     // default: mm:ss
 						count: 300                          // seconds
 					}).addEventListener('complete', e => {
@@ -556,22 +556,22 @@
 							let {className} = e.target
 							
 							if (className.indexOf('start') > -1) {
-								$countdown.Countdown('start')
+								$countdown.countdown('start')
 								// start
 							} else if (className.indexOf('stop') > -1) {
-								$countdown.Countdown('stop')
+								$countdown.countdown('stop')
 								// stop
 							}
 						})
 					})
 				},
-				Calendar () {
+				calendar () {
 					let $calendar = document.querySelector('.js-calendar')
 					
 					// init, event
-					$calendar.Calendar('clear').Calendar({
+					$calendar.calendar('clear').calendar({
 						// datepicker options
-					}).Calendar('set', new Date()).addEventListener('change', e => {
+					}).calendar('set', new Date()).addEventListener('change', e => {
 						console.log(e.type, e.detail.date, e.detail.datepicker)
 					})
 					
@@ -579,14 +579,14 @@
 						$btn.addEventListener('click', e => {
 							let {className} = e.target
 							if (className.indexOf('get') > -1) {
-								console.log($calendar.Calendar('get'))
+								console.log($calendar.calendar('get'))
 							} else {
-								$calendar.Calendar('set', '2023-12-31')
+								$calendar.calendar('set', '2023-12-31')
 							}
 						})
 					})
 				},
-				Swiper () {
+				swiper () {
 					const swiper = new Swiper('.swiper', {
 						// direction: 'vertical',
 						loop: false,
@@ -632,7 +632,7 @@
 						})
 					})
 				},
-				Lottie () {
+				lottie () {
 					let _lottie = window['lottie'].loadAnimation({
 						container: document.getElementById('lottie'),
 						renderer: 'svg',

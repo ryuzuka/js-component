@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'calendar'
 
 Object.assign(HTMLElement.prototype, {
-  Calendar (options = {}, value) {
+  calendar (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

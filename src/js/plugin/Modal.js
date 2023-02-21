@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'modal'
 
 Object.assign(HTMLElement.prototype, {
-  Modal (options = {}, value) {
+  modal (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {
@@ -76,7 +76,7 @@ class Modal {
 
   open () {
     setTimeout(() => this.$modal.querySelectorAll('button')[0].focus(), 1)
-    BlockScroll('block')
+    blockScroll('block')
     this.$modal.style.display = 'block'
 
     this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
@@ -87,7 +87,7 @@ class Modal {
     params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
     this.$modal.dispatchEvent(new CustomEvent('before-close', {detail: Object.assign({type: 'before-close'}, params)}))
 
-    BlockScroll('scroll')
+    blockScroll('scroll')
     this.$modal.style.display = 'none'
     setTimeout(() => {
       document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()

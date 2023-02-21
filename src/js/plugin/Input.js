@@ -2,7 +2,7 @@
 const PLUGIN_NAME = 'input'
 
 Object.assign(HTMLElement.prototype, {
-  Input (options = {}, value) {
+  input (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {

@@ -3,7 +3,7 @@ const PLUGIN_NAME = 'loading'
 let loading = null
 
 Object.assign(Window.prototype, {
-  Loading (isLoading = true) {
+  loading (isLoading = true) {
     loading = loading || new Loading()
     loading.loading(isLoading)
 
@@ -42,7 +42,7 @@ class Loading {
 
   loading (isLoading) {
     this.$loading.style.display = isLoading ? 'block' : 'none'
-    BlockScroll(isLoading ? 'block' : 'scroll')
+    blockScroll(isLoading ? 'block' : 'scroll')
 
     return this.$loading
   }
