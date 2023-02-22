@@ -12,16 +12,22 @@ window.PLUGIN = {
 		return plugin
 	},
 	call (element, method, value) {
+		if (method === 'clear') return this.remove(element, method, value)
+
 		let pluginId = element.getAttribute('applied-plugin')
 		if (!pluginId) return element
 
-		let returnValue = pluginPool[pluginId][method](value)
-		if (method === 'clear') {
-			delete pluginPool[element.getAttribute('applied-plugin')]
-			element.removeAttribute('applied-plugin')
-		}
+		return pluginPool[pluginId][method](value) || element
+	},
+	remove (element, method, value) {
+		let pluginId = element.getAttribute('applied-plugin')
+		if (!pluginId) return element
 
-		return returnValue !== undefined ? returnValue : element
+		pluginPool[pluginId]['clear'](value)
+		delete pluginPool[element.getAttribute('applied-plugin')]
+		element.removeAttribute('applied-plugin')
+
+		return element
 	}
 }
 /** ***************************************************************************************************************** */
