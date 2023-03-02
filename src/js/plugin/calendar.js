@@ -1,5 +1,6 @@
-/** Calendar.js ********************************************************************************************************** */
+/** calendar.js ***************************************************************************************************** */
 const PLUGIN_NAME = 'calendar'
+const DATE_FORMAT = 'YYYY-MM-DD'
 
 Object.assign(HTMLElement.prototype, {
   calendar (options = {}, value) {
@@ -55,7 +56,7 @@ class Calendar {
   }
 
   set (date) {
-    this.selectedDate = window.moment(date).format(App.DATE_FORMAT)
+    this.selectedDate = window.moment(date).format(DATE_FORMAT)
     this.$datepicker.setAttribute('value', this.selectedDate)
     window.jQuery(this.$datepicker).datepicker('setDate', this.selectedDate)
   }
@@ -67,4 +68,4 @@ class Calendar {
     this.$datepicker.removeAttribute('value')
   }
 }
-/** ****************************************************************************************************************** */
+/** ***************************************************************************************************************** */

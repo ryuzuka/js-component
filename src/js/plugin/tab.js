@@ -1,28 +1,28 @@
-/** Accordion.js ********************************************************************************************************** */
-const PLUGIN_NAME = 'accordion'
+/** tab.js ********************************************************************************************************** */
+const PLUGIN_NAME = 'tab'
 
 Object.assign(HTMLElement.prototype, {
-  accordion (options = {}, value) {
+  tab (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
-        PLUGIN.add(this, new Accordion(this, options), PLUGIN_NAME)
+        PLUGIN.add(this, new Tab(this, options), PLUGIN_NAME)
       }
       return this
     }
   }
 })
 
-class Accordion {
+class Tab {
   constructor (el, options) {
-    this.$accordion = el
-    this.$content = el.querySelectorAll('.accordion-content')
-    this.$button = el.querySelectorAll('.accordion-section > button')
+    this.$tab = el
+    this.$content = el.querySelectorAll('.content')
+    this.$button = el.querySelectorAll('.tab-list > button')
 
     this.options = Object.assign({
-      activeIndex: -1,
+      activeIndex: 0,
       disabledIndex: -1
     }, options)
 
@@ -30,9 +30,11 @@ class Accordion {
     this.disabledIndex = parseInt(this.options.disabledIndex)
 
     this.eventHandler = {
-      clickAccordion: e => {
-        let idx = [...this.$accordion.children].indexOf(e.target.parentElement)
-        this.active(idx === this.activeIndex ? -1 : idx)
+      clickTab: e => {
+        let idx = [...e.target.parentElement.children].indexOf(e.target)
+        if (idx === this.activeIndex) return
+
+        this.active(idx)
       }
     }
 
@@ -41,7 +43,7 @@ class Accordion {
         $btn.disabled = true
         $btn.classList.add('disabled')
       } else {
-        $btn.addEventListener('click', this.eventHandler.clickAccordion)
+        $btn.addEventListener('click', this.eventHandler.clickTab)
       }
     })
 
@@ -51,17 +53,14 @@ class Accordion {
   active (idx) {
     this.activeIndex = idx
     this.$content.forEach(($content, index) => {
-      $content.parentElement.classList[idx === index ? 'add' : 'remove']('active')
+      $content.classList[idx === index ? 'add' : 'remove']('active')
       $content.hidden = !(idx === index)
     })
     this.$button.forEach(($btn, index) => {
-      $btn.setAttribute('aria-expanded', idx === index)
+      $btn.classList[idx === index ? 'add' : 'remove']('active')
+      $btn.setAttribute('aria-selected', idx === index)
     })
-    this.$accordion.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
-  }
-
-  get () {
-    return {index: this.activeIndex}
+    this.$tab.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
   }
 
   clear () {
@@ -70,8 +69,8 @@ class Accordion {
     this.$button.forEach($btn => {
       $btn.disabled = false
       $btn.classList.remove('disabled')
-      $btn.removeEventListener('click', this.eventHandler.clickAccordion)
+      $btn.removeEventListener('click', this.eventHandler.clickTab)
     })
   }
 }
-/** ****************************************************************************************************************** */
+/** ***************************************************************************************************************** */

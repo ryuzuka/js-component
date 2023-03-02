@@ -1,4 +1,4 @@
-/** Input.js ********************************************************************************************************** */
+/** input.js ******************************************************************************************************** */
 const PLUGIN_NAME = 'input'
 
 Object.assign(HTMLElement.prototype, {
@@ -37,10 +37,10 @@ class Text extends Input {
       },
       number: e => {
         let value = e.target.value.replace(/\D+/g, '').replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1')
-        e.target.value = this.isComma ? UTILS.numberFormat.comma(value) : value
+        e.target.value = this.isComma ? UTIL.numberFormat.comma(value) : value
       },
       tel: e => {
-        e.target.value = UTILS.numberFormat.tel(e.target.value)
+        e.target.value = UTIL.numberFormat.tel(e.target.value)
       }
     }
 
@@ -99,4 +99,4 @@ class Radio extends Input {
     super(el, options)
   }
 }
-/** ****************************************************************************************************************** */
+/** ***************************************************************************************************************** */

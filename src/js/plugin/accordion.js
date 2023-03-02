@@ -1,28 +1,28 @@
-/** Tab.js ********************************************************************************************************** */
-const PLUGIN_NAME = 'tab'
+/** accordion.js **************************************************************************************************** */
+const PLUGIN_NAME = 'accordion'
 
 Object.assign(HTMLElement.prototype, {
-  tab (options = {}, value) {
+  accordion (options = {}, value) {
     if (typeof options === 'string') {
       return PLUGIN.call(this, options, value)
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
-        PLUGIN.add(this, new Tab(this, options), PLUGIN_NAME)
+        PLUGIN.add(this, new Accordion(this, options), PLUGIN_NAME)
       }
       return this
     }
   }
 })
 
-class Tab {
+class Accordion {
   constructor (el, options) {
-    this.$tab = el
-    this.$content = el.querySelectorAll('.content')
-    this.$button = el.querySelectorAll('.tab-list > button')
+    this.$accordion = el
+    this.$content = el.querySelectorAll('.accordion-content')
+    this.$button = el.querySelectorAll('.accordion-section > button')
 
     this.options = Object.assign({
-      activeIndex: 0,
+      activeIndex: -1,
       disabledIndex: -1
     }, options)
 
@@ -30,11 +30,9 @@ class Tab {
     this.disabledIndex = parseInt(this.options.disabledIndex)
 
     this.eventHandler = {
-      clickTab: e => {
-        let idx = [...e.target.parentElement.children].indexOf(e.target)
-        if (idx === this.activeIndex) return
-
-        this.active(idx)
+      clickAccordion: e => {
+        let idx = [...this.$accordion.children].indexOf(e.target.parentElement)
+        this.active(idx === this.activeIndex ? -1 : idx)
       }
     }
 
@@ -43,7 +41,7 @@ class Tab {
         $btn.disabled = true
         $btn.classList.add('disabled')
       } else {
-        $btn.addEventListener('click', this.eventHandler.clickTab)
+        $btn.addEventListener('click', this.eventHandler.clickAccordion)
       }
     })
 
@@ -53,14 +51,17 @@ class Tab {
   active (idx) {
     this.activeIndex = idx
     this.$content.forEach(($content, index) => {
-      $content.classList[idx === index ? 'add' : 'remove']('active')
+      $content.parentElement.classList[idx === index ? 'add' : 'remove']('active')
       $content.hidden = !(idx === index)
     })
     this.$button.forEach(($btn, index) => {
-      $btn.classList[idx === index ? 'add' : 'remove']('active')
-      $btn.setAttribute('aria-selected', idx === index)
+      $btn.setAttribute('aria-expanded', idx === index)
     })
-    this.$tab.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
+    this.$accordion.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
+  }
+
+  get () {
+    return {index: this.activeIndex}
   }
 
   clear () {
@@ -69,8 +70,8 @@ class Tab {
     this.$button.forEach($btn => {
       $btn.disabled = false
       $btn.classList.remove('disabled')
-      $btn.removeEventListener('click', this.eventHandler.clickTab)
+      $btn.removeEventListener('click', this.eventHandler.clickAccordion)
     })
   }
 }
-/** ****************************************************************************************************************** */
+/** ***************************************************************************************************************** */

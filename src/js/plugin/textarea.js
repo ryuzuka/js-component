@@ -1,4 +1,4 @@
-/** Textarea.js ********************************************************************************************************** */
+/** textarea.js ***************************************************************************************************** */
 const PLUGIN_NAME = 'textarea'
 
 Object.assign(HTMLElement.prototype, {
@@ -30,14 +30,14 @@ class Textarea {
       typingTextarea: e => {
         let value = e.target.value
         this.value = value
-        this.$current.innerText = UTILS.numberFormat.comma(value.length)
+        this.$current.innerText = UTIL.numberFormat.comma(value.length)
       }
     }
 
     this.$textarea.addEventListener('keydown', this.eventHandler.typingTextarea)
     this.$textarea.addEventListener('keyup', this.eventHandler.typingTextarea)
 
-    this.$total.innerText = UTILS.numberFormat.comma(this.maxlength)
+    this.$total.innerText = UTIL.numberFormat.comma(this.maxlength)
     this.$current.innerText = this.value.length
   }
 
@@ -53,4 +53,4 @@ class Textarea {
     this.$textarea.removeEventListener('keyup', this.eventHandler.typingTextarea)
   }
 }
-/** ****************************************************************************************************************** */
+/** ***************************************************************************************************************** */
