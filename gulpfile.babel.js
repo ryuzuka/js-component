@@ -17,8 +17,8 @@ const app = 'app'
 const src = 'src'
 const dist = `dist/${app}`
 const paths = {
-  scripts: [`${src}/**/*.js`, `!${src}/js/plugin/*.js`, `!${src}/libs/*.js`],
-  libs: [`${src}/libs/*.js`],
+  script: [`${src}/**/*.js`, `!${src}/js/plugin/*.js`, `!${src}/lib/*.js`],
+  lib: [`${src}/lib/*.js`],
   plugin: [`${src}/js/plugin/*.js`],
   scss: `${src}/**/*.{css,scss}`,
   html: `${src}/**/*.html`,
@@ -63,8 +63,8 @@ function style() {
     .pipe(browserSync.stream())
 }
 
-function libs() {
-  return gulp.src(paths.libs, { sourcemaps: true }).pipe(gulp.dest(dist+'/libs/'))
+function lib() {
+  return gulp.src(paths.lib, { sourcemaps: true }).pipe(gulp.dest(dist+'/lib/'))
 }
 
 function plugin() {
@@ -79,8 +79,8 @@ function plugin() {
     .pipe(gulp.dest(dist+'/js/'))
 }
 
-function scripts() {
-  return gulp.src(paths.scripts, {sourcemaps: true})
+function script() {
+  return gulp.src(paths.script, {sourcemaps: true})
   .pipe(bro({
     transform: [
       babelify.configure({ presets: ['@babel/preset-env'] }),
@@ -115,16 +115,16 @@ function watchFiles(done) {
   done()
   gulp.watch(paths.html, htmlInclude)
   gulp.watch(paths.scss, style)
-  gulp.watch(paths.libs, libs)
+  gulp.watch(paths.lib, lib)
   gulp.watch(paths.plugin, plugin)
-  gulp.watch(paths.scripts, scripts)
+  gulp.watch(paths.script, script)
   gulp.watch(paths.image, copyImage)
   gulp.watch(paths.font, copyFonts)
   gulp.watch(paths.data, copyData)
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(htmlInclude, style, scripts, libs, plugin, copyImage, copyFonts, copyData))
+const build = gulp.series(clean, gulp.parallel(htmlInclude, style, script, lib, plugin, copyImage, copyFonts, copyData))
 const dataBuild = gulp.parallel(copyImage, copyFonts, copyData)
 
 // build
