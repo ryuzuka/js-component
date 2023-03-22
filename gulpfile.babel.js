@@ -95,8 +95,8 @@ function copyImage() {
     .pipe(gulp.dest(dist))
 }
 
-function copyFonts() {
-  return gulp.src(paths.font, {since: gulp.lastRun(copyFonts)})
+function copyFont() {
+  return gulp.src(paths.font, {since: gulp.lastRun(copyFont)})
     .pipe(gulp.dest(dist))
 }
 
@@ -119,13 +119,13 @@ function watchFiles(done) {
   gulp.watch(paths.plugin, plugin)
   gulp.watch(paths.script, script)
   gulp.watch(paths.image, copyImage)
-  gulp.watch(paths.font, copyFonts)
+  gulp.watch(paths.font, copyFont)
   gulp.watch(paths.data, copyData)
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(htmlInclude, style, script, lib, plugin, copyImage, copyFonts, copyData))
-const dataBuild = gulp.parallel(copyImage, copyFonts, copyData)
+const build = gulp.series(clean, gulp.parallel(htmlInclude, style, script, lib, plugin, copyImage, copyFont, copyData))
+const dataBuild = gulp.parallel(copyImage, copyFont, copyData)
 
 // build
 exports.build = build
