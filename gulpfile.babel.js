@@ -7,7 +7,7 @@ import browserSync from 'browser-sync'
 import concat from 'gulp-concat'
 import bro from 'gulp-bro'
 import babelify from 'babelify'
-// import uglify from 'gulp-uglify'
+import uglify from 'gulp-uglify'
 
 /**
  * node version: 16.15.1(stable)
@@ -70,9 +70,9 @@ function lib() {
 function plugin() {
   return gulp.src(paths.plugin, { sourcemaps: true })
     .pipe(bro({
-      transform: [
-        babelify.configure({ presets: ['@babel/preset-env'] }),
-      ]
+      // transform: [
+      //   babelify.configure({ presets: ['@babel/preset-env'] })
+      // ]
     }))
     // .pipe(uglify({toplevel: true}))
     .pipe(concat('plugin.js'))
@@ -82,9 +82,9 @@ function plugin() {
 function script() {
   return gulp.src(paths.script, {sourcemaps: true})
   .pipe(bro({
-    transform: [
-      babelify.configure({ presets: ['@babel/preset-env'] }),
-    ]
+    // transform: [
+    //   babelify.configure({ presets: ['@babel/preset-env'] })
+    // ]
   }))
   // .pipe(uglify({toplevel: true}))
   .pipe(gulp.dest(dist))
