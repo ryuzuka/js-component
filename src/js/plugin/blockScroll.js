@@ -28,8 +28,8 @@ class BlockScroll {
     this.isBlock = true
     document.body.classList.add(this.eventType)
     if (this.eventType === 'block-scroll-event') {
-      document.body.addEventListener('wheel', this.blockEventHandler, {passive: false})
-      document.body.addEventListener('touchmove', this.blockEventHandler, {passive: false})
+      document.body.addEventListener('wheel', this.blockScrollEventHandler, {passive: false})
+      document.body.addEventListener('touchmove', this.blockScrollEventHandler, {passive: false})
     }
 
     return this.isBlock
@@ -41,14 +41,14 @@ class BlockScroll {
     this.isBlock = false
     document.body.classList.remove(this.eventType)
     if (this.eventType === 'block-scroll-event') {
-      document.body.removeEventListener('wheel', this.blockEventHandler)
-      document.body.removeEventListener('touchmove', this.blockEventHandler)
+      document.body.removeEventListener('wheel', this.blockScrollEventHandler)
+      document.body.removeEventListener('touchmove', this.blockScrollEventHandler)
     }
 
     return this.isBlock
   }
 
-  blockEventHandler (e) {
+  blockScrollEventHandler (e) {
     e.preventDefault()
   }
 }
