@@ -10,7 +10,7 @@ import babelify from 'babelify'
 import uglify from 'gulp-uglify'
 
 /**
- * node version: 16.15.1(stable)
+ * node version: 18.15.0(lts/hydrogen)
  */
 
 const app = 'app'
