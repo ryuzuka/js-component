@@ -266,6 +266,15 @@
 		    <br>
 	    </section>
 	
+	    <h2>datepicker (TOAST UI)</h2>
+	    <section>
+		    <div class="js-datepicker">
+			    <input type="text" readonly>
+			    <!--span class="tui-ico-date"></span-->
+		    </div>
+		    <div id="tui-date-picker-wrapper"></div>
+	    </section>
+	    
 	    <h2>calendar (datepicker)</h2>
 	    <section>
 		    <div class="js-calendar datepicker">
@@ -358,7 +367,9 @@
 	<script src="/app/js/plugin.js"></script>
   <!-- components -->
 	<script src="/app/js/common.js"></script>
-	
+
+  <script src="/app/lib/tui-date-picker.min.js"></script>
+  <link rel="stylesheet" href="/app/lib/tui-date-picker.min.css">
 	<script>
 		/** document ready */
 		window.addEventListener('DOMContentLoaded', e => {
@@ -382,6 +393,19 @@
 		
 		window.Guide = () => {
 			return {
+				datepicker () {
+					window.datepicker = new tui.DatePicker('#tui-date-picker-wrapper', {
+						date: new Date(),
+						language: 'ko',
+						type: 'date',
+						input: {
+							element: '.js-datepicker input',
+							format: 'yyyy-MM-dd'
+						},
+						autoClose: true,
+						openers: []
+					})
+				},
 				accordion () {
 					let $accordion = document.querySelector('.js-accordion')
 					$accordion.accordion('clear').accordion({
@@ -619,6 +643,7 @@
 					})
 				},
 				lottie () {
+					return
 					let _lottie = window['lottie'].loadAnimation({
 						container: document.getElementById('lottie'),
 						renderer: 'svg',
