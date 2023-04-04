@@ -1,3 +1,17 @@
+import Accordion from './accordion.js'
+import BlockScroll from './blockScroll.js'
+import Calendar from './calendar.js'
+import Countdown from './countdown.js'
+import Dropdown from './dropdown.js'
+import Input from './input.js'
+import Loading from './loading.js'
+import Modal from './modal.js'
+import Paging from './paging.js'
+import Postcode from './postcode.js'
+import Tab from './tab.js'
+import Textarea from './textarea.js'
+import Transform from './transform.js'
+
 /** pluginManager *************************************************************************************************** */
 let pluginPool = {}
 let pluginIndex = 0

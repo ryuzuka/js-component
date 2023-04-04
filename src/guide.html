@@ -348,30 +348,28 @@
 
 	<!-- libs ---------------------------------------------------------------->
 	<!-- datepicker -->
-	<script src="/app/lib/jquery.min.js"></script>
-	<script src="/app/lib/datepicker.min.js"></script>
-	<link rel="stylesheet" href="/app/lib/datepicker.min.css">
+  <script src="/app/libs/tui-date-picker.min.js"></script>
+  <link rel="stylesheet" href="/app/libs/tui-date-picker.min.css">
+	<script src="/app/libs/jquery.min.js"></script>
+	<script src="/app/libs/datepicker.min.js"></script>
+	<link rel="stylesheet" href="/app/libs/datepicker.min.css">
 	<!-- swiper -->
-	<script src="/app/lib/swiper-bundle.min.js"></script>
-	<link rel="stylesheet" href="/app/lib/swiper-bundle.min.css">
+	<script src="/app/libs/swiper-bundle.min.js"></script>
+	<link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
 	<!-- Daum 주소검색 -->
-	<script src="/app/lib/postcode.v2.js"></script>
+	<script src="/app/libs/postcode.v2.js"></script>
 	<!-- lottie -->
-	<script src="/app/lib/lottie.min.js"></script>
+	<script src="/app/libs/lottie.min.js"></script>
 	<!-- wow - scroll -->
-	<script src="/app/lib/wow.min.js"></script>
+	<script src="/app/libs/wow.min.js"></script>
 
-  <!-- App, utils, plugin -->
+  <!-- App, util, plugin -->
 	<script src="/app/js/App.js"></script>
 	<script src="/app/js/util.js"></script>
-	<script src="/app/js/plugin.js"></script>
-  <!-- components -->
-	<script src="/app/js/common.js"></script>
+	<script type="module" src="/app/js/plugin/index.js"></script>
 
-  <script src="/app/lib/tui-date-picker.min.js"></script>
-  <link rel="stylesheet" href="/app/lib/tui-date-picker.min.css">
+  <!-- document ready -->
 	<script>
-		/** document ready */
 		window.addEventListener('DOMContentLoaded', e => {
 			let guide = Guide()
 			for (let plugin in guide) {
@@ -637,13 +635,12 @@
 						$transform.transform({
 							transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
 							transition: `1s ${UTIL.easing.Expo.easeInOut} 0s`
-						}, () => {
-							console.log('transition complete')
+						}, e => {
+							console.log('transition complete', e)
 						})
 					})
 				},
 				lottie () {
-					return
 					let _lottie = window['lottie'].loadAnimation({
 						container: document.getElementById('lottie'),
 						renderer: 'svg',
