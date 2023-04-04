@@ -1,20 +1,20 @@
-/** common.js ******************************************************************************************************* */
-const Header = function () {
-  let _this = {}
-  return _this
-}
-
-const Footer = function () {
-  let _this = {}
-  return _this
-}
-
+/** components.js ******************************************************************************************************* */
 const Components = {}
+
+Components.Header = function () {
+  let _this = {}
+  return _this
+}
+
+Components.Footer = function () {
+  let _this = {}
+  return _this
+}
 
 /** document ready */
 window.addEventListener('DOMContentLoaded', e => {
-  App.Header = new Header()
-  App.Footer = new Footer()
+  App.Header = new Components.Header()
+  App.Footer = new Components.Footer()
 
   for (let component in Components) {
     App[component] = Components[component]()
