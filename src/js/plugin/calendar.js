@@ -16,7 +16,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-class Calendar {
+export default class Calendar {
   constructor (el, options) {
     this.$calendar = el
     this.$datepicker = el.querySelector('input')

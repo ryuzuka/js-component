@@ -15,7 +15,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-class Paging {
+export default class Paging {
   constructor (el, options) {
     this.$paging = el
     this.$pagingContainer = el.querySelector('.paging-list')

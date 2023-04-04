@@ -1,23 +1,39 @@
 /** transform.js **************************************************************************************************** */
 const PLUGIN_NAME = 'transform'
+let transform = null
 
 Object.assign(HTMLElement.prototype, {
   transform (options = {}, callback) {
     /**
      * transform
      * @params	{Object}
-     * 				  ex) transform: {transform: 'translate(100px, 100px) scaleX(1) scaleY(1)'}
-     * 				  ex) transition: '0s ease 0s'
+     * 				  ex) {transform: 'translate(0px, 0px) scaleX(1) scaleY(1)', transition: '0s ease 0s'}
      *          ex) callback: transition-end
-     *
      */
 
-    Object.assign(this.style, options)
-    this.addEventListener('transitionend', e => {
-      callback(e)
-    })
+    transform = transform || new Transform(this)
+    transform.start(options, callback)
 
     return this
   }
 })
+
+export default class Transform {
+  constructor (el) {
+    this.$el = el
+    this.isTransform = false
+  }
+  start (options = {}, callback) {
+    if (this.isTransform) return
+
+    this.isTransform = true
+    Object.assign(this.$el.style, options)
+    this.$el.addEventListener('transitionend', e => {
+      this.isTransform = false
+      if (callback) {
+        callback(e)
+      }
+    })
+  }
+}
 /** ***************************************************************************************************************** */

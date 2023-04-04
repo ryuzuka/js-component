@@ -11,7 +11,7 @@ Object.assign(Window.prototype, {
   }
 })
 
-class Loading {
+export default class Loading {
   constructor () {
     let _loadingHtml = `<div class="loading-wrap" style="display: none">
       <!--: Start #contents -->

@@ -16,7 +16,7 @@ Object.assign(Window.prototype, {
   }
 })
 
-class BlockScroll {
+export default class BlockScroll {
   constructor (event) {
     this.eventType = event
     this.isBlock = false

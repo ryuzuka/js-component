@@ -18,7 +18,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-class Input {
+export default class Input {
   constructor (el, options) {
     this.$input = el.querySelector('input')
     this.options = Object.assign({}, options)

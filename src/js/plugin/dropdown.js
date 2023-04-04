@@ -15,7 +15,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-class Dropdown {
+export default class Dropdown {
   constructor (el, options) {
     this.$dropdown = el
     this.$button = el.querySelector('.dropdown-btn')

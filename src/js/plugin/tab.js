@@ -15,7 +15,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-class Tab {
+export default class Tab {
   constructor (el, options) {
     this.$tab = el
     this.$content = el.querySelectorAll('.content')

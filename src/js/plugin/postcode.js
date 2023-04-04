@@ -15,7 +15,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-class Postcode {
+export default class Postcode {
   constructor (el, options) {
     this.$postcode = el
     this.$address = el.querySelector('.address input')
