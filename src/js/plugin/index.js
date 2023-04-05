@@ -16,7 +16,7 @@ import Transform from './transform.js'
 let pluginPool = {}
 let pluginIndex = 0
 
-window.PLUGIN = {
+export default window.PLUGIN = {
 	add (element, plugin, pluginName) {
     let pluginId = pluginName + pluginIndex
 		element.setAttribute('applied-plugin', pluginId)
@@ -42,16 +42,13 @@ window.PLUGIN = {
 		element.removeAttribute('applied-plugin')
 
 		return element
+	},
+	init () {
+		Array.from(document.getElementsByClassName('js-accordion')).forEach($Accordion => $Accordion.accordion())
+		Array.from(document.getElementsByClassName('js-dropdown')).forEach($dropdown => $dropdown.dropdown())
+		Array.from(document.getElementsByClassName('js-input')).forEach($input => $input.input())
+		Array.from(document.getElementsByClassName('js-tab')).forEach($tab => $tab.tab())
+		Array.from(document.getElementsByClassName('js-textarea')).forEach($textarea => $textarea.textarea())
 	}
 }
-
-/** document ready */
-window.addEventListener('DOMContentLoaded', e => {
-	// plugin execution
-	Array.from(document.getElementsByClassName('js-accordion')).forEach($Accordion => $Accordion.accordion())
-	Array.from(document.getElementsByClassName('js-dropdown')).forEach($dropdown => $dropdown.dropdown())
-	Array.from(document.getElementsByClassName('js-tab')).forEach($tab => $tab.tab())
-	Array.from(document.getElementsByClassName('js-textarea')).forEach($textarea => $textarea.textarea())
-	Array.from(document.getElementsByClassName('js-input')).forEach($input => $input.input())
-})
 /** ***************************************************************************************************************** */

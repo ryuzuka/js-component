@@ -1,13 +1,12 @@
-/** App.js ******************************************************************************************************** */
+import PLUGIN from './plugin/index.js'
+
+/** App.js ********************************************************************************************************** */
 window.App = Object.assign(window.App || {}, {
   DEVICE: window.navigator.userAgent,
   MOBILE_WIDTH: 1024,
   DATE_FORMAT: 'YYYY-MM-DD',
   TIME_FORMAT: 'HH:mm:ss'
 })
-
-// before unload
-// window.onbeforeunload = () => window.scrollTo(0, 0)
 
 // pinch zoom prevent
 document.addEventListener('touchmove', e => {
@@ -25,4 +24,10 @@ document.documentElement.addEventListener('touchend', e => {
   }
   lastTouchEnd = now
 }, {passive: false})
+
+/** document ready */
+// plugin execution
+window.addEventListener('DOMContentLoaded', e => {
+  PLUGIN.init()
+})
 /** ***************************************************************************************************************** */

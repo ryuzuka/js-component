@@ -343,7 +343,7 @@
     </div>
     <!--: End #contents -->
 
-    @@include('./html/inc/footer.html')
+  @@include('./html/inc/footer.html')
   </div>
 
 	<!-- libs ---------------------------------------------------------------->
@@ -363,13 +363,11 @@
 	<!-- wow - scroll -->
 	<script src="/app/libs/wow.min.js"></script>
 
-  <!-- App, util, plugin -->
-	<script src="/app/js/App.js"></script>
-	<script src="/app/js/util.js"></script>
-	<script type="module" src="/app/js/plugin/index.js"></script>
+  <!-- App -->
+	<script type="module" src="/app/js/App.js"></script>
 
-  <!-- document ready -->
 	<script>
+    /** document ready */
 		window.addEventListener('DOMContentLoaded', e => {
 			let guide = Guide()
 			for (let plugin in guide) {
