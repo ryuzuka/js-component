@@ -355,9 +355,6 @@
 	<!-- datepicker -->
   <script src="/app/libs/tui-date-picker.min.js"></script>
   <link rel="stylesheet" href="/app/libs/tui-date-picker.min.css">
-	<script src="/app/libs/jquery.min.js"></script>
-	<script src="/app/libs/datepicker.min.js"></script>
-	<link rel="stylesheet" href="/app/libs/datepicker.min.css">
 	<!-- swiper -->
 	<script src="/app/libs/swiper-bundle.min.js"></script>
 	<link rel="stylesheet" href="/app/libs/swiper-bundle.min.css">
@@ -588,28 +585,6 @@
 						})
 					})
 				},
-				calendar () {
-					let $calendar = document.querySelector('.js-calendar')
-					
-					// init, event
-					$calendar.calendar('clear').calendar({
-						// dateFormat - datepicker: yy-mm-dd, moment: YYYY-MM-DD
-						// datepicker options
-					}).calendar('set', new Date()).addEventListener('change', e => {
-						console.log(e.type, e.detail.date, e.detail.datepicker)
-					})
-					
-					document.querySelectorAll('.calendar-btn').forEach($btn => {
-						$btn.addEventListener('click', e => {
-							let {className} = e.target
-							if (className.indexOf('get') > -1) {
-								console.log($calendar.calendar('get'))
-							} else {
-								$calendar.calendar('set', '2023-12-31')
-							}
-						})
-					})
-				},
 				swiper () {
 					const swiper = new Swiper('.swiper', {
 						// direction: 'vertical',
@@ -680,6 +655,35 @@
 				}
 			}
 		}
+	</script>
+
+  <!-- jQuery - datepicker -->
+  <script src="/app/libs/jquery.min.js"></script>
+  <script src="/app/libs/datepicker.min.js"></script>
+  <link rel="stylesheet" href="/app/libs/datepicker.min.css">
+	<script>
+		window.addEventListener('DOMContentLoaded', e => {
+			let $calendar = document.querySelector('.js-calendar')
+			
+			// init, event
+			$calendar.calendar('clear').calendar({
+				// dateFormat - datepicker: yy-mm-dd, moment: YYYY-MM-DD
+				// datepicker options
+			}).calendar('set', new Date()).addEventListener('change', e => {
+				console.log(e.type, e.detail.date, e.detail.datepicker)
+			})
+			
+			document.querySelectorAll('.calendar-btn').forEach($btn => {
+				$btn.addEventListener('click', e => {
+					let {className} = e.target
+					if (className.indexOf('get') > -1) {
+						console.log($calendar.calendar('get'))
+					} else {
+						$calendar.calendar('set', '2023-12-31')
+					}
+				})
+			})
+		})
 	</script>
 </body>
 </html>

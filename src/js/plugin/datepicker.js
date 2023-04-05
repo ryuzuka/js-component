@@ -18,8 +18,8 @@ Object.assign(HTMLElement.prototype, {
 
 tui.DatePicker.localeTexts['custom'] = {
   titles: {
-    MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     MMMM: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     DD: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
     D: ['일', '월', '화', '수', '목', '금', '토']
     // MMMM: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -35,7 +35,7 @@ tui.DatePicker.localeTexts['custom'] = {
 export default class Datepicker {
   constructor (el, options) {
     this.$datepicker = el
-    this.$input = this.$datepicker.querySelector('input')
+    this.$input = el.querySelector('input')
 
     this.options = Object.assign({
       language: 'custom',
@@ -52,31 +52,46 @@ export default class Datepicker {
     }, options)
 
     this.date = ''
-    this.eventHandler = {}
+    this.eventHandler = {
+      open: e => {
+        let $con = this.$container
+        if ($con.offsetTop + $con.clientHeight > window.scrollY + window.innerHeight) {
+          $con.style.top = ($con.offsetTop - $con.offsetHeight) + 'px'
+        }
+      },
+      close: e => {
+        this.$container.style = ''
+      },
+      change: e => {
+        let date = this.datepicker.getDate()
+        this.date = {
+          formatDate: window.moment(date).format(DATE_FORMAT),
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          date: date.getDate(),
+          day: (function (day) {
+            switch (day) {
+              case 0: day = 'Sun'; break;
+              case 1: day = 'Mon'; break;
+              case 2: day = 'Tue'; break;
+              case 3: day = 'Wed'; break;
+              case 4: day = 'Thu'; break;
+              case 5: day = 'Fir'; break;
+              case 6: day = 'Sat'
+            }
+            return day
+          })(date.getDay())}
+
+        this.$datepicker.dispatchEvent(new CustomEvent('change', {detail: this.date}))
+      }
+    }
 
     this.datepicker = new tui.DatePicker('#tui-date-picker-wrapper', this.options)
-    this.datepicker.on('change', e => {
-      let date = this.datepicker.getDate()
-      this.date = {
-        formatDate: window.moment(date).format(DATE_FORMAT),
-        year: date.getFullYear(),
-        month: date.getMonth() + 1,
-        date: date.getDate(),
-        day: (function (day) {
-          switch (day) {
-            case 0: day = 'Sun'; break;
-            case 1: day = 'Mon'; break;
-            case 2: day = 'Tue'; break;
-            case 3: day = 'Wed'; break;
-            case 4: day = 'Thu'; break;
-            case 5: day = 'Fir'; break;
-            case 6: day = 'Sat'
-          }
-          return day
-        })(date.getDay())}
+    this.$container = el.querySelector('.tui-datepicker')
 
-      this.$datepicker.dispatchEvent(new CustomEvent('change', {detail: this.date}))
-    })
+    this.datepicker.on('open', this.eventHandler.open)
+    this.datepicker.on('close', this.eventHandler.close)
+    this.datepicker.on('change', this.eventHandler.change)
     this.datepicker.setDate(new Date())
   }
 
@@ -105,6 +120,8 @@ export default class Datepicker {
   }
 
   clear () {
+    this.datepicker.off('open')
+    this.datepicker.off('change')
     this.datepicker.destroy()
     this.datepicker = null
     this.date = {
@@ -114,6 +131,7 @@ export default class Datepicker {
       date: '',
       day: ''
     }
+    this.$input.disabled = false
     this.$input.value = ''
   }
 }
