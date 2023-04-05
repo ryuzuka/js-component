@@ -26,7 +26,7 @@ tui.DatePicker.localeTexts['custom'] = {
     // DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     // D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fir', 'Sat']
   },
-  titleFormat: 'MMMM yyyy',
+  titleFormat: 'yyyy년 MMMM',
   todayFormat: 'yyyy년 MMMM d일 DD',
   date: 'Date',
   time: 'Time'
@@ -121,6 +121,7 @@ export default class Datepicker {
 
   clear () {
     this.datepicker.off('open')
+    this.datepicker.off('close')
     this.datepicker.off('change')
     this.datepicker.destroy()
     this.datepicker = null
