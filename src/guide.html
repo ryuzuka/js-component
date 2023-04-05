@@ -269,20 +269,25 @@
 	    <h2>datepicker (TOAST UI)</h2>
 	    <section>
 		    <div class="js-datepicker">
-			    <input type="text" readonly>
-			    <!--span class="tui-ico-date"></span-->
-		    </div>
-		    <div id="tui-date-picker-wrapper"></div>
-	    </section>
-	    
-	    <h2>calendar (datepicker)</h2>
-	    <section>
-		    <div class="js-calendar datepicker">
+		      <div id="tui-date-picker-wrapper"></div>
 			    <input type="text" id="datepicker" readonly>
 		    </div>
 		    <br>
-	      <button type="button" class="calendar-btn btn btn-tertiary set">set (2023-12-31)</button>
+		    <button type="button" class="datepicker-btn btn btn-tertiary get">get</button>
+		    <button type="button" class="datepicker-btn btn btn-tertiary set">set (2023-12-31)</button>
+		    <button type="button" class="datepicker-btn btn btn-tertiary enable">enable</button>
+		    <button type="button" class="datepicker-btn btn btn-tertiary disable">disable</button>
+		    <button type="button" class="datepicker-btn btn btn-tertiary clear">clear</button>
+	    </section>
+	    
+	    <h2>datepicker (jQuery UI)</h2>
+	    <section>
+		    <div class="js-calendar">
+			    <input type="text" readonly>
+		    </div>
+		    <br>
 	      <button type="button" class="calendar-btn btn btn-tertiary get">get</button>
+	      <button type="button" class="calendar-btn btn btn-tertiary set">set (2023-12-31)</button>
 	    </section>
 	    <br>
 	    
@@ -389,19 +394,6 @@
 		
 		window.Guide = () => {
 			return {
-				datepicker () {
-					window.datepicker = new tui.DatePicker('#tui-date-picker-wrapper', {
-						date: new Date(),
-						language: 'ko',
-						type: 'date',
-						input: {
-							element: '.js-datepicker input',
-							format: 'yyyy-MM-dd'
-						},
-						autoClose: true,
-						openers: []
-					})
-				},
 				accordion () {
 					let $accordion = document.querySelector('.js-accordion')
 					$accordion.accordion('clear').accordion({
@@ -566,6 +558,32 @@
 							} else if (className.indexOf('stop') > -1) {
 								$countdown.countdown('stop')
 								// stop
+							}
+						})
+					})
+				},
+				datepicker () {
+					let $datepicker = document.querySelector('.js-datepicker')
+					$datepicker.datepicker('clear').datepicker({
+						// dateFormat - datepicker: YYYY-MM-dd, moment: YYYY-MM-DD
+						// datepicker options
+					}).addEventListener('change', e => {
+						console.log(e.type, e.detail)
+					})
+					
+					document.querySelectorAll('.datepicker-btn').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							let {className} = e.target
+							if (className.indexOf('get') > -1) {
+								console.log($datepicker.datepicker('get'))
+							} else if (className.indexOf('set') > -1) {
+								$datepicker.datepicker('set', '2023-12-31')
+							} else if (className.indexOf('enable') > -1) {
+								$datepicker.datepicker('enable')
+							} else if (className.indexOf('disable') > -1) {
+								$datepicker.datepicker('disable')
+							} else {
+								$datepicker.datepicker('clear')
 							}
 						})
 					})
