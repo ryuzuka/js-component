@@ -49,13 +49,12 @@ function htmlInclude() {
 }
 
 function script() {
-  return gulp.src(paths.script, {sourcemaps: true}).pipe(gulp.dest(dist))
+  return gulp.src(paths.script, {sourcemaps: true})
   // .pipe(uglify({toplevel: true}))
   // .pipe(bro({
-  //   transform: [
-  //     babelify.configure({ presets: ['@babel/preset-env'] })
-  //   ]
+  //   transform: [babelify.configure({ presets: ['@babel/preset-env'] })]
   // }))
+  .pipe(gulp.dest(dist))
 }
 
 function style() {
