@@ -1,104 +1,109 @@
 /** modal.js ******************************************************************************************************** */
-;($ => {
-  let _modalPlugin = {}
+const PLUGIN_NAME = 'modal'
 
-  $.fn.extend({
-    modal: function (options = {}, callback) {
-      const id = this.attr('id')
-      if (typeof options === 'string') {
-        _modalPlugin[id][options](callback)
-      } else {
-        _modalPlugin[id] = new Modal(this, options, callback)
+Object.assign(HTMLElement.prototype, {
+  modal (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Modal(this, options, value), PLUGIN_NAME)
       }
       return this
     }
-  })
+  }
+})
 
-  class Modal {
-    constructor ($this, options, callback) {
-      this.$modal = $this
-      this.id = $this.attr('id')
-      this.callback = callback || function () {}
+export default class Modal {
+  constructor (el, options) {
+    this.$modal = el
+    this.$close = el.querySelector('.close')
+    this.$button = el.querySelectorAll('.button-wrap > button.btn')
 
-      this.options = Object.assign({
-        classes: '',
-        dimmed: true,
-        clickToClose: false,
-        preventScroll: false,
-        closedFocus: ''
-      }, options)
+    this.options = Object.assign({
+      classes: '',
+      html: '',
+      text: '',
+      buttonText: [],
+      clickToClose: false
+    }, options)
 
-      if (this.options.dimmed) {
-        this.options.classes += ' dimmed'
+    this.options.classes = this.options.classes.split(' ').filter(className => {
+      if (className !== '' ) {
+        this.$modal.classList.add(className)
+        return className
       }
-
-      this.init()
+    })
+    if (this.options.html !== '') {
+      this.$modal.querySelector('.layer-content').innerHTML = this.options.html
+    }
+    if (this.options.text !== '') {
+      this.$modal.querySelector('.layer-content').innerText = this.options.text
     }
 
-    init () {
-      this.$modal.addClass(this.options.classes)
-      let $form = $('#' + this.id).find('button, input, select, textarea')
-      let $firstForm = null
-      $form.each((index, el) => {
-        if (index === 0) {
-          $firstForm = $(el)
-          setTimeout(() => {
-            $firstForm.focus().focus()
-          }, 1)
-        } else if (index === $form.length - 1) {
-          $(el).on('focusout', e => {
-            $firstForm.focus()
-          })
-        }
-      })
-
-      // button
-      this.$modal.find('.button-wrap button').on('click', e => {
-        this.close({buttonIndex: $(e.target).index()})
-      })
-
-      // dimmed close
-      this.$modal.on('click', e => {
-        let $target = $(e.target)
-        if ($target.attr('id') === this.$modal.attr('id') && $target.hasClass('layer')) {
-          if (!this.options.clickToClose) return
+    this.eventHandler = {
+      close: e => this.close(),
+      keydownClose: e => {
+        if (e.keyCode === 27) {   // esc
           this.close()
         }
-      })
-
-      // close
-      this.$modal.on('keydown', e => {
-        if (e.keyCode === 27) {
+      },
+      clickToClose: e => {
+        if (!this.options.clickToClose) return
+        if (e.target.id === this.$modal.id && e.target.className.indexOf('layer') > -1) {
           this.close()
         }
-      })
-      this.$modal.find('.close').on('click', e => {
-        this.close()
-      })
-
-      // open
-      this.open()
+      },
+      clickButtonClose: e => {
+        let idx = [...e.target.parentElement.children].indexOf(e.target)
+        this.close(idx)
+      }
     }
 
-    open () {
-      this.$modal.show()
-      this.callback({type: 'open', $modal: this.$modal})
-
-      $[this.options.preventScroll ? 'preventScroll' : 'blockBodyScroll'](true)
-    }
-
-    close (buttonIndex) {
-      this.callback($.extend({type: 'before-close', $modal: this.$modal}, buttonIndex))
-      this.$modal.find('button, input, select, textarea').off()
-      this.$modal.removeClass(this.options.classes).off().hide()
-
-      $[this.options.preventScroll ? 'preventScroll' : 'blockBodyScroll'](false)
-
-      setTimeout(() => {
-        this.callback({type: 'close', $modal: this.$modal})
-        $(this.options.closedFocus).focus()
-      }, 1)
+    this.$button.forEach(($btn, index) => {
+      if (this.options.buttonText.length > 0) {
+        $btn.innerText = this.options.buttonText[index]
+      }
+      $btn.addEventListener('click', this.eventHandler.clickButtonClose)
+    })
+    this.$modal.addEventListener('keydown', this.eventHandler.keydownClose)
+    this.$modal.addEventListener('click', this.eventHandler.clickToClose)
+    if (this.$close) {
+      this.$close.addEventListener('click', this.eventHandler.close)
     }
   }
-})(window.jQuery)
+
+  open () {
+    setTimeout(() => this.$modal.querySelectorAll('button')[0].focus(), 1)
+    blockScroll('block')
+    this.$modal.style.display = 'block'
+
+    this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
+  }
+
+  close (idx) {
+    let params = {$modal: this.$modal}
+    params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
+    this.$modal.dispatchEvent(new CustomEvent('before-close', {detail: Object.assign({type: 'before-close'}, params)}))
+
+    blockScroll('scroll')
+    this.$modal.style.display = 'none'
+    setTimeout(() => {
+      document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
+      this.$modal.dispatchEvent(new CustomEvent('close', {detail: Object.assign({type: 'close'}, params)}))
+    }, 0)
+  }
+
+  clear () {
+    this.$modal.removeEventListener('keydown', this.eventHandler.keydownClose)
+    this.$modal.removeEventListener('click', this.eventHandler.clickToClose)
+    this.$button.forEach($btn => {
+      $btn.removeEventListener('click', this.eventHandler.clickButtonClose)
+    })
+    if (this.$close) {
+      this.$close.removeEventListener('click', this.eventHandler.close)
+    }
+  }
+}
 /** ***************************************************************************************************************** */

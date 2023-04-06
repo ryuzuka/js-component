@@ -1,66 +1,75 @@
-/** postcode.js ********************************************************************************************************** */
-;($ => {
-  let pluginName = 'postcode'
+/** postcode.js ***************************************************************************************************** */
+const PLUGIN_NAME = 'postcode'
 
-  $.fn.extend({
-    postcode (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Postcode($(el), options))
-          }
-        })
+Object.assign(HTMLElement.prototype, {
+  postcode (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Postcode(this, options), PLUGIN_NAME)
       }
       return this
     }
-  })
-
-  class Postcode {
-    constructor ($this, options) {
-      this.$postcode = $this
-      this.$address = this.$postcode.find('.address input')
-      this.$detail = this.$postcode.find('.detail input')
-
-      this.options = options
-      this.$postcode.find('.address input, button.btn-search').on('click', () => this.search())
-    }
-
-    search () {
-      const width = 400
-      const height = 500
-
-      let _this = this
-
-      new daum.Postcode({
-        oncomplete (data) {
-          let address = ''
-          if (data['userSelectedType'] === 'R') {
-            address = data['roadAddress']
-            address += data['buildingName'] ? ` (${data['buildingName']})` : ''
-            // 도로명
-          } else if (data['userSelectedType'] === 'J') {
-            address = data['jibunAddress']
-            // 지명
-          }
-          _this.$address.val(address).attr('value', address)
-        },
-        onclose (state) {
-          if (state === 'COMPLETE_CLOSE') {
-            _this.$detail.focus()
-            _this.$postcode.triggerHandler(Object.assign({type: 'complete-close'}, {address: _this.$address.val()}), _this.$address.val())
-          } else if (state === 'FORCE_CLOSE') {
-            _this.$postcode.triggerHandler('force-close')
-          }
-        },
-        width: width,
-        height: height
-      }).open({
-        left: (window.screen.width - width) / 2,
-        top: (window.screen.height - height) / 2
-      })
-    }
   }
-})(window.jQuery)
-/** ****************************************************************************************************************** */
+})
+
+export default class Postcode {
+  constructor (el, options) {
+    this.$postcode = el
+    this.$address = el.querySelector('.address input')
+    this.$detail = el.querySelector('.detail input')
+    this.$searchBtn = el.querySelector('.btn.btn-search')
+
+    this.options = Object.assign({
+      width: 400,
+      height: 500
+    }, options)
+
+    this.eventHandler = {
+      search: e => {
+        this.open()
+      }
+    }
+
+    this.$searchBtn.addEventListener('click', this.eventHandler.search)
+    this.$address.addEventListener('click', this.eventHandler.search)
+
+    let _this = this
+    this.postcode = new daum.Postcode({
+      oncomplete (data) {
+        let address = ''
+        if (data['userSelectedType'] === 'R') {
+          address = data['roadAddress']
+          address += data['buildingName'] ? ` (${data['buildingName']})` : ''
+          // 도로명
+        } else if (data['userSelectedType'] === 'J') {
+          address = data['jibunAddress']
+          // 지명
+        }
+        _this.$address.value = address
+        _this.$address.setAttribute('value', address)
+        _this.$detail.value = ''
+      },
+      onclose (state) {
+        if (state === 'COMPLETE_CLOSE') {
+          _this.$detail.focus()
+          _this.$postcode.dispatchEvent(new CustomEvent('complete-close', {detail: {address: _this.$address.value}}))
+        } else if (state === 'FORCE_CLOSE') {
+          _this.$postcode.dispatchEvent(new Event('force-close'))
+        }
+      },
+      width: _this.options.width,
+      height: _this.options.height
+    })
+  }
+
+  open () {
+    this.postcode.open({
+      left: (window.screen.width - this.options.width) / 2,
+      top: (window.screen.height - this.options.height) / 2
+    })
+  }
+}
+/** ***************************************************************************************************************** */

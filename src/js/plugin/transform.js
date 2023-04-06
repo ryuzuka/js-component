@@ -1,30 +1,39 @@
-/** transform.js ********************************************************************************************************** */
-;($ => {
-  $.fn.extend({
-    transform: function (options) {
-      /**
-       * transform
-       * @params	{Object}
-       * 				  ex) transform: {transform: 'translate(100px, 100px) scaleX(1) scaleY(1)'}
-       * 				  ex) transition: '0s ease 0s'
-       * @event		transition-end
-       *
-       */
+/** transform.js **************************************************************************************************** */
+const PLUGIN_NAME = 'transform'
+let transform = null
 
-      let {transform} = options
-      let {transition} = options
+Object.assign(HTMLElement.prototype, {
+  transform (options = {}, callback) {
+    /**
+     * transform
+     * @params	{Object}
+     * 				  ex) {transform: 'translate(0px, 0px) scaleX(1) scaleY(1)', transition: '0s ease 0s'}
+     *          ex) callback: transition-end
+     */
 
-      this.css({'transform': transform, 'transition': transition})
-      this.css({'WebkitTransform': transform, 'WebkitTransition': transition})
-      this.css({'MozTransform': transform, 'MozTransition': transition})
-      this.css({'msTransform': transform, 'msTransition': transition})
-      this.css({'OTransform': transform, 'OTransition': transition})
-      this.one('transitionend webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd', e => {
-        this.triggerHandler({type: 'transition-end'})
-      })
+    transform = transform || new Transform(this)
+    transform.start(options, callback)
 
-      return this
-    }
-  })
-})(window.jQuery)
-/** ****************************************************************************************************************** */
+    return this
+  }
+})
+
+export default class Transform {
+  constructor (el) {
+    this.$el = el
+    this.isTransform = false
+  }
+  start (options = {}, callback) {
+    if (this.isTransform) return
+
+    this.isTransform = true
+    Object.assign(this.$el.style, options)
+    this.$el.addEventListener('transitionend', e => {
+      this.isTransform = false
+      if (callback) {
+        callback(e)
+      }
+    })
+  }
+}
+/** ***************************************************************************************************************** */

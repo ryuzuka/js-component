@@ -1,64 +1,76 @@
 /** tab.js ********************************************************************************************************** */
-;($ => {
-  let pluginName = 'tab'
+const PLUGIN_NAME = 'tab'
 
-  $.fn.extend({
-    tab: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Tab($(el), options))
-          }
-        })
+Object.assign(HTMLElement.prototype, {
+  tab (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Tab(this, options), PLUGIN_NAME)
       }
       return this
     }
-  })
+  }
+})
 
-  class Tab {
-    constructor ($this, options) {
-      this.$tab = $this
-      this.$list = this.$tab.find('> .tab-list')
-      this.$button = this.$list.find('a, button')
-      this.$content = this.$tab.find('> .tab-content')
+export default class Tab {
+  constructor (el, options) {
+    this.$tab = el
+    this.$content = el.querySelectorAll('.content')
+    this.$button = el.querySelectorAll('.tab-list > button')
 
-      this.options = options
-      this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : 0
+    this.options = Object.assign({
+      activeIndex: 0,
+      disabledIndex: -1
+    }, options)
 
-      this.init()
-    }
+    this.activeIndex = parseInt(this.options.activeIndex)
+    this.disabledIndex = parseInt(this.options.disabledIndex)
 
-    init () {
-      this.$button.on('click', e => {
-        let idx = $(e.target).index()
+    this.eventHandler = {
+      clickTab: e => {
+        let idx = [...e.target.parentElement.children].indexOf(e.target)
         if (idx === this.activeIndex) return
-        this.active(idx)
-        e.preventDefault()
-      })
 
-      if (typeof this.activeIndex === 'number') {
-        this.active(this.activeIndex)
+        this.active(idx)
       }
     }
 
-    active (idx) {
-      let $content = this.$content.find('> .content')
-      this.activeIndex = idx
+    this.$button.forEach(($btn, index) => {
+      if (this.disabledIndex == index) {
+        $btn.disabled = true
+        $btn.classList.add('disabled')
+      } else {
+        $btn.addEventListener('click', this.eventHandler.clickTab)
+      }
+    })
 
-      this.$button.removeClass('active').attr('aria-selected', false)
-      this.$button.eq(idx).addClass('active').attr('aria-selected', true)
-      $content.prop('hidden', true).removeClass('active')
-      $content.eq(idx).prop('hidden', false).addClass('active')
-
-      this.$tab.triggerHandler({type: 'change', activeIndex: this.activeIndex})
-    }
-
-    clear () {
-      this.$button.removeClass('active').attr('aria-selected', false).off('click')
-      this.$content.find('> .content').removeClass('active').prop('hidden', true)
-    }
+    this.active(this.activeIndex)
   }
-})(window.jQuery)
-/** ****************************************************************************************************************** */
+
+  active (idx) {
+    this.activeIndex = idx
+    this.$content.forEach(($content, index) => {
+      $content.classList[idx === index ? 'add' : 'remove']('active')
+      $content.hidden = !(idx === index)
+    })
+    this.$button.forEach(($btn, index) => {
+      $btn.classList[idx === index ? 'add' : 'remove']('active')
+      $btn.setAttribute('aria-selected', idx === index)
+    })
+    this.$tab.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
+  }
+
+  clear () {
+    this.active(-1)
+    this.$content.forEach($content => $content.removeAttribute('hidden'))
+    this.$button.forEach($btn => {
+      $btn.disabled = false
+      $btn.classList.remove('disabled')
+      $btn.removeEventListener('click', this.eventHandler.clickTab)
+    })
+  }
+}
+/** ***************************************************************************************************************** */

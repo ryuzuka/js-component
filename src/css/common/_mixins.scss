@@ -1,10 +1,35 @@
 @charset "UTF-8";
 
-//== Media queries breakpoints
+@function vw($target) {
+  @if $base-vw >= 1 {
+    $vw-context: ($base-vw * 0.01) * 1px;
+    @return ($target / $vw-context) * 1vw;
+  }
+  @return $target;
+}
+
+// Media queries breakpoints
+$mq-pc: 1920px;
 $mq-tb: 1024px;
 $mq-mo: 767px;
 
 // breakpoint
+@mixin pc {
+  $base-vw: 0 !global;
+  @content;
+
+  @media all and (max-width:#{$mq-pc}) {
+    $base-vw: 1920 !global;
+    @content
+  }
+
+  //@media all and (min-width:#{$mq-mo + 1}) and (max-width:#{$mq-tb}) {
+  @media all and (max-width:1510px) {
+    $base-vw: 1510 !global;
+    @content
+  }
+}
+
 @mixin tablet {
   @media all and (max-width:#{$mq-tb}) {
     @content
@@ -17,25 +42,6 @@ $mq-mo: 767px;
   }
 }
 
-$mq-xs:	320px;
-$mq-sm:	360px;
-$mq-md:	640px;
-/*@mixin mq-small { // 320
-  @media (width:#{$mq-xs}) {
-    @content;
-  }
-}
-@mixin mq-medium { // 320 ~ 360
-  @media (min-width:#{$mq-xs}) and (max-width:#{$mq-sm - 1px}) {
-    @content;
-  }
-}
-@mixin mq-large { // 640 ~
-  @media (min-width:#{$mq-md}) {
-    @content;
-  }
-}*/
-
 // clear floating
 @mixin clearfix {
   &:after{
@@ -43,15 +49,6 @@ $mq-md:	640px;
     clear:both;
     content:'';
   }
-}
-
-@mixin after-img($t, $l, $w, $h) {
-  position: absolute;
-  top: $t;
-  left: $l;
-  width: $w;
-  height: $h;
-  content: '';
 }
 
 // border-radius
@@ -66,15 +63,6 @@ $mq-md:	640px;
 @mixin box-sizing($type:border-box) {
   -webkit-box-sizing:$type;
   box-sizing:$type;
-}
-
-// vertical middle
-@mixin v-middle {
-  overflow: hidden;
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  content: '';
 }
 
 // transform
@@ -131,20 +119,6 @@ $mq-md:	640px;
   align-items: center;
 }
 
-// font set
-@mixin font-set28 {
-  font-size:28px;
-  line-height:42px;
-  letter-spacing:-.22px;
-}
-
-// position
-@mixin position($x, $y) {
-  position: absolute;
-  top: $x;
-  left: $y;
-}
-
 // button
 @mixin btn($color, $type:solid, $hover:'') {
   @if $type == line {
@@ -168,4 +142,11 @@ $mq-md:	640px;
       background-color:$hover;
     }
   }
+}
+
+// box shadow
+@mixin box-shadow($top, $left, $blur, $color) {
+  -webkit-box-shadow:$top $left $blur $color;
+  -moz-box-shadow:$top $left $blur $color;
+  box-shadow:$top $left $blur $color;
 }

@@ -1,57 +1,58 @@
-/** textarea.js ********************************************************************************************************** */
-;($ => {
-  let pluginName = 'textarea'
+import UTIL from '../util.js'
 
-  $.fn.extend({
-    textarea: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Textarea($(el), options))
-          }
-        })
+/** textarea.js ***************************************************************************************************** */
+const PLUGIN_NAME = 'textarea'
+
+Object.assign(HTMLElement.prototype, {
+  textarea (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Textarea(this, options), PLUGIN_NAME)
       }
       return this
     }
-  })
-
-  class Textarea {
-    constructor ($this, options) {
-      this.$textarea = $this.find('textarea')
-      this.$current = $this.find('.current-length')
-      this.$total = $this.find('.total-length')
-      this.value = $this.find('textarea').val() || ''
-      this.maxlength = parseInt(this.$textarea.attr('maxlength'))
-
-      this.init()
-    }
-
-    init () {
-      this.$current.text(this.value.length)
-      this.$total.text($.utils.numberFormat.comma(this.maxlength))
-
-      this.$textarea.on('keydown keyup', e => {
-        let value = e.target.value
-
-        this.value = value
-        this.$current.text($.utils.numberFormat.comma(value.length))
-        if (this.value.length > this.maxlength) {
-          this.$textarea.addClass('error')
-        } else {
-          this.$textarea.removeClass('error')
-        }
-      })
-    }
-
-    clear () {
-      this.$current.text(0)
-      this.$total.text(0)
-      this.value = ''
-      this.maxlength = 0
-      this.$textarea.off()
-    }
   }
-})(window.jQuery)
-/** ****************************************************************************************************************** */
+})
+
+export default class Textarea {
+  constructor (el, options) {
+    this.$textarea = el.querySelector('textarea')
+    this.$current = el.querySelector('.current-length')
+    this.$total = el.querySelector('.total-length')
+
+    this.options = Object.assign({}, options)
+
+    this.maxlength = parseInt(this.$textarea.getAttribute('maxlength'))
+    this.value = this.$textarea.value
+
+    this.eventHandler = {
+      typingTextarea: e => {
+        let value = e.target.value
+        this.value = value
+        this.$current.innerText = UTIL.numberFormat.comma(value.length)
+      }
+    }
+
+    this.$textarea.addEventListener('keydown', this.eventHandler.typingTextarea)
+    this.$textarea.addEventListener('keyup', this.eventHandler.typingTextarea)
+
+    this.$total.innerText = UTIL.numberFormat.comma(this.maxlength)
+    this.$current.innerText = this.value.length
+  }
+
+  get () {
+    return {length: parseInt(this.$current.innerText)}
+  }
+
+  clear () {
+    this.maxlength = 0
+    this.$current.innerText = 0
+    this.$total.innerText = 0
+    this.$textarea.removeEventListener('keydown', this.eventHandler.typingTextarea)
+    this.$textarea.removeEventListener('keyup', this.eventHandler.typingTextarea)
+  }
+}
+/** ***************************************************************************************************************** */

@@ -1,77 +1,76 @@
-/** countdown.js ********************************************************************************************************** */
-;(($, $moment) => {
-  let pluginName = 'countdown'
+/** countdown.js **************************************************************************************************** */
+const PLUGIN_NAME = 'countdown'
+const TIME_FORMAT = 'mm:ss'
 
-  $.fn.extend({
-    countdown: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Countdown($(el), options))
-          }
-        })
+Object.assign(HTMLElement.prototype, {
+  countdown (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Countdown(this, options), PLUGIN_NAME)
       }
       return this
     }
-  })
+  }
+})
 
-  class Countdown {
-    constructor ($this, options) {
-      this.$countdown = $this
+export default class Countdown {
+  constructor (el, options) {
+    this.$countdown = el
+    this.$count = el.querySelector('.time')
 
-      this.options = options
-      this.options.format = options.format || 'mm:ss'
-      this.options.start = options.start || 60
+    this.options = Object.assign({
+      format: TIME_FORMAT,    //  mm:ss
+      count: 60
+    }, options)
 
-      this.inteval = null
-      this.time = null
+    this.format = this.options.format
+    this.count = this.options.count
+    this.interval = null
+    this.time = null
 
-      this.init()
-    }
+    this.eventHandler = {}
 
-    init () {
-      let minute = this.formatNumber(parseInt(this.options.start / 60, 10))
-      let seconds = this.formatNumber(parseInt(this.options.start % 60, 10))
-      this.time = $moment(minute + ':' + seconds, 'mm:ss')
-      this.seconds = this.options.start || 0
+    let hour = Math.floor(this.options.count / 3600).toString().padStart(2, '0')
+    let minute = Math.floor(this.options.count / 60 >= 60 ? this.options.count % 60 : this.options.count / 60).toString().padStart(2, '0')
+    let seconds = Math.floor(this.options.count % 60).toString().padStart(2, '0')
+    let time = (this.format === 'HH:mm:ss' ? hour + ':' : '') + minute + ':' + seconds
 
-      this.$countdown.find('.time').text(this.time.format(this.options.format))
-    }
+    this.write(window.moment(time,  this.format))
+  }
 
-    formatNumber (num) {
-      num = String(num).length < 2 ? '0' + num : num
-      return num
-    }
+  write (time) {
+    this.time = time
+    this.$count.innerText = time.format(this.format)
+  }
 
-    start () {
-      if (this.interval) {
-        return
+  start () {
+    if (this.interval) return
+
+    this.interval = setInterval(() => {
+      this.count--
+      if (this.count === 0) {
+        this.$countdown.dispatchEvent(new Event('complete'))
+        this.stop()
       }
-      this.interval = setInterval(() => {
-        this.seconds--
-        this.$countdown.find('.time').text(this.time.subtract(1, 'second').format(this.options.format))
-        if (this.seconds === 0) {
-          this.stop()
-          this.$countdown.triggerHandler({type: 'complete'})
-        }
-      }, 1000)
-    }
+      this.write(this.time.subtract(1, 'seconds'))
+    }, 1000)
+  }
 
-    stop () {
-      if (!this.interval) {
-        return
-      }
+  stop () {
+    if (this.interval) {
       clearInterval(this.interval)
       this.interval = null
-    }
-
-    clear () {
-      this.stop()
-      this.time = null
-      this.$countdown.find('.time').text($moment(0, this.options.format).format(this.options.format))
+      this.count = this.options.count
     }
   }
-})(window.jQuery, window.moment)
+
+  clear () {
+    this.stop()
+    this.time = window.moment(0, this.format)
+    this.write(this.time)
+  }
+}
 /** ***************************************************************************************************************** */

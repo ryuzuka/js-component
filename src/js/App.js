@@ -1,31 +1,33 @@
-/** App.js ******************************************************************************************************** */
-;($ => {
-  $.App = $.extend($.App || {}, {
-    DATE_FORMAT: 'YYYY-MM-DD',
-    MOBILE_WIDTH: 1024,
-    DEVICE: navigator.userAgent,
-    depth1Index: -1,
-    depth2Index: -1
-  })
+import PLUGIN from './plugin/index.js'
 
-  // before unload
-  // window.onbeforeunload = () => window.scrollTo(0, 0)
+/** App.js ********************************************************************************************************** */
+window.App = Object.assign(window.App || {}, {
+  DEVICE: window.navigator.userAgent,
+  MOBILE_WIDTH: 1024,
+  DATE_FORMAT: 'YYYY-MM-DD',
+  TIME_FORMAT: 'HH:mm:ss'
+})
 
-  // pinch zoom prevent
-  document.addEventListener('touchmove', e => {
-    if (e.scale !== 1 && e.scale !== undefined) {
-      e.preventDefault()
-    }
-  }, {passive: false})
+// pinch zoom prevent
+document.addEventListener('touchmove', e => {
+  if (e.scale !== 1 && e.scale !== undefined) {
+    e.preventDefault()
+  }
+}, {passive: false})
 
-  // double tab prevent
-  let lastTouchEnd = 0
-  document.documentElement.addEventListener('touchend', e => {
-    let now = new Date().getTime()
-    if (now - lastTouchEnd <= 200) {
-      e.preventDefault()
-    }
-    lastTouchEnd = now
-  }, {passive: false})
-})(window.jQuery)
+// double tab prevent
+let lastTouchEnd = 0
+document.documentElement.addEventListener('touchend', e => {
+  let now = new Date().getTime()
+  if (now - lastTouchEnd <= 200) {
+    e.preventDefault()
+  }
+  lastTouchEnd = now
+}, {passive: false})
+
+/** document ready */
+// plugin execution
+window.addEventListener('DOMContentLoaded', e => {
+  PLUGIN.init()
+})
 /** ***************************************************************************************************************** */

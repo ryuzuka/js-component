@@ -1,70 +1,71 @@
-/** calendar.js *************************************************************************************************** */
-;(($, $moment) => {
-  let pluginName = 'calendar'
+/** calendar.js ***************************************************************************************************** */
+const PLUGIN_NAME = 'calendar'
+const DATE_FORMAT = 'YYYY-MM-DD'
 
-  $.fn.extend({
-    calendar: function (options = {}, value) {
-      let _return = null
-
-      if (typeof options === 'string') {
-        _return = $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Calendar($(el), options))
-          }
-        })
+Object.assign(HTMLElement.prototype, {
+  calendar (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Calendar(this, options), PLUGIN_NAME)
       }
-
-      return options === 'get' ? _return : this
-    }
-  })
-
-  class Calendar {
-    constructor ($this, options) {
-      this.$calendar = $this
-      this.$datepicker = $this.find('input')
-      this.selectedDate = ''
-      this.options = {
-        dateFormat: 'yy-mm-dd',
-        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-        showMonthAfterYear: true,
-        yearSuffix: '년',
-        onSelect: (date, datepicker) => {
-          this.selectedDate = date
-          this.$datepicker.attr('value', date)
-          this.$calendar.triggerHandler({type: 'change', date, datepicker})
-        }
-      }
-      _.extend(this.options, options)
-      this.$datepicker.datepicker(this.options)
-    }
-
-    show () {
-      this.$datepicker.datepicker('show')
-    }
-
-    hide () {
-      this.$datepicker.datepicker('hide')
-    }
-
-    get () {
-      return this.selectedDate
-    }
-
-    set (date) {
-      this.selectedDate = $moment(date).format($.App.DATE_FORMAT)
-      this.$datepicker.datepicker('setDate', this.selectedDate).attr('value', this.selectedDate)
-    }
-
-    clear () {
-      this.$datepicker.datepicker('destroy').val('').removeAttr('value')
-      this.selectedDate = ''
+      return this
     }
   }
-})(window.jQuery, window.moment)
+})
+
+export default class Calendar {
+  constructor (el, options) {
+    this.$calendar = el
+    this.$datepicker = el.querySelector('input')
+
+    this.options = Object.assign({
+      dateFormat: 'yy-mm-dd',
+      monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+      monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+      dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+      dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+      dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+      showMonthAfterYear: true,
+      yearSuffix: '년',
+      onSelect: (date, datepicker) => {
+        this.selectedDate = date
+        this.$datepicker.setAttribute('value', date)
+        this.$calendar.dispatchEvent(new CustomEvent('change', {detail: {date, datepicker}}))
+      }
+    }, options)
+
+    this.selectedDate = ''
+    this.eventHandler = {}
+
+    window.jQuery(this.$datepicker).datepicker(this.options)
+  }
+
+  show () {
+    window.jQuery(this.$datepicker).datepicker('show')
+  }
+
+  hide () {
+    window.jQuery(this.$datepicker).datepicker('hide')
+  }
+
+  get () {
+    return {date: this.selectedDate}
+  }
+
+  set (date) {
+    this.selectedDate = window.moment(date).format(DATE_FORMAT)
+    this.$datepicker.setAttribute('value', this.selectedDate)
+    window.jQuery(this.$datepicker).datepicker('setDate', this.selectedDate)
+  }
+
+  clear () {
+    window.jQuery(this.$datepicker).datepicker('destroy')
+    this.selectedDate = ''
+    this.$datepicker.value = ''
+    this.$datepicker.removeAttribute('value')
+  }
+}
 /** ***************************************************************************************************************** */

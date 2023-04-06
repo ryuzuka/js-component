@@ -1,127 +1,111 @@
-/** dropdown.js ****************************************************************************************************** */
-;($ => {
-  let pluginName = 'dropdown'
+/** dropdown.js ***************************************************************************************************** */
+const PLUGIN_NAME = 'dropdown'
 
-  $.fn.extend({
-    dropdown: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Dropdown($(el), options))
-          }
-        })
+Object.assign(HTMLElement.prototype, {
+  dropdown (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Dropdown(this, options), PLUGIN_NAME)
       }
       return this
     }
-  })
-
-  class Dropdown {
-    constructor ($this, options) {
-      let defaultIndex = 0
-
-      this.$dropdown = $this
-      this.$button = this.$dropdown.find('.dropdown-btn')
-
-      this.options = options
-      this.placeholder = options.placeholder ? options.placeholder : this.$dropdown.data('placeholder')
-      if (this.placeholder) {
-        defaultIndex = -1
-        this.$button.text(this.placeholder)
-      } else {
-        defaultIndex = 0
-      }
-
-      this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : defaultIndex
-      this.disableIndex = this.options.disableIndex
-
-      this.init()
-    }
-
-    init () {
-      if (typeof this.activeIndex === 'number') {
-        this.active(this.activeIndex)
-        if (this.activeIndex > -1) {
-          this.toggle(true)
-          let scrollTop = this.$dropdown.find('.dropdown-list li').eq(this.activeIndex).position().top
-          this.$dropdown.find('.dropdown-list').scrollTop(scrollTop)
-          this.toggle(false)
-        }
-      }
-      if (typeof this.disableIndex === 'number') {
-        this.disable([this.disableIndex])
-      } else if (typeof this.disableIndex === 'object') {
-        this.disable(this.disableIndex)
-      }
-
-      this.$button.on('click', e => {
-        if (this.$dropdown.find('.dropdown-list').hasClass('active')) {
-          this.toggle(false)
-        } else {
-          this.toggle(true)
-        }
-      })
-
-      this.$dropdown.find('.dropdown-list li button').on('click', e => {
-        if ($(e.currentTarget).hasClass('disabled')) {
-          return false
-        }
-        let idx = $(e.currentTarget).parent().index()
-        if (idx !== this.activeIndex) {
-          this.active(idx)
-        }
-        this.toggle(false)
-      })
-
-      this.$dropdown.find('.dropdown-btn, .dropdown-list').on('focusout', e => {
-        if (e.relatedTarget === null || $(e.relatedTarget).closest('.js-dropdown').length < 1) {
-          this.toggle(false)
-        }
-      })
-    }
-
-    toggle (isOpen) {
-      this.$dropdown.find('.dropdown-list')[isOpen ? 'addClass' : 'removeClass']('active')
-      this.$button.attr('aria-expanded', isOpen)
-
-      return this.$dropdown
-    }
-
-    active (idx) {
-      this.$dropdown.find('.dropdown-list li').each((index, el) => {
-        if (idx === index) {
-          this.activeIndex = index
-          $(el).addClass('active').attr('aria-selected', true)
-          this.$button.text($(el).find('button').text()).addClass('active')
-          this.$dropdown.triggerHandler({type: 'change', activeIndex: this.activeIndex, value: $(el).find('button').data('value')})
-        } else {
-          $(el).removeClass('active').attr('aria-selected', false)
-        }
-      })
-    }
-
-    disable (index) {
-      // index[type: Number or Array]
-      if (typeof (index) === 'number') {
-        // Number
-        this.$dropdown.find('.dropdown-list li').eq(index).addClass('disabled', true)
-        this.$dropdown.find('.dropdown-list li').eq(index).find('button').prop('disabled', true)
-      } else {
-        // Array
-        index.forEach(val => {
-          this.$dropdown.find('.dropdown-list li').eq(val).addClass('disabled', true)
-          this.$dropdown.find('.dropdown-list li').eq(val).find('button').prop('disabled', true)
-        })
-      }
-    }
-
-    clear () {
-      this.$button.text(this.placeholder)
-      this.$dropdown.find('.dropdown-list li').removeAttr('aria-selected').removeClass('active disabled')
-      this.$dropdown.find('.dropdown-list li button').prop('disabled', false).off('click')
-      this.$button.removeAttr('aria-expanded').off('click')
-    }
   }
-})(window.jQuery)
-/** ****************************************************************************************************************** */
+})
+
+export default class Dropdown {
+  constructor (el, options) {
+    this.$dropdown = el
+    this.$button = el.querySelector('.dropdown-btn')
+    this.$list = el.querySelector('.dropdown-list')
+    this.$option = el.querySelectorAll('.dropdown-list > li')
+
+    this.options = Object.assign({
+      activeIndex: -1,
+      disabledIndex: -1
+    }, options)
+
+    this.activeIndex = parseInt(this.options.activeIndex)
+    this.disabledIndex = parseInt(this.options.disabledIndex)
+    this.placeholder = el.dataset.placeholder
+    this.value = ''
+
+    this.eventHandler = {
+      clickDropdown: e => this.toggle(true),
+      focusOutDropdown: e => {
+        if (e.relatedTarget === null || e.relatedTarget.closest('.js-dropdown') === null) {
+          this.toggle(false)
+        }
+      },
+      clickOption: e => {
+        let idx = [...this.$list.children].indexOf(e.target.parentElement)
+
+        this.active(idx)
+        this.toggle(false)
+      }
+    }
+
+    this.$dropdown.addEventListener('focusout', this.eventHandler.focusOutDropdown)
+    this.$button.addEventListener('click', this.eventHandler.clickDropdown)
+    this.$option.forEach(($option, index) => {
+      let $btn = $option.firstElementChild
+      if (this.disabledIndex == index) {
+        $btn.disabled = true
+        $btn.classList.add('disabled')
+      }
+      $btn.addEventListener('click', this.eventHandler.clickOption)
+    })
+
+    if (this.placeholder) {
+      this.$button.innerText = this.placeholder
+    }
+    this.active(this.activeIndex)
+  }
+
+  toggle (isOpen) {
+    this.$button.setAttribute('aria-expanded', isOpen)
+    this.$list.style.display = isOpen ? 'block' : 'none'
+
+    return this.$dropdown
+  }
+
+  active (idx) {
+    this.activeIndex = idx
+    this.$option.forEach(($option, index) => {
+      let $btn = $option.firstElementChild
+      $option.setAttribute('aria-selected', index === idx)
+      $option.classList[index === idx ? 'add' : 'remove']('active')
+      $btn.classList[index === idx ? 'add' : 'remove']('active')
+      if (index === idx) {
+        this.value = $btn.dataset.value
+        this.$button.innerText = $btn.innerText
+        this.toggle(true)
+        this.$list.scrollTop = $btn.offsetTop
+        this.toggle(false)
+      }
+    })
+
+    this.$dropdown.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx, value: this.value}}))
+  }
+
+  get () {
+    return {value: this.value, index: this.activeIndex}
+  }
+
+  clear () {
+    this.active(-1)
+    this.$button.innerText = this.placeholder
+    this.$option.forEach($option => {
+      let $btn = $option.firstElementChild
+      $btn.disabled = false
+      $btn.classList.remove('disabled')
+      $btn.removeEventListener('click', this.eventHandler.clickOption)
+      $option.setAttribute('aria-selected', false)
+    })
+    this.$dropdown.removeEventListener('focusout', this.eventHandler.focusOutDropdown)
+    this.$button.removeEventListener('click', this.eventHandler.clickDropdown)
+  }
+}
+/** ***************************************************************************************************************** */

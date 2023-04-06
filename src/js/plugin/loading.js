@@ -1,8 +1,19 @@
 /** loading.js ****************************************************************************************************** */
-;($ => {
-  let _plugin = null
-  let _loadingHtml = `
-    <div class="loading-wrap" style="display: none">
+const PLUGIN_NAME = 'loading'
+let loading = null
+
+Object.assign(Window.prototype, {
+  loading (isLoading = true) {
+    loading = loading || new Loading()
+    loading.loading(isLoading)
+
+    return loading
+  }
+})
+
+export default class Loading {
+  constructor () {
+    let _loadingHtml = `<div class="loading-wrap" style="display: none">
       <!--: Start #contents -->
       <svg class="loading" width="46" height="46">
         <defs>
@@ -25,25 +36,15 @@
       <!--: End #contents -->
     </div>`
 
-  $.extend({
-    loading: function (isLoading) {
-      _plugin = _plugin || new Loading()
-      return _plugin.loading(isLoading)
-    }
-  })
-
-  class Loading {
-    constructor () {
-      document.body.insertAdjacentHTML('beforeend', _loadingHtml)
-      this.$loading = document.getElementsByClassName('loading-wrap')
-    }
-
-    loading (isLoading) {
-      this.$loading[0].style.display = isLoading ? 'block' : 'none'
-      $.preventScroll(isLoading)
-
-      return this.$loading[0]
-    }
+    document.body.insertAdjacentHTML('beforeend', _loadingHtml)
+    this.$loading = document.querySelector('.loading-wrap')
   }
-})(window.jQuery)
+
+  loading (isLoading) {
+    this.$loading.style.display = isLoading ? 'block' : 'none'
+    blockScroll(isLoading ? 'block' : 'scroll')
+
+    return this.$loading
+  }
+}
 /** ***************************************************************************************************************** */

@@ -1,99 +1,77 @@
-/** accordion.js ********************************************************************************************************** */
-;($ => {
-  let pluginName = 'accordion'
+/** accordion.js **************************************************************************************************** */
+const PLUGIN_NAME = 'accordion'
 
-  $.fn.extend({
-    accordion: function (options = {}, value) {
-      if (typeof options === 'string') {
-        $.plugin.call(this, options, value)
-      } else {
-        this.each((index, el) => {
-          if (!$(el).attr('applied-plugin')) {
-            $.plugin.add($(el), pluginName, new Accordion($(el), options))
-          }
-        })
+Object.assign(HTMLElement.prototype, {
+  accordion (options = {}, value) {
+    if (typeof options === 'string') {
+      return PLUGIN.call(this, options, value)
+    } else {
+      let appliedPlugin = this.getAttribute('applied-plugin')
+      if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
+        PLUGIN.add(this, new Accordion(this, options), PLUGIN_NAME)
       }
       return this
     }
-  })
-
-  class Accordion {
-    constructor ($this, options) {
-      this.$accordion = $this
-      this.$btn = this.$accordion.find('.accordion-head > button')
-      this.$content = this.$accordion.find('.accordion-content')
-
-      this.options = options
-      this.options.type = options.type || 'single'
-      this.activeIndex = (this.options.activeIndex >= 0) ? this.options.activeIndex : -1
-
-      this.init()
-    }
-
-    init () {
-      let _this = this
-      this.$btn.each((index, el) => {
-        $(el).attr('btn-index', index)
-      })
-
-      if (typeof this.activeIndex === 'number') {
-        this.active(this.activeIndex)
-      }
-
-      this.$btn.on('click', e => {
-        let idx = Number($(e.currentTarget).attr('btn-index'))
-        this.activeIndex = idx
-        if (this.options.type === 'single') {
-          this.$content.each((index, el) => {
-            let $btn = _this.$btn.eq(index)
-            let $content = _this.$content.eq(index)
-
-            if (idx === index) {
-              if (!$btn.hasClass('active')) {
-                $btn.addClass('active').attr('aria-expanded', true)
-                $content.addClass('active').prop('hidden', false)
-              } else {
-                $btn.removeClass('active').attr('aria-expanded', false)
-                $content.removeClass('active').prop('hidden', true)
-              }
-            } else {
-              $btn.removeClass('active').attr('aria-expanded', false)
-              $content.removeClass('active').prop('hidden', true)
-            }
-          })
-        } else if (this.options.type === 'multi') {
-          let $btn = _this.$btn.eq(idx)
-          let $content = _this.$content.eq(idx)
-
-          if (!_this.$btn.eq(idx).hasClass('active')) {
-            $btn.addClass('active').attr('aria-expanded', true)
-            $content.addClass('active').prop('hidden', false)
-          } else {
-            $btn.removeClass('active').attr('aria-expanded', false)
-            $content.removeClass('active').prop('hidden', true)
-          }
-        }
-        this.$accordion.triggerHandler({type: 'open', activeIndex: this.activeIndex})
-      })
-    }
-
-    active (idx) {
-      this.activeIndex = idx
-      this.$content.each(index => {
-        if (idx === index) {
-          this.$btn.eq(index).addClass('active').attr('aria-expanded', true)
-          this.$content.eq(index).addClass('active').prop('hidden', false)
-        } else {
-          this.$btn.eq(index).removeClass('active').attr('aria-expanded', false)
-          this.$content.eq(index).removeClass('active').prop('hidden', true)
-        }
-      })
-    }
-
-    clear () {
-      this.$btn.attr('aria-expanded', false).removeClass('active').off('click')
-      this.$content.prop('hidden', true).removeClass('active')
-    }
   }
-})(window.jQuery)
-/** ****************************************************************************************************************** */
+})
+
+export default class Accordion {
+  constructor (el, options) {
+    this.$accordion = el
+    this.$content = el.querySelectorAll('.accordion-content')
+    this.$button = el.querySelectorAll('.accordion-section > button')
+
+    this.options = Object.assign({
+      activeIndex: -1,
+      disabledIndex: -1
+    }, options)
+
+    this.activeIndex = parseInt(this.options.activeIndex)
+    this.disabledIndex = parseInt(this.options.disabledIndex)
+
+    this.eventHandler = {
+      clickAccordion: e => {
+        let idx = [...this.$accordion.children].indexOf(e.target.parentElement)
+        this.active(idx === this.activeIndex ? -1 : idx)
+      }
+    }
+
+    this.$button.forEach(($btn, index) => {
+      if (this.disabledIndex == index) {
+        $btn.disabled = true
+        $btn.classList.add('disabled')
+      } else {
+        $btn.addEventListener('click', this.eventHandler.clickAccordion)
+      }
+    })
+
+    this.active(this.activeIndex)
+  }
+
+  active (idx) {
+    this.activeIndex = idx
+    this.$content.forEach(($content, index) => {
+      $content.parentElement.classList[idx === index ? 'add' : 'remove']('active')
+      $content.hidden = !(idx === index)
+    })
+    this.$button.forEach(($btn, index) => {
+      $btn.setAttribute('aria-expanded', idx === index)
+    })
+    this.$accordion.dispatchEvent(new CustomEvent('change', {detail: {activeIndex: idx}}))
+  }
+
+  get () {
+    return {index: this.activeIndex}
+  }
+
+  clear () {
+    this.active(-1)
+    this.$content.forEach($content => $content.removeAttribute('hidden'))
+    this.$button.forEach($btn => {
+      $btn.disabled = false
+      $btn.classList.remove('disabled')
+      $btn.removeEventListener('click', this.eventHandler.clickAccordion)
+    })
+  }
+}
+/** ***************************************************************************************************************** */
