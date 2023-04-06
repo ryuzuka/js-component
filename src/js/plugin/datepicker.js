@@ -18,6 +18,22 @@ Object.assign(HTMLElement.prototype, {
 
 export default class Datepicker {
   constructor (el, options) {
+    tui.DatePicker.localeTexts['custom'] = {
+      titles: {
+        MMMM: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        DD: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+        D: ['일', '월', '화', '수', '목', '금', '토']
+        // MMMM: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        // DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        // D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fir', 'Sat']
+      },
+      titleFormat: 'yyyy년 MMMM',
+      todayFormat: 'yyyy년 MMMM d일 DD',
+      date: 'Date',
+      time: 'Time'
+    }
+
     this.$datepicker = el
     this.$input = el.querySelector('input')
 
@@ -68,22 +84,6 @@ export default class Datepicker {
 
         this.$datepicker.dispatchEvent(new CustomEvent('change', {detail: this.date}))
       }
-    }
-
-    tui.DatePicker.localeTexts['custom'] = {
-      titles: {
-        MMMM: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        MMM: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        DD: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-        D: ['일', '월', '화', '수', '목', '금', '토']
-        // MMMM: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        // DD: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        // D: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fir', 'Sat']
-      },
-      titleFormat: 'yyyy년 MMMM',
-      todayFormat: 'yyyy년 MMMM d일 DD',
-      date: 'Date',
-      time: 'Time'
     }
 
     this.datepicker = new tui.DatePicker('#tui-date-picker-wrapper', this.options)
