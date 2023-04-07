@@ -49,16 +49,13 @@ function htmlInclude() {
 }
 
 function script() {
-  return gulp.src(paths.script, {sourcemaps: true})
-  // .pipe(uglify({toplevel: true}))
-  // .pipe(bro({
-  //   transform: [babelify.configure({ presets: ['@babel/preset-env'] })]
-  // }))
+  return gulp.src(paths.script, {sourcemaps: false})
+  .pipe(uglify({toplevel: true}))
   .pipe(gulp.dest(dist))
 }
 
 function style() {
-  return gulp.src(paths.style, {sourcemaps: true})
+  return gulp.src(paths.style, {sourcemaps: false})
   .pipe(sass(scssOptions).on('error', sass.logError))
   .pipe(base64({
     extensions: ['svg', 'png', /\.jpg#datauri$/i],
