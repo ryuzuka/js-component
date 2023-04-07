@@ -10,7 +10,7 @@ Object.assign(HTMLElement.prototype, {
     } else {
       let appliedPlugin = this.getAttribute('applied-plugin')
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
-        let type = this.querySelector('input').type
+        let type = this.querySelector('input').type || 'text'
         if (type === 'text')            PLUGIN.add(this, new Text(this, options), PLUGIN_NAME)
         else if (type === 'checkbox')   PLUGIN.add(this, new Checkbox(this, options), PLUGIN_NAME)
         else if (type === 'radio')      PLUGIN.add(this, new Radio(this, options), PLUGIN_NAME)
