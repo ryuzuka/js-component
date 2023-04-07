@@ -1,7 +1,7 @@
 import gulp from 'gulp'
 import base64 from 'gulp-base64'
 import autoprefixer from 'gulp-autoprefixer'
-import fileinclude from 'gulp-file-include'
+import fileInclude from 'gulp-file-include'
 import del from 'del'
 import browserSync from 'browser-sync'
 import concat from 'gulp-concat'
@@ -43,7 +43,7 @@ const htmlIncludeOptions = {
 
 function htmlInclude() {
   return gulp.src([paths.html, `!${src}/html/inc/*.html`])
-  .pipe(fileinclude(htmlIncludeOptions))
+  .pipe(fileInclude(htmlIncludeOptions))
   .pipe(gulp.dest(dist))
   .pipe(browserSync.stream())
 }

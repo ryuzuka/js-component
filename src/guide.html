@@ -350,9 +350,16 @@
 
   @@include('./html/inc/footer.html')
   </div>
-
-	<!-- lib ---------------------------------------------------------------->
-	<!-- datepicker -->
+  
+  <!-- lib -------------------------------------------------------------------------------->
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  
+  <!-- jquery-ui (datepicker) -->
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  
+	<!-- tui-datepicker -->
   <script src="/app/lib/tui-date-picker.min.js"></script>
   <link rel="stylesheet" href="/app/lib/tui-date-picker.min.css">
 	<!-- swiper -->
@@ -518,6 +525,85 @@
 						}, 1000)
 					})
 				},
+				swiper () {
+					const swiper = new Swiper('.swiper', {
+						// direction: 'vertical',
+						loop: false,
+						pagination: {
+							el: '.swiper-pagination',
+							clickable: true
+						},
+						navigation: {
+							nextEl: '.swiper-button-next',
+							prevEl: '.swiper-button-prev',
+						},
+						scrollbar: {
+							el: '.swiper-scrollbar',
+						},
+						on: {
+							init () {
+								// console.log('swiper-init', this.realIndex)
+							},
+							transitionEnd () {
+								// console.log('swiper-end', this.realIndex)
+							},
+							slideChange () {
+								// console.log('swiper-change', this.realIndex)
+							},
+							resize () {
+								// console.log('swiper-resize')
+							}
+						}
+					})
+				},
+				datepicker () {
+					let $datepicker = document.querySelector('.js-datepicker')
+					$datepicker.datepicker('clear').datepicker({
+						// dateFormat - datepicker: YYYY-MM-dd, moment: YYYY-MM-DD
+						// datepicker options
+					}).addEventListener('change', e => {
+						console.log(e.type, e.detail)
+					})
+					
+					document.querySelectorAll('.datepicker-btn').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							let {className} = e.target
+							if (className.indexOf('get') > -1) {
+								console.log($datepicker.datepicker('get'))
+							} else if (className.indexOf('set') > -1) {
+								$datepicker.datepicker('set', '2023-12-31')
+							} else if (className.indexOf('enable') > -1) {
+								$datepicker.datepicker('enable')
+							} else if (className.indexOf('disable') > -1) {
+								$datepicker.datepicker('disable')
+							} else {
+								$datepicker.datepicker('clear')
+							}
+						})
+					})
+				},
+				calendar () {
+					let $calendar = document.querySelector('.js-calendar')
+					
+					// init, event
+					$calendar.calendar('clear').calendar({
+						// dateFormat - datepicker: yy-mm-dd, moment: YYYY-MM-DD
+						// datepicker options
+					}).calendar('set', new Date()).addEventListener('change', e => {
+						console.log(e.type, e.detail.date, e.detail.datepicker)
+					})
+					
+					document.querySelectorAll('.calendar-btn').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							let {className} = e.target
+							if (className.indexOf('get') > -1) {
+								console.log($calendar.calendar('get'))
+							} else {
+								$calendar.calendar('set', '2023-12-31')
+							}
+						})
+					})
+				},
 				postcode () {
 					let $postcode = document.querySelector('.js-postcode')
 					$postcode.postcode() // 초기화
@@ -560,63 +646,6 @@
 						})
 					})
 				},
-				datepicker () {
-					let $datepicker = document.querySelector('.js-datepicker')
-					$datepicker.datepicker('clear').datepicker({
-						// dateFormat - datepicker: YYYY-MM-dd, moment: YYYY-MM-DD
-						// datepicker options
-					}).addEventListener('change', e => {
-						console.log(e.type, e.detail)
-					})
-					
-					document.querySelectorAll('.datepicker-btn').forEach($btn => {
-						$btn.addEventListener('click', e => {
-							let {className} = e.target
-							if (className.indexOf('get') > -1) {
-								console.log($datepicker.datepicker('get'))
-							} else if (className.indexOf('set') > -1) {
-								$datepicker.datepicker('set', '2023-12-31')
-							} else if (className.indexOf('enable') > -1) {
-								$datepicker.datepicker('enable')
-							} else if (className.indexOf('disable') > -1) {
-								$datepicker.datepicker('disable')
-							} else {
-								$datepicker.datepicker('clear')
-							}
-						})
-					})
-				},
-				swiper () {
-					const swiper = new Swiper('.swiper', {
-						// direction: 'vertical',
-						loop: false,
-						pagination: {
-							el: '.swiper-pagination',
-							clickable: true
-						},
-						navigation: {
-							nextEl: '.swiper-button-next',
-							prevEl: '.swiper-button-prev',
-						},
-						scrollbar: {
-							el: '.swiper-scrollbar',
-						},
-						on: {
-							init () {
-								// console.log('swiper-init', this.realIndex)
-							},
-							transitionEnd () {
-								// console.log('swiper-end', this.realIndex)
-							},
-							slideChange () {
-								// console.log('swiper-change', this.realIndex)
-							},
-							resize () {
-								// console.log('swiper-resize')
-							}
-						}
-					})
-				},
 				transform () {
 					let $transform = document.querySelector('.transform.obj')
 					
@@ -657,33 +686,9 @@
 			}
 		}
 	</script>
-
-  <!-- jQuery - datepicker -->
-  <script src="/app/lib/jquery.min.js"></script>
-  <script src="/app/lib/datepicker.min.js"></script>
-  <link rel="stylesheet" href="/app/lib/datepicker.min.css">
-	<script>
+  
+  <script>
 		window.addEventListener('DOMContentLoaded', e => {
-			let $calendar = document.querySelector('.js-calendar')
-			
-			// init, event
-			$calendar.calendar('clear').calendar({
-				// dateFormat - datepicker: yy-mm-dd, moment: YYYY-MM-DD
-				// datepicker options
-			}).calendar('set', new Date()).addEventListener('change', e => {
-				console.log(e.type, e.detail.date, e.detail.datepicker)
-			})
-			
-			document.querySelectorAll('.calendar-btn').forEach($btn => {
-				$btn.addEventListener('click', e => {
-					let {className} = e.target
-					if (className.indexOf('get') > -1) {
-						console.log($calendar.calendar('get'))
-					} else {
-						$calendar.calendar('set', '2023-12-31')
-					}
-				})
-			})
 		})
 	</script>
 </body>
