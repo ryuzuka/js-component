@@ -9,20 +9,17 @@ import bro from 'gulp-bro'
 import uglify from 'gulp-uglify'
 import babelify from 'babelify'
 
-/**
- * node version: 18.15.0 (lts/hydrogen)
- */
-
 const app = 'app'
 const src = 'src'
 const dist = `dist/${app}`
 const paths = {
-  script: [`${src}/**/*.js`],
-  style: [`${src}/**/*.{css,scss}`],
+  library: [`${src}/lib/*.js`, `${src}/lib/*.{css,scss}`],
+  script: [`${src}/**/*.js`, `!${src}/lib/*.js`],
+  style: [`${src}/**/*.{css,scss}`, `!${src}/lib/*.{css,scss}`],
   html: `${src}/**/*.html`,
   image: `${src}/**/*.{png,jpg,jpeg,gif,svg,ico,mp4}`,
   font: `${src}/**/*.{ttf,otf,woff,woff2,eot,svg}`,
-  data: `${src}/**/*.json`
+  data: `${src}/data/*.*`
 }
 
 const clean = () => {return del(['dist'])}
@@ -48,10 +45,12 @@ function htmlInclude() {
   .pipe(browserSync.stream())
 }
 
+function library() {
+  return gulp.src(paths.library, {sourcemaps: false}).pipe(gulp.dest(`dist/${app}/lib`))
+}
+
 function script() {
-  return gulp.src(paths.script, {sourcemaps: false})
-  .pipe(uglify({toplevel: true}))
-  .pipe(gulp.dest(dist))
+  return gulp.src(paths.script, {sourcemaps: false}).pipe(uglify({toplevel: true})).pipe(gulp.dest(dist))
 }
 
 function style() {
@@ -79,7 +78,7 @@ function copyFont() {
 
 function copyData() {
   return gulp.src(paths.data, {since: gulp.lastRun(copyData)})
-    .pipe(gulp.dest(dist))
+    .pipe(gulp.dest(`dist/${app}/data`))
 }
 
 function watchFiles(done) {
@@ -91,6 +90,7 @@ function watchFiles(done) {
   })
   done()
   gulp.watch(paths.html, htmlInclude)
+  gulp.watch(paths.library, library)
   gulp.watch(paths.script, script)
   gulp.watch(paths.style, style)
   gulp.watch(paths.image, copyImage)
@@ -99,7 +99,7 @@ function watchFiles(done) {
 }
 
 const watch = gulp.parallel(watchFiles)
-const build = gulp.series(clean, gulp.parallel(htmlInclude, style, script, copyImage, copyFont, copyData))
+const build = gulp.series(clean, gulp.parallel(htmlInclude, library, script, style, copyImage, copyFont, copyData))
 const dataBuild = gulp.parallel(copyImage, copyFont, copyData)
 
 // build
