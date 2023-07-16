@@ -223,14 +223,23 @@
 		    </div>
 	    </section>
 	    
+	    <h2>swipe</h2>
+	    <section>
+		    <button class="btn btn-tertiary swipe on">body swipe - on</button>
+		    <button class="btn btn-tertiary swipe off">body swipe - off</button>
+		    <br>
+		    <br>
+		    <button class="btn btn-tertiary swipe clear">body swipe - clear</button>
+	    </section>
+	    
 	    <h2>block scroll</h2>
 	    <section>
-		    <button class="btn btn-tertiary block documentBody">block-scroll : block</button>
-		    <button class="btn btn-tertiary block documentBody scroll">block-scroll : scroll</button>
+		    <button class="btn btn-tertiary block documentBody">blockScroll - block</button>
+		    <button class="btn btn-tertiary block documentBody scroll">blockScroll - scroll</button>
 		    <br>
 		    <br>
-		    <button class="btn btn-tertiary block window">block-scroll-event : block</button>
-		    <button class="btn btn-tertiary block window scroll">block-scroll-event : scroll</button>
+		    <button class="btn btn-tertiary block window">blockScrollEvent - block</button>
+		    <button class="btn btn-tertiary block window scroll">blockScrollEvent - scroll</button>
 	    </section>
 	
 	    <h2>loading</h2>
@@ -493,6 +502,35 @@
 					let $input = document.querySelectorAll('.js-input')
 					$input.forEach(_$input => {
 						_$input.input('clear').input()
+					})
+				},
+				swipe () {
+					
+					document.querySelectorAll('.btn.swipe').forEach($btn => {
+						$btn.addEventListener('click', e => {
+							console.log(e.target.className)
+							if (e.target.className.indexOf('on') > -1) {
+								if (document.body.getAttribute('applied-plugin')) {
+									document.body.swipe('on')
+								} else {
+									document.body.swipe({
+										down () {
+											console.log('swipe down')
+										},
+										move () {
+											console.log('swipe move')
+										},
+										up (dir) {
+											console.log('swipe' + (dir > 0 ? 'up' : 'down'))
+										}
+									})
+								}
+							} else if (e.target.className.indexOf('off') > -1) {
+								document.body.swipe('off')
+							} else if (e.target.className.indexOf('clear') > -1) {
+								document.body.swipe('clear')
+							}
+						})
 					})
 				},
 				blockScroll () {

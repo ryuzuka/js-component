@@ -1,4 +1,4 @@
-/** Swipe.js ********************************************************************************************************* */
+/** swipe.js ********************************************************************************************************* */
 let PLUGIN_NAME = 'swipe'
 
 Object.assign(HTMLElement.prototype, {
@@ -10,13 +10,14 @@ Object.assign(HTMLElement.prototype, {
       if (!appliedPlugin || appliedPlugin.indexOf(PLUGIN_NAME) < 0) {
         PLUGIN.add(this, new Swipe(this, options), PLUGIN_NAME)
       }
+      return this
     }
   }
 })
 
 class Swipe {
   constructor (el, options) {
-    this.$el = el
+    this.$body = el
     this.direction = options.direction || 'vertical' // horizontal, vertical
     this.callback = {
       down: options.down,
@@ -52,8 +53,8 @@ class Swipe {
   eventHandlers () {
     return {
       down: e => {
-        this.$el.addEventListener(this.MOVE_EV, this.eventHandler.move)
-        this.$el.addEventListener(this.UP_EV, this.eventHandler.up)
+        this.$body.addEventListener(this.MOVE_EV, this.eventHandler.move)
+        this.$body.addEventListener(this.UP_EV, this.eventHandler.up)
 
         this.dragDist = 0
         let point = this.hasTouch ? e.touches[0] : e
@@ -65,7 +66,6 @@ class Swipe {
           this.DOWNX = point.clientY
           this.DOWNY = point.clientX
         }
-
 
         if (this.callback.down) {
           this.callback.down()
@@ -89,8 +89,8 @@ class Swipe {
         }
       },
       up: e => {
-        this.$el.removeEventListener(this.MOVE_EV, this.eventHandler.move)
-        this.$el.removeEventListener(this.UP_EV, this.eventHandler.up)
+        this.$body.removeEventListener(this.MOVE_EV, this.eventHandler.move)
+        this.$body.removeEventListener(this.UP_EV, this.eventHandler.up)
 
         if (Math.abs(this.dragDist) < 80) return false
 
@@ -108,22 +108,23 @@ class Swipe {
   }
 
   on () {
-    this.$el.addEventListener(this.DOWN_EV, this.eventHandler.down)
+    this.$body.addEventListener(this.DOWN_EV, this.eventHandler.down)
   }
 
   off () {
-    this.$el.removeEventListener(this.DOWN_EV, this.eventHandler.down)
-    this.$el.removeEventListener(this.MOVE_EV, this.eventHandler.move)
-    this.$el.removeEventListener(this.UP_EV, this.eventHandler.up)
+    this.$body.removeEventListener(this.DOWN_EV, this.eventHandler.down)
+    this.$body.removeEventListener(this.MOVE_EV, this.eventHandler.move)
+    this.$body.removeEventListener(this.UP_EV, this.eventHandler.up)
   }
 
   clear () {
+    this.off()
+
     this.DOWNX = 0
     this.DOWNY = 0
     this.dragDist = 0
     this.dragDir = 0
-
-    this.off()
+    this.eventHandler = {}
   }
 }
 /** ***************************************************************************************************************** */
