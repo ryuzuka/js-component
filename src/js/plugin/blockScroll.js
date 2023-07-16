@@ -1,51 +1,48 @@
 /** blockScroll.js ************************************************************************************************** */
-const PLUGIN_NAME = 'blockScroll'
 let blockScroll = null
 let blockScrollEvent = null
 
-Object.assign(Window.prototype, {
-  blockScroll(method = 'block') {
-    if (!method) method = 'scroll'
+Object.assign(HTMLBodyElement.prototype, {
+  blockScroll(isScroll = true) {
     blockScroll = blockScroll || new BlockScroll('block-scroll')
-    return blockScroll[method]()
+    return blockScroll[isScroll ? 'block' : 'scroll'](this)
   },
-  blockScrollEvent (method = 'block') {
-    if (!method) method = 'scroll'
+  blockScrollEvent (isScroll = true) {
     blockScrollEvent = blockScrollEvent || new BlockScroll('block-scroll-event')
-    return blockScrollEvent[method]()
+    return blockScrollEvent[isScroll ? 'block' : 'scroll'](this)
   }
 })
 
-export default class BlockScroll {
+class BlockScroll {
   constructor (event) {
     this.eventType = event
     this.isBlock = false
   }
 
-  block () {
+  block ($documentBody) {
     if (this.isBlock) return this.isBlock
-
     this.isBlock = true
-    document.body.classList.add(this.eventType)
+
+    $documentBody.classList.add(this.eventType)
     if (this.eventType === 'block-scroll-event') {
-      document.body.addEventListener('wheel', this.blockScrollEventHandler, {passive: false})
-      document.body.addEventListener('touchmove', this.blockScrollEventHandler, {passive: false})
+      $documentBody.addEventListener('wheel', this.blockScrollEventHandler, {passive: false})
+      $documentBody.addEventListener('touchmove', this.blockScrollEventHandler, {passive: false})
     }
 
-    return this.isBlock
+    return $documentBody
   }
 
-  scroll () {
+  scroll ($documentBody) {
     if (!this.isBlock) return this.isBlock
-
     this.isBlock = false
-    document.body.classList.remove(this.eventType)
+
+    $documentBody.classList.remove(this.eventType)
     if (this.eventType === 'block-scroll-event') {
-      document.body.removeEventListener('wheel', this.blockScrollEventHandler)
-      document.body.removeEventListener('touchmove', this.blockScrollEventHandler)
+      $documentBody.removeEventListener('wheel', this.blockScrollEventHandler)
+      $documentBody.removeEventListener('touchmove', this.blockScrollEventHandler)
     }
 
-    return this.isBlock
+    return $documentBody
   }
 
   blockScrollEventHandler (e) {
