@@ -1,5 +1,4 @@
 /** transform.js **************************************************************************************************** */
-const PLUGIN_NAME = 'transform'
 let transform = null
 
 Object.assign(HTMLElement.prototype, {
@@ -18,7 +17,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-export default class Transform {
+class Transform {
   constructor (el) {
     this.$el = el
     this.isTransform = false

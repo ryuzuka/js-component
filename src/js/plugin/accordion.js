@@ -15,7 +15,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-export default class Accordion {
+class Accordion {
   constructor (el, options) {
     this.$accordion = el
     this.$content = el.querySelectorAll('.accordion-content')

@@ -26,8 +26,7 @@ document.documentElement.addEventListener('touchend', e => {
 }, {passive: false})
 
 /** document ready */
-// plugin execution
 window.addEventListener('DOMContentLoaded', e => {
-  PLUGIN.init()
+  PLUGIN.init() // plugin execution
 })
 /** ***************************************************************************************************************** */

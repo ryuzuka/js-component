@@ -1,5 +1,4 @@
 /** loading.js ****************************************************************************************************** */
-const PLUGIN_NAME = 'loading'
 let loading = null
 
 Object.assign(Window.prototype, {
@@ -11,7 +10,7 @@ Object.assign(Window.prototype, {
   }
 })
 
-export default class Loading {
+class Loading {
   constructor () {
     let _loadingHtml = `<div class="loading-wrap" style="display: none">
       <!--: Start #contents -->

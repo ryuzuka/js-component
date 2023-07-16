@@ -17,7 +17,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-export default class Textarea {
+class Textarea {
   constructor (el, options) {
     this.$textarea = el.querySelector('textarea')
     this.$current = el.querySelector('.current-length')

@@ -500,15 +500,15 @@
 						$btn.addEventListener('click', e => {
 							if (e.target.className.indexOf('documentBody') > -1) {
 								if (e.target.className.indexOf('scroll') < 0) {
-									blockScroll()
+									document.body.blockScroll())
 								} else{
-									blockScroll('scroll')
+									document.body.blockScroll(false)
 								}
 							} else {
 								if (e.target.className.indexOf('scroll') < 0) {
-									blockScrollEvent()
+									document.body.blockScrollEvent(true)
 								} else {
-									blockScrollEvent('scroll')
+									document.body.blockScrollEvent(false)
 								}
 							}
 						})

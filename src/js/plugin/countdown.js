@@ -16,7 +16,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-export default class Countdown {
+class Countdown {
   constructor (el, options) {
     this.$countdown = el
     this.$count = el.querySelector('.time')

@@ -15,7 +15,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-export default class Modal {
+class Modal {
   constructor (el, options) {
     this.$modal = el
     this.$close = el.querySelector('.close')

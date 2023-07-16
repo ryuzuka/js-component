@@ -16,7 +16,7 @@ Object.assign(HTMLElement.prototype, {
   }
 })
 
-export default class Datepicker {
+class Datepicker {
   constructor (el, options) {
     tui.DatePicker.localeTexts['custom'] = {
       titles: {
