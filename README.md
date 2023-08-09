@@ -1,5 +1,7 @@
 # js-plugin
-#es6
-#ui
-#components
-#gulp
+Javascript<br>
+es6<br>
+vanilla<br>
+ui<br>
+components<br>
+gulp
