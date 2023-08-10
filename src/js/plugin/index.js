@@ -1,6 +1,5 @@
 import './accordion.js'
 import './blockScroll.js'
-import './calendar.js'
 import './countdown.js'
 import './datepicker.js'
 import './dropdown.js'
