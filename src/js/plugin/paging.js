@@ -23,8 +23,8 @@ class Paging {
     this.options = Object.assign({
       offset: 0,          // 현재 페이지 번호
       limit: 10,          // 화면에 보여지는 리스트 갯수
-      pagingLength: 10,   // 화면에 보여지는 paging button 갯수
-      total: 0
+      total: 0,
+      pagingLength: 10    // 화면에 보여지는 paging button 갯수
     }, options)
 
     this.offset = this.options.offset

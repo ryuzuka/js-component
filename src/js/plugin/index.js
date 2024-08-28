@@ -19,10 +19,10 @@ let pluginIndex = 0
 
 export default window.PLUGIN = {
 	add (element, plugin, pluginName) {
-    let pluginId = pluginName + pluginIndex
+    	let pluginId = pluginName + pluginIndex
 		element.setAttribute('applied-plugin', pluginId)
-    pluginPool[pluginId] = plugin
-    pluginIndex++
+		pluginPool[pluginId] = plugin
+		pluginIndex++
 
 		return plugin
 	},

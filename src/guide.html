@@ -351,22 +351,25 @@
   
   <!-- lib -------------------------------------------------------------------------------->
 	<!-- tui-datepicker -->
-  <script src="/app/lib/tui-date-picker.min.js"></script>
-  <link rel="stylesheet" href="/app/lib/tui-date-picker.min.css">
+	<script src="/app/lib/tui-date-picker.min.js"></script>
+	<link rel="stylesheet" href="/app/lib/tui-date-picker.min.css">
+	
 	<!-- swiper -->
 	<script src="/app/lib/swiper-bundle.min.js"></script>
 	<link rel="stylesheet" href="/app/lib/swiper-bundle.min.css">
+	
 	<!-- Daum 주소검색 -->
 	<script src="/app/lib/postcode.v2.js"></script>
+	
 	<!-- lottie -->
 	<script src="/app/lib/lottie.min.js"></script>
 
-  <!-- App -->
+  	<!-- App -->
 	<script type="module" src="/app/js/App.js"></script>
 	<script type="module" src="/app/js/component.js"></script>
 
 	<script>
-    /** document ready */
+    	/** document ready */
 		window.addEventListener('DOMContentLoaded', e => {
 			let guide = Guide()
 			for (let plugin in guide) {
@@ -391,12 +394,12 @@
 				accordion () {
 					let $accordion = document.querySelector('.js-accordion')
 					$accordion.accordion('clear').accordion({
-						activeIndex: 1,       // default: -1
+						activeIndex: 0,       // default: -1
 						disabledIndex: 0      // default: -1
 					}).addEventListener('change', e => {
 						console.log('accordion, ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$accordion.accordion('active', 2)
+					// $accordion.accordion('active', 2)
 				},
 				dropdown () {
 					let $dropdown = document.querySelector('.js-dropdown')
@@ -406,29 +409,29 @@
 					}).addEventListener('change', e => {
 						console.log('dropdown, ' + e.type + ',value: ' + e.detail.value + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$dropdown.dropdown('active', 3)
+					// $dropdown.dropdown('active', 3)
 				},
 				tab () {
 					let $tab = document.querySelector('.js-tab')
 					$tab.tab('clear').tab({
-						activeIndex: 1,       // default: 0
+						activeIndex: 0,       // default: 0
 						disabledIndex: 0      // default: -1
 					}).addEventListener('change', e => {
 						console.log('tab ' + e.type + ', activeIndex: ' + e.detail.activeIndex)
 					})
-					$tab.tab('active', 2)
+					// $tab.tab('active', 2)
 				},
 				paging () {
 					let $paging = document.querySelector('.js-paging')
 					let paging = $paging.paging({
-						offset: 5,            // 현재 페이지 번호
+						offset: 0,            // 현재 페이지 번호
 						limit: 5,             // 화면에 보여지는 리스트 갯수
 						total: 221,           // * required, 전체 리스트 갯수
-						pagingLength: 5       // 화면에 보여지는 paging 갯수 (default: 10)
+						pagingLength: 10      // 화면에 보여지는 paging 갯수 (default: 10)
 					}).addEventListener('change', e => {
 						console.log('paging, ' + e.type + ', offset: ' + e.detail.offset + ', total: ' + e.detail.total)
 					})
-					$paging.paging('set', 3)
+					// $paging.paging('set', 3)
 					
 					document.querySelector('.btn.paging-btn.apply').addEventListener('click', e => {
 						$paging.paging({
@@ -617,7 +620,7 @@
 				textarea () {
 					let $textarea = document.querySelector('.js-textarea')
 					$textarea.textarea('clear').textarea()
-					console.log($textarea.textarea('get'))
+					// console.log($textarea.textarea('get'))
 				},
 				countdown () {
 					let $countdown = document.querySelector('.js-countdown')
