@@ -76,7 +76,7 @@ class Modal {
 
   open () {
     setTimeout(() => this.$modal.querySelectorAll('button')[0].focus(), 1)
-    blockScroll('block')
+    document.body.blockScroll()
     this.$modal.style.display = 'block'
 
     this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
@@ -87,7 +87,7 @@ class Modal {
     params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
     this.$modal.dispatchEvent(new CustomEvent('before-close', {detail: Object.assign({type: 'before-close'}, params)}))
 
-    blockScroll('scroll')
+    document.body.blockScroll(false)
     this.$modal.style.display = 'none'
     setTimeout(() => {
       document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
