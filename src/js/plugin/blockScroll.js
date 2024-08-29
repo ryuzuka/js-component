@@ -1,15 +1,15 @@
 /** blockScroll.js ************************************************************************************************** */
-let blockScroll = null
-let blockScrollEvent = null
+let _blockScroll = null
+let _blockScrollEvent = null
 
 Object.assign(HTMLBodyElement.prototype, {
   blockScroll(isScroll = true) {
-    blockScroll = blockScroll || new BlockScroll('block-scroll')
-    return blockScroll[isScroll ? 'block' : 'scroll'](this)
+    _blockScroll = _blockScroll || new BlockScroll('block-scroll')
+    return _blockScroll[isScroll ? 'block' : 'scroll'](this)
   },
   blockScrollEvent (isScroll = true) {
-    blockScrollEvent = blockScrollEvent || new BlockScroll('block-scroll-event')
-    return blockScrollEvent[isScroll ? 'block' : 'scroll'](this)
+    _blockScrollEvent = _blockScrollEvent || new BlockScroll('block-scroll-event')
+    return _blockScrollEvent[isScroll ? 'block' : 'scroll'](this)
   }
 })
 
@@ -27,6 +27,7 @@ class BlockScroll {
     if (this.eventType === 'block-scroll-event') {
       $documentBody.addEventListener('wheel', this.blockScrollEventHandler, {passive: false})
       $documentBody.addEventListener('touchmove', this.blockScrollEventHandler, {passive: false})
+      $documentBody.addEventListener('keydown', this.blockScrollEventHandler)
     }
 
     return $documentBody
@@ -38,15 +39,22 @@ class BlockScroll {
 
     $documentBody.classList.remove(this.eventType)
     if (this.eventType === 'block-scroll-event') {
-      $documentBody.removeEventListener('wheel', this.blockScrollEventHandler)
-      $documentBody.removeEventListener('touchmove', this.blockScrollEventHandler)
+      $documentBody.removeEventListener('wheel', this.blockScrollEventHandler, {passive: false})
+      $documentBody.removeEventListener('touchmove', this.blockScrollEventHandler, {passive: false})
+      $documentBody.removeEventListener('keydown', this.blockScrollEventHandler)
     }
 
     return $documentBody
   }
 
   blockScrollEventHandler (e) {
-    e.preventDefault()
+    if (e.type === 'keydown') {
+      if (e.keyCode === 37 ||e.keyCode === 38 ||e.keyCode === 39 || e.keyCode === 40) {
+        e.preventDefault()
+      }
+    } else {
+      e.preventDefault()
+    }
   }
 }
 /** ***************************************************************************************************************** */
