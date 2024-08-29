@@ -1,18 +1,6 @@
 /** loading.js ****************************************************************************************************** */
-let loading = null
-
-Object.assign(Window.prototype, {
-  loading (isLoading = true) {
-    loading = loading || new Loading()
-    loading.loading(isLoading)
-
-    return loading
-  }
-})
-
-class Loading {
-  constructor () {
-    let _loadingHtml = `<div class="loading-wrap" style="display: none">
+let _loading = null
+const loadingHtml = `<div class="loading-wrap" style="display: none">
       <!--: Start #contents -->
       <svg class="loading" width="46" height="46">
         <defs>
@@ -35,13 +23,24 @@ class Loading {
       <!--: End #contents -->
     </div>`
 
-    document.body.insertAdjacentHTML('beforeend', _loadingHtml)
+Object.assign(HTMLBodyElement.prototype, {
+  loading (isLoading = true) {
+    _loading = _loading || new Loading()
+    _loading.loading(isLoading)
+
+    return _loading
+  }
+})
+
+class Loading {
+  constructor () {
+    document.body.insertAdjacentHTML('beforeend', loadingHtml)
     this.$loading = document.querySelector('.loading-wrap')
   }
 
   loading (isLoading) {
     this.$loading.style.display = isLoading ? 'block' : 'none'
-    blockScroll(isLoading ? 'block' : 'scroll')
+    document.body.blockScroll(isLoading)
 
     return this.$loading
   }

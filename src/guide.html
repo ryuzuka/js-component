@@ -522,12 +522,14 @@
 					document.querySelectorAll('.btn.block').forEach($btn => {
 						$btn.addEventListener('click', e => {
 							if (e.target.className.indexOf('documentBody') > -1) {
+								// document.body
 								if (e.target.className.indexOf('scroll') < 0) {
 									document.body.blockScroll()
 								} else{
 									document.body.blockScroll(false)
 								}
 							} else {
+								// window
 								if (e.target.className.indexOf('scroll') < 0) {
 									document.body.blockScrollEvent(true)
 								} else {
@@ -539,10 +541,10 @@
 				},
 				loading () {
 					document.querySelector('.loadingBtn').addEventListener('click', e => {
-						loading(true)
+						document.body.loading()
 						
 						setTimeout(() => {
-							loading(false)
+							document.body.loading(false)
 						}, 1000)
 					})
 				},
