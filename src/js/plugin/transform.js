@@ -11,7 +11,7 @@ Object.assign(HTMLElement.prototype, {
      */
 
     transform = transform || new Transform(this)
-    transform.start(options, callback)
+    transform.start(options)
 
     return this
   }
@@ -22,16 +22,13 @@ class Transform {
     this.$el = el
     this.isTransform = false
   }
-  start (options = {}, callback) {
+  start (options = {}) {
     if (this.isTransform) return
 
     this.isTransform = true
     Object.assign(this.$el.style, options)
     this.$el.addEventListener('transitionend', e => {
       this.isTransform = false
-      if (callback) {
-        callback(e)
-      }
     })
   }
 }

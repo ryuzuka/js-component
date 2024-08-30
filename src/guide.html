@@ -648,15 +648,12 @@
 				},
 				transform () {
 					let $transform = document.querySelector('.transform.obj')
-					
-					$transform.addEventListener('transitionend', e => {
-						console.log(e.type)
-					})
+
 					document.querySelector('.transform.btn').addEventListener('click', e => {
 						$transform.transform({
 							transform: `translate3d(500px, 0px, 0px) scaleX(1.5) scaleY(1.5)`,
 							transition: `1s ${UTIL.easing.Expo.easeInOut} 0s`
-						}, e => {
+						}).addEventListener('transitionend', e => {
 							console.log('transition complete', e)
 						})
 					})
