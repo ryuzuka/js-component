@@ -51,7 +51,7 @@ class Dropdown {
     this.$button.addEventListener('click', this.eventHandler.clickDropdown)
     this.$option.forEach(($option, index) => {
       let $btn = $option.firstElementChild
-      if (this.disabledIndex == index) {
+      if (this.disabledIndex === index) {
         $btn.disabled = true
         $btn.classList.add('disabled')
       }
