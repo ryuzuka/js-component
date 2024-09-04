@@ -20,6 +20,8 @@ class Modal {
     this.$modal = el
     this.$close = el.querySelector('.close')
     this.$button = el.querySelectorAll('.button-wrap > button.btn')
+    this.$focusEl = el.querySelectorAll('a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]')
+    this.focusElLength = this.$focusEl.length
 
     this.options = Object.assign({
       classes: '',
@@ -43,9 +45,8 @@ class Modal {
     }
 
     this.eventHandler = {
-      close: e => this.close(),
-      keydownClose: e => {
-        if (e.keyCode === 27) {   // esc
+      close: e => {
+        if (e.type === 'click' || (e.type === 'keydown' && e.keyCode === 27)) {
           this.close()
         }
       },
@@ -58,27 +59,49 @@ class Modal {
       clickButtonClose: e => {
         let idx = [...e.target.parentElement.children].indexOf(e.target)
         this.close(idx)
+      },
+      keydown: e => {
+        this.$focusEl.forEach(($el, idx) => {
+          let arrFocusEl = Array.from(this.$focusEl)
+          console.log(e.currentTarget, idx)
+        })
       }
     }
 
+    this.$focusEl.forEach(($el, idx) => $el.setAttribute('data-focus-idx', idx))
+
+    this.$modal.addEventListener('keydown', this.eventHandler.close)
+    this.$modal.addEventListener('click', this.eventHandler.clickToClose)
     this.$button.forEach(($btn, index) => {
       if (this.options.buttonText.length > 0) {
         $btn.innerText = this.options.buttonText[index]
       }
       $btn.addEventListener('click', this.eventHandler.clickButtonClose)
     })
-    this.$modal.addEventListener('keydown', this.eventHandler.keydownClose)
-    this.$modal.addEventListener('click', this.eventHandler.clickToClose)
     if (this.$close) {
       this.$close.addEventListener('click', this.eventHandler.close)
     }
+    // a11y focus
+    this.$focusEl.forEach(($el, idx) => {
+      $el.addEventListener('keydown', e => {
+        if (e.keyCode === 9) {
+          if (e.shiftKey && idx === 0) {
+            Array.from(this.$focusEl)[this.focusElLength - 1].focus()
+            e.preventDefault()
+          } else if (idx === this.focusElLength - 1) {
+            Array.from(this.$focusEl)[0].focus()
+            e.preventDefault()
+          }
+        }
+      })
+    })
   }
 
   open () {
-    setTimeout(() => this.$modal.querySelectorAll('button')[0].focus(), 1)
+    setTimeout(() => this.$modal.focus(), 1)
+    
     document.body.blockScroll()
     this.$modal.style.display = 'block'
-
     this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
   }
 
@@ -96,7 +119,7 @@ class Modal {
   }
 
   clear () {
-    this.$modal.removeEventListener('keydown', this.eventHandler.keydownClose)
+    this.$modal.removeEventListener('keydown', this.eventHandler.close)
     this.$modal.removeEventListener('click', this.eventHandler.clickToClose)
     this.$button.forEach($btn => {
       $btn.removeEventListener('click', this.eventHandler.clickButtonClose)
@@ -104,6 +127,11 @@ class Modal {
     if (this.$close) {
       this.$close.removeEventListener('click', this.eventHandler.close)
     }
+    this.$focusEl.forEach(($el, idx) => {
+      $el.removeEventListener('keydown', e => {
+
+      })
+    })
   }
 }
 /** ***************************************************************************************************************** */

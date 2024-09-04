@@ -39,7 +39,7 @@ class Tab {
     }
 
     this.$button.forEach(($btn, index) => {
-      if (this.disabledIndex == index) {
+      if (this.disabledIndex === index) {
         $btn.disabled = true
         $btn.classList.add('disabled')
       } else {
