@@ -50,7 +50,7 @@ function library() {
 }
 
 function script() {
-  return gulp.src(paths.script, {sourcemaps: false}).pipe(uglify({toplevel: true})).pipe(gulp.dest(dist))
+  return gulp.src(paths.script, {sourcemaps: false})/** .pipe(uglify({toplevel: true}))*/.pipe(gulp.dest(dist))
 }
 
 function style() {
