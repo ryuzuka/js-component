@@ -63,14 +63,17 @@ class Modal {
         this.close(idx)
       },
       keydown: e => {
-        let focusIdx = parseInt(e.target.dataset.focusIdx)
-        // a11y focus
-        if (e.keyCode === 9) {
+        if (e.keyCode === 27) {
+          this.close()
+
+        } else if (e.keyCode === 9) {
+          let focusIdx = parseInt(e.target.dataset.focusIdx)
           if (e.shiftKey && focusIdx === 0) {
-            Array.from(this.$focusEl)[this.focusElLength - 1].focus()
+            this.$focusEl[this.focusElLength - 1].focus()
             e.preventDefault()
+            
           } else if (focusIdx === this.focusElLength - 1) {
-            Array.from(this.$focusEl)[0].focus()
+            this.$focusEl[0].focus()
             e.preventDefault()
           }
         }
@@ -78,7 +81,7 @@ class Modal {
     }
 
     if (this.$close) this.$close.addEventListener('click', this.eventHandler.close)
-    this.$modal.addEventListener('keydown', this.eventHandler.close)
+    this.$modal.addEventListener('keydown', this.eventHandler.keydown)
     this.$modal.addEventListener('click', this.eventHandler.clickToClose)
     this.$button.forEach(($btn, index) => {
       if (this.options.buttonText.length > 0) {
@@ -86,9 +89,9 @@ class Modal {
       }
       $btn.addEventListener('click', this.eventHandler.clickButtonClose)
     })
+
     this.$focusEl.forEach(($el, idx) => {
       $el.setAttribute('data-focus-idx', idx)
-      $el.addEventListener('keydown', this.eventHandler.keydown)
     })
   }
 
@@ -96,14 +99,13 @@ class Modal {
     document.body.blockScroll()
     this.$modal.style.display = 'block'
     this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
-    Array.from(this.$focusEl)[0].focus()
+    this.$modal.focus()
   }
 
   close (idx) {
     let params = {$modal: this.$modal}
     params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
     this.$modal.dispatchEvent(new CustomEvent('before-close', {detail: Object.assign({type: 'before-close'}, params)}))
-
     this.$modal.style.display = 'none'
     this.$modal.dispatchEvent(new CustomEvent('close', {detail: Object.assign({type: 'close'}, params)}))
     document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
@@ -113,8 +115,7 @@ class Modal {
   clear () {
     if (this.$close) this.$close.removeEventListener('click', this.eventHandler.close)
     this.$button.forEach($btn => $btn.removeEventListener('click', this.eventHandler.clickButtonClose))
-    this.$focusEl.forEach(($el, idx) => $el.removeEventListener('keydown', this.eventHandler.keydown))
-    this.$modal.removeEventListener('keydown', this.eventHandler.close)
+    this.$modal.removeEventListener('keydown', this.eventHandler.keydown)
     this.$modal.removeEventListener('click', this.eventHandler.clickToClose)
   }
 }
