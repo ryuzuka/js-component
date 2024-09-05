@@ -449,7 +449,7 @@
 							e.target.addEventListener('before-close', modalEventHandler)
 							e.target.addEventListener('close', modalEventHandler)
 						} else if (e.type === 'before-close') {
-							console.log('before-close')
+							console.log('before-close, closedIndex: ' + e.detail.closedIndex)
 						} else if (e.type === 'close') {
 							console.log('close')
 							e.target.removeEventListener('before-close', modalEventHandler)
@@ -469,16 +469,20 @@
 							let $modal = document.querySelector('#' + e.target.getAttribute('aria-controls'))
 							
 							if (className.indexOf('alert') > -1) {
-								$modal.modal('clear').modal({classes: 'alert', text: '완료되었습니다.', clickToClose: true}).modal('open')
+								// $modal.modal('clear')
+								$modal.modal({classes: 'alert', text: '완료되었습니다.', clickToClose: true}).modal('open')
 								
 							} else if (className.indexOf('confirm') > -1) {
-								$modal.modal('clear').modal({classes: 'confirm', html: `<span>신청하시겠습니까?</span>`, buttonText: ['취소', '확인']}).modal('open')
+								// $modal.modal('clear')
+								$modal.modal({classes: 'confirm', html: `<span>신청하시겠습니까?</span>`, buttonText: ['취소', '확인']}).modal('open')
 								
 							} else if (className.indexOf('modalBtn btn modal') > -1) {
-								$modal.modal('clear').modal({classes: 'modal'}).modal('open')
+								// $modal.modal('clear')
+								$modal.modal({classes: 'modal'}).modal('open')
 								
 							} else if (className.indexOf('full') > -1) {
-								$modal.modal('clear').modal({classes: 'full'}).modal('open')
+								// $modal.modal('clear')
+								$modal.modal({classes: 'full'}).modal('open')
 							}
 						})
 					})

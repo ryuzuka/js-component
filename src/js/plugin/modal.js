@@ -45,11 +45,13 @@ class Modal {
     }
 
     this.eventHandler = {
+      // click close, esc
       close: e => {
         if (e.type === 'click' || (e.type === 'keydown' && e.keyCode === 27)) {
           this.close()
         }
       },
+      // click dimmed
       clickToClose: e => {
         if (!this.options.clickToClose) return
         if (e.target.id === this.$modal.id && e.target.className.indexOf('layer') > -1) {
@@ -61,15 +63,21 @@ class Modal {
         this.close(idx)
       },
       keydown: e => {
-        this.$focusEl.forEach(($el, idx) => {
-          let arrFocusEl = Array.from(this.$focusEl)
-          console.log(e.currentTarget, idx)
-        })
+        let focusIdx = parseInt(e.target.dataset.focusIdx)
+        // a11y focus
+        if (e.keyCode === 9) {
+          if (e.shiftKey && focusIdx === 0) {
+            Array.from(this.$focusEl)[this.focusElLength - 1].focus()
+            e.preventDefault()
+          } else if (focusIdx === this.focusElLength - 1) {
+            Array.from(this.$focusEl)[0].focus()
+            e.preventDefault()
+          }
+        }
       }
     }
 
-    this.$focusEl.forEach(($el, idx) => $el.setAttribute('data-focus-idx', idx))
-
+    if (this.$close) this.$close.addEventListener('click', this.eventHandler.close)
     this.$modal.addEventListener('keydown', this.eventHandler.close)
     this.$modal.addEventListener('click', this.eventHandler.clickToClose)
     this.$button.forEach(($btn, index) => {
@@ -78,31 +86,17 @@ class Modal {
       }
       $btn.addEventListener('click', this.eventHandler.clickButtonClose)
     })
-    if (this.$close) {
-      this.$close.addEventListener('click', this.eventHandler.close)
-    }
-    // a11y focus
     this.$focusEl.forEach(($el, idx) => {
-      $el.addEventListener('keydown', e => {
-        if (e.keyCode === 9) {
-          if (e.shiftKey && idx === 0) {
-            Array.from(this.$focusEl)[this.focusElLength - 1].focus()
-            e.preventDefault()
-          } else if (idx === this.focusElLength - 1) {
-            Array.from(this.$focusEl)[0].focus()
-            e.preventDefault()
-          }
-        }
-      })
+      $el.setAttribute('data-focus-idx', idx)
+      $el.addEventListener('keydown', this.eventHandler.keydown)
     })
   }
 
   open () {
-    setTimeout(() => this.$modal.focus(), 1)
-    
     document.body.blockScroll()
     this.$modal.style.display = 'block'
     this.$modal.dispatchEvent(new CustomEvent('open', {detail: {type: 'open', $modal: this.$modal}}))
+    Array.from(this.$focusEl)[0].focus()
   }
 
   close (idx) {
@@ -110,28 +104,18 @@ class Modal {
     params = idx === undefined ? params : Object.assign(params, {closedIndex: idx})
     this.$modal.dispatchEvent(new CustomEvent('before-close', {detail: Object.assign({type: 'before-close'}, params)}))
 
-    document.body.blockScroll(false)
     this.$modal.style.display = 'none'
-    setTimeout(() => {
-      document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
-      this.$modal.dispatchEvent(new CustomEvent('close', {detail: Object.assign({type: 'close'}, params)}))
-    }, 0)
+    this.$modal.dispatchEvent(new CustomEvent('close', {detail: Object.assign({type: 'close'}, params)}))
+    document.querySelector('[aria-controls="' + this.$modal.id + '"]').focus()
+    document.body.blockScroll(false)
   }
 
   clear () {
+    if (this.$close) this.$close.removeEventListener('click', this.eventHandler.close)
+    this.$button.forEach($btn => $btn.removeEventListener('click', this.eventHandler.clickButtonClose))
+    this.$focusEl.forEach(($el, idx) => $el.removeEventListener('keydown', this.eventHandler.keydown))
     this.$modal.removeEventListener('keydown', this.eventHandler.close)
     this.$modal.removeEventListener('click', this.eventHandler.clickToClose)
-    this.$button.forEach($btn => {
-      $btn.removeEventListener('click', this.eventHandler.clickButtonClose)
-    })
-    if (this.$close) {
-      this.$close.removeEventListener('click', this.eventHandler.close)
-    }
-    this.$focusEl.forEach(($el, idx) => {
-      $el.removeEventListener('keydown', e => {
-
-      })
-    })
   }
 }
 /** ***************************************************************************************************************** */
